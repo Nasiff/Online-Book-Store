@@ -1,0 +1,98 @@
+#banner {
+    background-image: url('../Assets/bookBackground.jpg');
+
+    /* Full height */
+    height: 100vh;
+    width: 100%;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#logo {
+    width: 15%;
+    margin: 2%
+}
+
+.alignRight {
+    float: right;
+}
+
+.inline {
+    display: flex;
+    -background-color: red;
+}
+
+ul {
+    list-style-type: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.category {
+    margin: 5px;
+    float: left;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    justify-self: center; 
+    align-self: center;
+}
+
+#catergories {
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    justify-items: space-between;
+    align-items: center;
+    font-size: 20px;
+    -background-color: blue;
+}
+
+#cart {
+    width: 25%;
+    max-width: 150px;
+    height: 100%;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center; 
+    align-self: center;
+    background-color: #F4F9FF;
+    color: #707070;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#browseHeader {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    justify-content: space-between;
+    height: 80px;
+    background-color: #0184C7;
+    color: white;
+}
+
+#browseTitle {
+    margin-left: 5%;
+    padding: 0;
+    height: 100%;
+    font-size: 22px;
+    min-width: 250px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center; 
+    align-self: center;
+    -background-color: greenyellow;
+}
+
+.center {
+    -background-color: red;
+    text-align: center;
+}
