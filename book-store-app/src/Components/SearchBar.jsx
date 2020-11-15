@@ -40,11 +40,11 @@ class SearchBar extends React.Component {
 
 const styles = {
     container: {
-        margin: "25px 5% 25px 5%",
+        //margin: "25px 5% 25px 5%",
         display: "flex",
         alignContent: "center",
         justifyContent: "center",
-        width: "90%",
+        width: "100%",
         border: "1px black solid",
         boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19)"
         //backgroundColor: "red"

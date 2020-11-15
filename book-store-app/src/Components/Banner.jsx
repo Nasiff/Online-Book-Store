@@ -9,7 +9,7 @@ class Banner extends React.Component {
         return ( 
         <div id="banner">
             <div>
-                <img id="logo" class="alignRight" src={logo} alt="Logo"></img>
+                <img id="logo" className="alignRight" src={logo} alt="Logo"></img>
             </div>
         </div> 
         );
