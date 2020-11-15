@@ -1,0 +1,136 @@
+#banner {
+    background-image: url('../Assets/bookBackground.jpg');
+
+    /* Full height */
+    height: 100vh;
+    width: 100%;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#logo {
+    width: 15%;
+    margin: 2%
+}
+
+.alignRight {
+    float: right;
+}
+
+.inline {
+    display: flex;
+    -background-color: red;
+}
+
+ul {
+    list-style-type: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.category {
+    margin: 5px;
+    float: left;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    justify-self: center; 
+    align-self: center;
+}
+
+#catergories {
+    width: 60%;
+    -height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    justify-items: space-between;
+    align-items: center;
+    font-size: 20px;
+    -background-color: blue;
+}
+
+#cart {
+    min-width: 100px;
+    height: 100%;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center; 
+    align-self: center;
+    background-color: #F4F9FF;
+    color: #707070;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#browseHeader {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    justify-content: space-between;
+    height: 80px;
+    background-color: #0184C7;
+    color: white;
+}
+
+#browseTitle {
+    word-wrap: break-word;
+    margin-left: 5%;
+    height: 100%;
+    font-size: 22px;
+    padding-right: 10px;
+    -width: 25%;
+    min-width: 250px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center; 
+    align-self: center;
+    -background-color: greenyellow;
+}
+
+.rightBorder {
+    border-right: white solid 2px;
+}
+
+.center {
+    -background-color: red;
+    text-align: center;
+}
+
+.lg-view{
+    display:inline-block;
+ }
+ 
+ .sm-view{
+    display:none;
+ }
+
+@media screen and (max-width: 500px) {
+    .lg-view{
+       display:none;
+    }
+
+    .sm-view{
+       display:inline-block;
+    }
+
+    #browseTitle {
+        word-wrap: break-word;
+        margin-left: 5%;
+        padding: 0;
+        height: 100%;
+        min-width: 150px;
+        font-size: 22px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        justify-self: center; 
+        align-self: center;
+        -background-color: greenyellow;
+    }
+}
