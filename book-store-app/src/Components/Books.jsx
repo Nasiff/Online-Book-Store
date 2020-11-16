@@ -3,9 +3,13 @@ import '../Styles/Main.css'
 import Book from './Book'
 
 const BookList = (books) => {
-    return books.map(book => {
-        return <Book style={styles.item} key={book.bid} bid={book.bid} />
-    });
+    if(books.length > 0){
+        return books.map(book => {
+            return <Book style={styles.item} key={book.bid} bid={book.bid} />
+        });
+    } else {
+        return <h1>Book List is Empty</h1>
+    }
 }
 
 class Books extends React.Component {
@@ -13,67 +17,41 @@ class Books extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            books: [
-                {
-                    bid: 21312321,
-                    title: "The Foundations of Blogging",
-                    price: "15.99",
-                    author: "Allie Wang",
-                    category: "How To's",
-                    review: "4",
-                    image: null
-                },
-                {
-                    bid: 21312322,
-                    title: "The Foundations of Blogging",
-                    price: "15.99",
-                    author: "Allie Wang",
-                    category: "How To's",
-                    review: "4",
-                    image: null
-                },
-                {
-                    bid: 21312323,
-                    title: "The Foundations of Blogging",
-                    price: "15.99",
-                    author: "Allie Wang",
-                    category: "How To's",
-                    review: "4",
-                    image: null
-                },
-                {
-                    bid: 21312324,
-                    title: "The Foundations of Blogging",
-                    price: "15.99",
-                    author: "Allie Wang",
-                    category: "How To's",
-                    review: "4",
-                    image: null
-                },
-                {
-                    bid: 21312325,
-                    title: "The Foundations of Blogging",
-                    price: "15.99",
-                    author: "Allie Wang",
-                    category: "How To's",
-                    review: "4",
-                    image: null
-                },
-                {
-                    bid: 21312326,
-                    title: "The Foundations of Blogging",
-                    price: "15.99",
-                    author: "Allie Wang",
-                    category: "How To's",
-                    review: "4",
-                    image: null
-                },
-            ]
+            error: null,
+            books: []
         };
       }
 
-    render() {
+    
+    componentDidMount() {
+        this.loadBooks();
+    }
 
+    loadBooks = () => {
+        console.log("Loading Books");
+        fetch("./Data/books.json")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    console.log("Result: " + result);
+                    this.setState({
+                        books: result.books
+                    });
+                },
+
+                /* Any Errors */
+                (error) => {
+                    console.log(error);
+                    this.setState({
+                        error
+                    });
+                    
+                    alert(this.state.error);
+                }
+            )
+    }
+    
+    render() {
         return ( 
         <div style={styles.container}>
             {BookList(this.state.books)}
