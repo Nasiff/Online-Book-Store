@@ -1,0 +1,40 @@
+{
+    "books": [
+        {
+            "bid": 21312321,
+            "title": "The Foundations of Blogging",
+            "price": "15.99",
+            "author": "Allie Wang",
+            "category": "How To's",
+            "review": "4",
+            "image": null
+        },
+        {
+            "bid": 21312322,
+            "title": "The Foundations of Blogging",
+            "price": "15.99",
+            "author": "Allie Wang",
+            "category": "How To's",
+            "review": "4",
+            "image": null
+        },
+        {
+            "bid": 21312323,
+            "title": "The Foundations of Blogging",
+            "price": "15.99",
+            "author": "Allie Wang",
+            "category": "How To's",
+            "review": "4",
+            "image": null
+        },
+        {
+            "bid": 21312324,
+            "title": "The Foundations of Blogging",
+            "price": "15.99",
+            "author": "Allie Wang",
+            "category": "How To's",
+            "review": "4",
+            "image": null
+        }
+    ]
+}
