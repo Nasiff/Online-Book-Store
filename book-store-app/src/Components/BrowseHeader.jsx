@@ -1,5 +1,5 @@
 import React from 'react';
-
+import cart from '../Assets/cart.png'
 
 class BrowseHeader extends React.Component {
     
@@ -18,10 +18,18 @@ class BrowseHeader extends React.Component {
                     <li className="category">Fantasy</li>
                 </ul>
             <div className="inline" id="cart">
+                <img style={styles.cart} src={cart} alt="Logo"></img>
                 <h3>Cart</h3>
             </div>
         </div> 
         );
+    }
+}
+
+const styles = {
+    cart: {
+        height: "35%",
+        margin: "5px"
     }
 }
 

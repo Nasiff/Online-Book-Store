@@ -7,34 +7,170 @@
             "author": "Allie Wang",
             "category": "How To's",
             "review": "4",
-            "image": null
+            "image": "/Data/BlogCover.jpg"
         },
         {
             "bid": 21312322,
-            "title": "The Foundations of Blogging",
-            "price": "15.99",
-            "author": "Allie Wang",
-            "category": "How To's",
+            "title": "The Runway History",
+            "price": "24.99",
+            "author": "Ella Rose",
+            "category": "History",
             "review": "4",
-            "image": null
+            "image": "/Data/RunwayCover.jpg"
         },
         {
             "bid": 21312323,
-            "title": "The Foundations of Blogging",
-            "price": "15.99",
-            "author": "Allie Wang",
-            "category": "How To's",
+            "title": "Top 20 Great American Novels",
+            "price": "2.99",
+            "author": null,
+            "category": "Ranking",
             "review": "4",
-            "image": null
+            "image": "/Data/GreatAmericanCover.jpg"
         },
         {
             "bid": 21312324,
+            "title": "Book Festival",
+            "price": "15.99",
+            "author": "Greenhills Library",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BookFestCover.jpg"
+        },
+        {
+            "bid": 21312325,
             "title": "The Foundations of Blogging",
             "price": "15.99",
             "author": "Allie Wang",
             "category": "How To's",
             "review": "4",
-            "image": null
+            "image": "/Data/BlogCover.jpg"
+        },
+        {
+            "bid": 21312326,
+            "title": "The Runway History",
+            "price": "24.99",
+            "author": "Ella Rose",
+            "category": "History",
+            "review": "4",
+            "image": "/Data/RunwayCover.jpg"
+        },
+        {
+            "bid": 21312327,
+            "title": "Top 20 Great American Novels",
+            "price": "2.99",
+            "author": null,
+            "category": "Ranking",
+            "review": "4",
+            "image": "/Data/GreatAmericanCover.jpg"
+        },
+        {
+            "bid": 21312328,
+            "title": "Book Festival",
+            "price": "15.99",
+            "author": "Greenhills Library",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BookFestCover.jpg"
+        },
+        {
+            "bid": 21312329,
+            "title": "Book Festival",
+            "price": "15.99",
+            "author": "Greenhills Library",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BookFestCover.jpg"
+        },
+        {
+            "bid": 21312330,
+            "title": "Top 20 Great American Novels",
+            "price": "2.99",
+            "author": null,
+            "category": "Ranking",
+            "review": "4",
+            "image": "/Data/GreatAmericanCover.jpg"
+        },
+        {
+            "bid": 213123222,
+            "title": "The Runway History",
+            "price": "24.99",
+            "author": "Ella Rose",
+            "category": "History",
+            "review": "4",
+            "image": "/Data/RunwayCover.jpg"
+        },
+        {
+            "bid": 213123223,
+            "title": "Top 20 Great American Novels",
+            "price": "2.99",
+            "author": null,
+            "category": "Ranking",
+            "review": "4",
+            "image": "/Data/GreatAmericanCover.jpg"
+        },
+        {
+            "bid": 213123224,
+            "title": "Book Festival",
+            "price": "15.99",
+            "author": "Greenhills Library",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BookFestCover.jpg"
+        },
+        {
+            "bid": 213122325,
+            "title": "The Foundations of Blogging",
+            "price": "15.99",
+            "author": "Allie Wang",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BlogCover.jpg"
+        },
+        {
+            "bid": 212312326,
+            "title": "The Runway History",
+            "price": "24.99",
+            "author": "Ella Rose",
+            "category": "History",
+            "review": "4",
+            "image": "/Data/RunwayCover.jpg"
+        },
+        {
+            "bid": 212312327,
+            "title": "Top 20 Great American Novels",
+            "price": "2.99",
+            "author": null,
+            "category": "Ranking",
+            "review": "4",
+            "image": "/Data/GreatAmericanCover.jpg"
+        },
+        {
+            "bid": 213122328,
+            "title": "Book Festival",
+            "price": "15.99",
+            "author": "Greenhills Library",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BookFestCover.jpg"
+        },
+        {
+            "bid": 213212329,
+            "title": "Book Festival",
+            "price": "15.99",
+            "author": "Greenhills Library",
+            "category": "How To's",
+            "review": "4",
+            "image": "/Data/BookFestCover.jpg"
+        },
+        {
+            "bid": 212312330,
+            "title": "Top 20 Great American Novels",
+            "price": "2.99",
+            "author": null,
+            "category": "Ranking",
+            "review": "4",
+            "image": "/Data/GreatAmericanCover.jpg"
         }
+        
     ]
 }
