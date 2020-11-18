@@ -159,3 +159,30 @@ ul {
 .button:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   }
+
+.menuItem:hover {
+    text-decoration: underline;
+}
+
+.fade-in {
+    opacity: 0;
+    
+}
+.fade-in.visible {
+    transition: opacity 0.5s ease-in;
+    animation: pop 0.3s linear 1;
+    opacity: 1;
+}
+
+@keyframes pulse{
+    25%  {transform: scale(0.9);}
+    75%  {transform: scale(1.1);}
+}
+
+@keyframes push{
+    50%  {transform: scale(0.8);}
+}
+  
+@keyframes pop{
+    50%  {transform: scale(1.2);}
+}

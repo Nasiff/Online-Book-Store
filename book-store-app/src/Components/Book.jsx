@@ -5,6 +5,7 @@ class Book extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            didMount: false,
             bid: props.bid,
             title: props.title,
             price: props.price,
@@ -23,10 +24,16 @@ class Book extends React.Component {
         }
     }
 
+    componentDidMount(){
+        setTimeout(() => {
+             this.setState({didMount: true})
+         }, 0)
+    }
+    
     render() {
         // Can do error check to make sure the title doesnt exceed 30 characters
         return ( 
-        <div style={styles.container}>
+        <div className={`fade-in ${this.state.didMount && 'visible'}`} style={styles.container}>
             {this.handleImage(this.state.image)}
             <h3 style={styles.bookFont}>{this.state.title} {this.state.author ? "by " + this.state.author : null}</h3> 
             <h5 style={styles.rating}>Rating: {this.state.review} / 5</h5>
