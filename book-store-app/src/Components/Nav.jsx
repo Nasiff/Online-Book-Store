@@ -18,15 +18,15 @@ class Nav extends React.Component {
     render() {
         if(this.state.open){
             return ( 
-                <div style={styles.container}>
+                <div className="fade-in.visible" style={styles.container}>
                     <div style={styles.hamburgerContainer}>
-                        <MdMenu className="button" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
+                        <MdMenu className="button grow" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
                     </div>
                     <div style={styles.menu}>
-                        <div className="menuItem" style={styles.menuItem}>Login</div>
-                        <div className="menuItem" style={styles.menuItem}>Book Catalouge</div>
-                        <div className="menuItem" style={styles.menuItem}>Shopping Cart</div>
-                        <div className="menuItem" style={styles.menuItem}>Admin Analytics</div>
+                        <div className="menuItem grow" style={styles.menuItem}>Login</div>
+                        <div className="menuItem grow" style={styles.menuItem}>Book Catalouge</div>
+                        <div className="menuItem grow" style={styles.menuItem}>Shopping Cart</div>
+                        <div className="menuItem grow" style={styles.menuItem}>Admin Analytics</div>
                     </div>
                 </div> 
                 );
@@ -35,7 +35,7 @@ class Nav extends React.Component {
             return ( 
                 <div>
                     <div style={styles.hamburgerContainer}>
-                        <MdMenu className="button" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
+                        <MdMenu className="button grow" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
                     </div>
                 </div> 
                 );
@@ -70,10 +70,12 @@ const styles = {
         alignContent: "flex-start",
     }, 
     menuItem: {
+        //backgroundColor: "red",
         textAlign: "start",
-        margin: "25px",
+        margin: "25px 25px 25px 50px",
         fontSize: "24px",
-        color: "white"
+        color: "white",
+        width: "200px"
     }
 }
 

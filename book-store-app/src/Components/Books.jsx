@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
-import '../Styles/Main.css';
 import Book from './Book';
 
 const BookList = (books, loadAmount) => {
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
-            return <div key={book.bid} style={styles.item}>
+            return <div class="grow" key={book.bid} style={styles.item}>
                         <Book bid={book.bid} title={book.title} price={book.price} image={book.image} author={book.author} review={book.review}/>
                     </div>
         });

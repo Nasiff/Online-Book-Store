@@ -168,6 +168,7 @@ ul {
     opacity: 0;
     
 }
+
 .fade-in.visible {
     transition: opacity 0.5s ease-in;
     animation: pop 0.3s linear 1;
@@ -180,9 +181,29 @@ ul {
 }
 
 @keyframes push{
-    50%  {transform: scale(0.8);}
+    50%  {transform: scale(1.1);}
 }
   
 @keyframes pop{
     50%  {transform: scale(1.2);}
+}
+
+.grow {
+    transition: all .2s ease-in-out;
+}
+
+.grow:hover{
+    cursor:pointer;
+    transform: scale(1.1);
+}
+
+.growX {
+    transition: all .2s ease-in-out;
+    box-shadow: 0 12px 16px 0 rgba(98, 192, 89, 0.24), 0 17px 50px 0 rgba(97, 194, 59, 0.19);
+}
+
+.growX:hover{
+    cursor:pointer;
+    transform: translate(-20px, 0);
+    box-shadow: 0 12px 16px 0 rgba(98, 192, 89, 1), 0 17px 50px 0 rgba(97, 194, 59, 1);
 }

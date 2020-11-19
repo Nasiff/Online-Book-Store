@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from '../Assets/momAndPopLogo.png';
-import '../Styles/Main.css';
 import Nav from './Nav';
 
 class Banner extends React.Component {

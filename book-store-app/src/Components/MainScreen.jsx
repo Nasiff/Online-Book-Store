@@ -1,4 +1,5 @@
 import React from 'react';
+import '../Styles/Main.css';
 import Nav from './Nav'
 import Banner from './Banner.jsx'
 import Catalouge from './Catalouge.jsx'
