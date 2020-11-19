@@ -12,6 +12,7 @@ class Book extends React.Component {
             author: props.author,
             category: props.category,
             review: props.review,
+            numOfReviews: props.numOfReviews,
             image: props.image,     
       }
     }
@@ -36,7 +37,7 @@ class Book extends React.Component {
         <div className={`fade-in ${this.state.didMount && 'visible'}`} style={styles.container}>
             {this.handleImage(this.state.image)}
             <h3 style={styles.bookFont}>{this.state.title} {this.state.author ? "by " + this.state.author : null}</h3> 
-            <h5 style={styles.rating}>Rating: {this.state.review} / 5</h5>
+            <h5 style={styles.rating}> {(this.state.numOfReviews > 0) ? "Rating: " + this.state.review + "/5 (" + this.state.numOfReviews + ")": "No Reviews"} </h5>
             <h5 style={styles.price}>${this.state.price}</h5>
         </div> 
         );

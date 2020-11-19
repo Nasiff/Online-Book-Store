@@ -7,6 +7,7 @@
             "author": "Allie Wang",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BlogCover.jpg"
         },
         {
@@ -16,6 +17,7 @@
             "author": "Ella Rose",
             "category": "History",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/RunwayCover.jpg"
         },
         {
@@ -25,6 +27,7 @@
             "author": null,
             "category": "Ranking",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/GreatAmericanCover.jpg"
         },
         {
@@ -34,6 +37,7 @@
             "author": "Greenhills Library",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BookFestCover.jpg"
         },
         {
@@ -43,6 +47,7 @@
             "author": "Allie Wang",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BlogCover.jpg"
         },
         {
@@ -52,6 +57,7 @@
             "author": "Ella Rose",
             "category": "History",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/RunwayCover.jpg"
         },
         {
@@ -61,6 +67,7 @@
             "author": null,
             "category": "Ranking",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/GreatAmericanCover.jpg"
         },
         {
@@ -70,6 +77,7 @@
             "author": "Greenhills Library",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BookFestCover.jpg"
         },
         {
@@ -79,6 +87,7 @@
             "author": "Greenhills Library",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BookFestCover.jpg"
         },
         {
@@ -88,6 +97,7 @@
             "author": null,
             "category": "Ranking",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/GreatAmericanCover.jpg"
         },
         {
@@ -97,6 +107,7 @@
             "author": "Ella Rose",
             "category": "History",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/RunwayCover.jpg"
         },
         {
@@ -106,6 +117,7 @@
             "author": null,
             "category": "Ranking",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/GreatAmericanCover.jpg"
         },
         {
@@ -115,6 +127,7 @@
             "author": "Greenhills Library",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BookFestCover.jpg"
         },
         {
@@ -124,6 +137,7 @@
             "author": "Allie Wang",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BlogCover.jpg"
         },
         {
@@ -133,6 +147,7 @@
             "author": "Ella Rose",
             "category": "History",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/RunwayCover.jpg"
         },
         {
@@ -142,6 +157,7 @@
             "author": null,
             "category": "Ranking",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/GreatAmericanCover.jpg"
         },
         {
@@ -151,6 +167,7 @@
             "author": "Greenhills Library",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BookFestCover.jpg"
         },
         {
@@ -160,6 +177,7 @@
             "author": "Greenhills Library",
             "category": "How To's",
             "review": "4",
+            "numOfReviews": 345,
             "image": "/Data/BookFestCover.jpg"
         },
         {
@@ -168,7 +186,8 @@
             "price": "2.99",
             "author": null,
             "category": "Ranking",
-            "review": "4",
+            "review": "",
+            "numOfReviews": 0,
             "image": "/Data/GreatAmericanCover.jpg"
         }
         
