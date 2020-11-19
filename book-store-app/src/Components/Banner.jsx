@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from '../Assets/momAndPopLogo.png'
-import '../Styles/Main.css'
+import logo from '../Assets/momAndPopLogo.png';
+import Nav from './Nav';
 
 class Banner extends React.Component {
 
@@ -11,6 +11,7 @@ class Banner extends React.Component {
             <div>
                 <img id="logo" className="alignRight" src={logo} alt="Logo"></img>
             </div>
+            <Nav />
         </div> 
         );
     }

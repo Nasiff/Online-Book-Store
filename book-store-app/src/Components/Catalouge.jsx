@@ -8,7 +8,7 @@ class Catalouge extends React.Component {
 
     render() {
         const size={
-            height: "100vh",
+            marigin: "50px"
         }
         return ( 
         <div style={size}>

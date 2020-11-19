@@ -1,9 +1,10 @@
 import React from 'react';
-
+import cart from '../Assets/cart.png'
 
 class BrowseHeader extends React.Component {
-    
+    va
     render() {
+
         return ( 
         <div className="inline" id="browseHeader">
             <div className="inline" id="browseTitle">
@@ -11,17 +12,26 @@ class BrowseHeader extends React.Component {
                 <h3 className="center sm-view">Category</h3>
             </div>
             <ul className="inline" id="catergories">
-                    <li className="category">Science</li>
-                    <li className="category">English</li>
-                    <li className="category">Buisness</li>
-                    <li className="category">Romance</li>
-                    <li className="category">Fantasy</li>
+                    <li className="category grow">Science</li>
+                    <li className="category grow">English</li>
+                    <li className="category grow">Buisness</li>
+                    <li className="category grow">Romance</li>
+                    <li className="category grow">Fantasy</li>
                 </ul>
-            <div className="inline" id="cart">
+            <div className="inline growX" id="cart">
+                <img style={styles.cart} src={cart} alt="Logo"></img>
                 <h3>Cart</h3>
             </div>
         </div> 
         );
+    }
+}
+
+const styles = {
+    cart: {
+        height: "35%",
+        margin: "5px",
+        overflow: "hidden"
     }
 }
 
