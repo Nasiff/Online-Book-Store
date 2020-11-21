@@ -1,6 +1,11 @@
 import React from 'react';
 import MdMenu from 'react-ionicons/lib/MdMenu'
-
+import { BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams } from "react-router-dom";
 
 class Nav extends React.Component {
     constructor(props) {
@@ -24,8 +29,8 @@ class Nav extends React.Component {
                     </div>
                     <div style={styles.menu}>
                         <div className="menuItem grow" style={styles.menuItem}>Login</div>
-                        <div className="menuItem grow" style={styles.menuItem}>Book Catalouge</div>
-                        <div className="menuItem grow" style={styles.menuItem}>Shopping Cart</div>
+                        <Link to="/"><div className="menuItem grow" style={styles.menuItem}>Book Catalouge</div></Link>
+                        <Link to="/cart"><div className="menuItem grow" style={styles.menuItem}>Shopping Cart</div></Link>
                         <div className="menuItem grow" style={styles.menuItem}>Admin Analytics</div>
                     </div>
                 </div> 
@@ -49,6 +54,7 @@ class Nav extends React.Component {
 
 const styles = {
     container: {
+        position: "absolute",
         background: "rgba(0,0,0,0.9) 50%",
         width: "100%",
         height: "100%"

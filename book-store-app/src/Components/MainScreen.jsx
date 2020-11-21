@@ -7,9 +7,9 @@ class MainScreen extends React.Component {
     
     render() {
         return ( 
-            <div> 
+            <div className="App"> 
             <Banner/>
-            <Catalouge/>
+            <Catalouge addToCart={this.props.addToCart}/>
             </div>
         );
     }
