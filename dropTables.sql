@@ -1,0 +1,6 @@
+DROP TABLE Book;
+DROP TABLE Address;
+DROP TABLE PO;
+DROP TABLE POItem;
+DROP TABLE UserAccount;
+DROP TABLE CustomerAccount;
