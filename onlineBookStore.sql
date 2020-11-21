@@ -6,15 +6,15 @@ CREATE TABLE Book (
 	category VARCHAR(40) NOT NULL,
 	review_score DECIMAL(2,1), 
 	number_of_reviews INT NOT NULL,
-	image_url VARCHAR(90),
+	image_url VARCHAR(80),
 	PRIMARY KEY(bid)
 );
 
-INSERT INTO Book (bid, title, price, author, category, review_score, number_of_reviews) 
+INSERT INTO Book (bid, title, price, author, category, review_score, number_of_reviews, image_url) 
 VALUES 
-('b001', 'Little Prince', 19.99, 'Patrick Tan',  'Fiction', 3.6, 43),
-('b002', 'Physics', 39.99, 'Nasif Haque', 'Science', 4.3, 65),
-('b003', 'Mechanics', 54.49, 'Dennis Phetsomphou','Engineering', 4.0, 36);
+('b001', 'Little Prince', 19.99, 'Patrick Tan',  'Fiction', 3.6, 43, 'some_url'),
+('b002', 'Physics', 39.99, 'Nasif Haque', 'Science', 4.3, 65, 'some_url'),
+('b003', 'Mechanics', 54.49, 'Dennis Phetsomphou','Engineering', 4.0, 36, 'some_url');
 
 
 CREATE TABLE Address (
@@ -40,33 +40,34 @@ CREATE TABLE PO (
 	fname VARCHAR(20) NOT NULL,
 	status VARCHAR(10) NOT NULL,
 	address_id VARCHAR(15) NOT NULL,
+	po_date DATE NOT NULL,
 	PRIMARY KEY(id),
 	FOREIGN KEY (address_id) REFERENCES Address (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX address on Address (id);
 
-INSERT INTO PO (id, lname, fname, status, address_id) 
+INSERT INTO PO (id, lname, fname, status, address_id, po_date) 
 VALUES 
-('order-1', 'White', 'John', 'PROCESSED', 'address-1'),
-('order-2', 'Black', 'Peter', 'DENIED', 'address-2'),
-('order-3', 'Green', 'Andy', 'ORDERED', 'address-3');
+('order-1', 'White', 'John', 'PROCESSED', 'address-1', '2020-11-20'),
+('order-2', 'Black', 'Peter', 'DENIED', 'address-2', '2020-11-21'),
+('order-3', 'Green', 'Andy', 'ORDERED', 'address-3', '2020-11-21');
 
 
 CREATE TABLE POItem (
 	id VARCHAR(15) NOT NULL,
 	bid VARCHAR(20) NOT NULL,
 	price DECIMAL(10,2) NOT NULL,
+	quantity INT NOT NULL,
 	PRIMARY KEY(id,bid),
 	FOREIGN KEY(id) REFERENCES PO(id) ON DELETE CASCADE,
 	FOREIGN KEY(bid) REFERENCES Book(bid) ON DELETE CASCADE
 );
 
-INSERT INTO POItem (id, bid, price) 
+INSERT INTO POItem (id, bid, price, quantity) 
 VALUES 
-('order-1', 'b001', 19.99),
-('order-2', 'b002', 39.99),
-('order-2', 'b003', 54.49),
-('order-3', 'b003', 54.49);
+('order-1', 'b001', 19.99, 3),
+('order-2', 'b002', 39.99, 1),
+('order-2', 'b003', 54.49, 2),
+('order-3', 'b003', 54.49, 1);
 
 
 CREATE TABLE UserAccount (
