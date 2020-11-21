@@ -4,3 +4,4 @@ DROP TABLE PO;
 DROP TABLE POItem;
 DROP TABLE UserAccount;
 DROP TABLE CustomerAccount;
+DROP TABLE BookReview;
