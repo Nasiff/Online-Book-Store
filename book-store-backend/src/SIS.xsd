@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="sisReport" type="sisReportType"/>
+
+  <xsd:complexType name="sisReportType">
+  <xsd:sequence>
+    <xsd:element name="studentList" minOccurs="0" maxOccurs="unbounded" type="studentListType"/>
+  </xsd:sequence>
+    <xsd:attribute name="namePrefix" type="xsd:string"/>
+    <xsd:attribute name="creditTaken" type="xsd:integer"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="studentListType">
+	  <xsd:sequence>
+	    <xsd:element name="sid" type="xsd:string"/>
+	    <xsd:element name="name" type="xsd:string"/>
+	    <xsd:element name="credit_taken">
+	      <xsd:simpleType>
+	        <xsd:restriction base="xsd:integer">
+	           <xsd:minInclusive value="0"/>
+	           <xsd:maxInclusive value="150"/>
+	        </xsd:restriction>
+	      </xsd:simpleType>
+	    </xsd:element>
+	    <xsd:element name="credit_graduate">
+	      <xsd:simpleType>
+	        <xsd:restriction base="xsd:integer">
+	           <xsd:minInclusive value="0"/>
+	           <xsd:maxInclusive value="150"/>
+	        </xsd:restriction>
+	      </xsd:simpleType>
+	    </xsd:element>
+	    <!--
+	    <xsd:element name="credit_taking">
+	      <xsd:simpleType>
+	        <xsd:restriction base="xsd:integer">
+	           <xsd:minInclusive value="0"/>
+	           <xsd:maxInclusive value="150"/>
+	        </xsd:restriction>
+	      </xsd:simpleType>
+	    </xsd:element>
+	    -->
+	  </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

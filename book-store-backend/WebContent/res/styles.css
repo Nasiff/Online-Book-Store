@@ -1,0 +1,27 @@
+td, th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+legend {
+	padding: 5px;
+}
+
+input {
+	margin-bottom: 10px;
+}
+
+#formBtn, #ajax-submit-btn {
+	margin-top: 10px;
+	background-color: #2aa843;
+	color: white;
+	cursor: pointer;
+	text-align: center;
+	border: 1px solid;
+	padding: 10px;
+}
+
+#name-error, #credits-taken-error {
+	display: none;
+	color: black;
+}
