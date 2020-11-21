@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import Book from './Book';
 
-const BookList = (books, loadAmount) => {
+const BookList = (books, loadAmount, addToCart) => {
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
-            return <div class="grow" key={book.bid} style={styles.item}>
-                        <Book bid={book.bid} title={book.title} price={book.price} image={book.image} author={book.author} review={book.review} numOfReviews={book.numOfReviews}/>
+            return <div className="grow" key={book.bid} style={styles.item}>
+                        <Book addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image} author={book.author} review={book.review} numOfReviews={book.numOfReviews}/>
                     </div>
         });
     } else {
@@ -69,7 +69,7 @@ class Books extends React.Component {
     render() {
         return ( 
         <div style={styles.container}>
-            {BookList(this.state.books, this.state.loadAmount)}
+            {BookList(this.state.books, this.state.loadAmount, this.props.addToCart)}
             <div>
                 <button className="button" style={styles.loadButton} onClick={this.loadXMoreBooks}>Load More Books</button>
             </div>
