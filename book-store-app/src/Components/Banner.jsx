@@ -11,7 +11,6 @@ class Banner extends React.Component {
             <div>
                 <img id="logo" className="alignRight" src={logo} alt="Logo"></img>
             </div>
-            <Nav />
         </div> 
         );
     }

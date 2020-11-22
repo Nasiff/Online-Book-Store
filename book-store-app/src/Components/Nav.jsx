@@ -38,7 +38,7 @@ class Nav extends React.Component {
         }
         else {
             return ( 
-                <div>
+                <div style={{position: "absolute"}}>
                     <div style={styles.hamburgerContainer}>
                         <MdMenu className="button grow" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
                     </div>
@@ -60,6 +60,8 @@ const styles = {
         height: "100%"
     },
     hamburgerContainer: {
+        //backgroundColor: "red",
+        //margin: "10px 0 0 10px",
         display: "flex",
         alignItems: "center"
     },
