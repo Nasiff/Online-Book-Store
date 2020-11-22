@@ -70,6 +70,21 @@ ul {
     padding: 2px 20px 2px 10px;
 }
 
+#smallCart {
+    min-width: 100px;
+    height: 100%;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-self: center; 
+    align-self: center;
+    background-color: #F4F9FF;
+    color: #707070;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 2px 10px 2px 5px;
+}
+
 #browseHeader {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     justify-content: space-between;
