@@ -77,7 +77,9 @@ class App extends React.Component {
         var remCart = newCart.filter(book => {
           return book.bid != id
         })
+
         this.setState({cart: remCart})
+        
       } else {
         newCart[index] = newBook;
         this.setState({cart: newCart}); 
