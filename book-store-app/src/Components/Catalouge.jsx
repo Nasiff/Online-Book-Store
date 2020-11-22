@@ -16,7 +16,7 @@ class Catalouge extends React.Component {
             <div style={styles.container}>
             <SearchBar/>
             <Filters/>
-            <Books/>
+            <Books addToCart={this.props.addToCart}/>
             </div>
         </div> 
         );
