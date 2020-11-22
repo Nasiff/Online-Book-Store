@@ -6,15 +6,25 @@ CREATE TABLE Book (
 	category VARCHAR(40) NOT NULL,
 	review_score DECIMAL(2,1), 
 	number_of_reviews INT NOT NULL,
-	image_url VARCHAR(80),
+	image_url VARCHAR(200),
 	PRIMARY KEY(bid)
 );
 
 INSERT INTO Book (bid, title, price, author, category, review_score, number_of_reviews, image_url) 
 VALUES 
-('b001', 'Little Prince', 19.99, 'Patrick Tan',  'Fiction', 3.6, 43, 'some_url'),
-('b002', 'Physics', 39.99, 'Nasif Haque', 'Science', 4.3, 65, 'some_url'),
-('b003', 'Mechanics', 54.49, 'Dennis Phetsomphou','Engineering', 4.0, 36, 'some_url');
+('isbn-1786818248', 'The Dancing Girls', 13.99, 'M.M. Chouinard','Thriller', NULL, 0, 'some_url'),
+('isbn-1989325149', 'Murder of Crows', 15.49, 'L.L. Abbott', 'Mystery', NULL, 0, 'some_url'),
+('isbn-0133915425', 'Engineering Mechanics: Statics & Dynamics', 114.49, 'Russell Hibbeler','Science', NULL, 0, 'some_url'),
+('isbn-0141199078', 'Pride and Prejudice', 19.99, 'Jane Austen','Romance', NULL, 0, 'some_url'),
+('isbn-1784752637', 'To Kill A Mockingbird', 14.99, 'Harper Lee','Historical', NULL, 0, 'some_url'),
+('isbn-0261103252', 'The Lord of the Rings', 24.99, 'J.R.R. Tolkien','Fantasy', NULL, 0, 'some_url'),
+('isbn-0316485624', 'The Law of Innocence', 19.99, 'Michael Connelly','Thriller', NULL, 0, 'some_url'),
+('isbn-0262033848', 'Introduction to Algorithms', 54.99, 'Thomas H. Cormen','Science', NULL, 0, 'some_url'),
+('isbn-1526626586', 'Harry Potter and the Sorceror''s Stone', 19.99, 'J.K. Rowling','Fantasy', NULL, 0, 'some_url'),
+('isbn-1408855666', 'Harry Potter and the Chamber of Secrets', 14.99, 'J.K. Rowling','Fantasy', NULL, 0, 'some_url'),
+('isbn-1526622807', 'Harry Potter and the Prisoner of Azkaban', 27.99, 'J.K. Rowling','Fantasy', NULL, 0, 'some_url'),
+('isbn-0920668372', 'Love You Forever', 7.99, 'Robert Munsch','Children''s', NULL, 0, 'some_url'),
+('isbn-1443107859', 'The Very Cranky Bear', 8.49, 'Nick Bland','Children''s', NULL, 0, 'some_url');
 
 
 CREATE TABLE Address (
@@ -30,8 +40,8 @@ CREATE TABLE Address (
 INSERT INTO Address (id, street, province_state, country, zip, phone) 
 VALUES 
 ('address-1', '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567'),
-('address-2', '445 Avenue rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569'),
-('address-3', '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
+('address-2', '445 Avenue Rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569'),
+('address-3', '789 Keele St', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
 
 
 CREATE TABLE PO (
@@ -64,10 +74,13 @@ CREATE TABLE POItem (
 
 INSERT INTO POItem (id, bid, price, quantity) 
 VALUES 
-('order-1', 'b001', 19.99, 3),
-('order-2', 'b002', 39.99, 1),
-('order-2', 'b003', 54.49, 2),
-('order-3', 'b003', 54.49, 1);
+('order-1', 'isbn-1786818248', 13.99, 3),
+('order-1', 'isbn-1989325149', 15.49, 1),
+('order-2', 'isbn-0133915425', 114.49, 1),
+('order-2', 'isbn-0262033848', 54.99, 2),
+('order-3', 'isbn-1526626586', 19.99, 3),
+('order-3', 'isbn-1408855666', 14.99, 2),
+('order-3', 'isbn-1526622807', 27.99, 1);
 
 
 CREATE TABLE UserAccount (
@@ -117,8 +130,8 @@ CREATE TABLE BookReview (
 
 INSERT INTO BookReview (rid, bid, uid, review, score) 
 VALUES 
-('review-1', 'b001', 43225, 'Enjoyable read, but a little short for the price.', 3),
-('review-2', 'b002', 75465, 'Good textbook with helpful practice problems.', 4),
-('review-3', 'b003', 75465, 'This textbook was extremely useful and helped me with the course material.', 5),
-('review-4', 'b003', 61798, 'Pretty decent textbook with good examples, but a lot of typos although still understandable.', 4);
+('review-1', 'isbn-1989325149', 43225, 'Enjoyable read for the most part, but I did not enjoy the ending.', 3),
+('review-2', 'isbn-0262033848', 75465, 'Good textbook with helpful practice problems, but had some typos.', 4),
+('review-3', 'isbn-0133915425', 75465, 'This textbook was extremely useful and helped me with the course material.', 5),
+('review-4', 'isbn-1526626586', 61798, 'Great beginning for this book series, looking forward to the rest of the books.', 4);
 
