@@ -57,7 +57,7 @@ const buildCart = (cart, updateCart) => {
     )
 
     builtJSX.push(<div style={styles.itemContainer}>
-        <div style={{textAlign: "center"}}> ${subtotal} </div>
+        <div style={{textAlign: "center"}}> ${subtotal.toFixed(2)} </div>
     </div>
     );
 
