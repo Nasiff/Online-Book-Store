@@ -207,3 +207,13 @@ ul {
     transform: translate(-20px, 0);
     box-shadow: 0 12px 16px 0 rgba(98, 192, 89, 1), 0 17px 50px 0 rgba(97, 194, 59, 1);
 }
+
+.scrollHide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.scrollHide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
