@@ -1,39 +1,22 @@
 package model;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import model.dao.BookDAO;
-import model.dao.EnrollmentDAO;
-import model.dao.StudentDAO;
+import model.dao.ReviewDAO;
+import util.InputValidation;
 import util.RestApiHelper;
-import bean.StudentBean;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import bean.EnrollmentBean;
-import bean.ListWrapper;
+import bean.BookBean;
+import bean.ReviewBean;
 
 public class BookController {
 	private static BookController instance;
 	private BookDAO bookDao;
+	private ReviewDAO reviewDao;
 	
 	private BookController() {}
 	
@@ -41,52 +24,151 @@ public class BookController {
 		if (instance == null) {
 			instance = new BookController();
 			instance.bookDao = new BookDAO();
+			instance.reviewDao = new ReviewDAO();
 		}
 		
 		return instance;
 	}
 
-	public String retrieveAllBooks() throws Exception {
-		Set<StudentBean> s = this.bookDao.retrieveAllBooks();
-		JSONArray content = new JSONArray();
-
-		for (StudentBean b : s) {
-			JSONObject i = new JSONObject();
-			i.put("sid", b.getSid());
-			i.put("name", b.getName());
-			i.put("credit_taken", b.getCreditsTaken());
-			i.put("credit_graduate", b.getCreditsGraduate());
-			content.add(i);
-		}
+	public String retrieveBooks() throws Exception {
+		Set<BookBean> s = this.bookDao.retrieveAllBooks();
+		JSONArray books = new JSONArray();
+		JSONObject respContent = new JSONObject();
 		
-		return RestApiHelper.prepareResultJson(content);
+		for (BookBean b : s) {
+			JSONObject i = new JSONObject();
+			i.put("bid", b.getBid());
+			i.put("title", b.getTitle());
+			i.put("author", b.getAuthor());
+			i.put("category", b.getCategory());
+			i.put("review_score", b.getReview_score());
+			i.put("number_of_reviews", b.getNumber_of_reviews());
+			i.put("image_url", b.getImage_url());
+			books.add(i);
+		}
+		respContent.put("successful", "true");
+		respContent.put("message", "Successful retrieval of books.");
+		respContent.put("number_of_books", s.size());
+		respContent.put("books", books);
+		
+		System.out.println(respContent);
+		return RestApiHelper.prepareResultJson(respContent);
 	}
 	
-//	@SuppressWarnings("unchecked")
-//	public String exportJSON(String namePrefix, String creditsTaken) throws Exception {
-//		ArrayList<StudentBean> listOfStudents = new ArrayList<StudentBean>();
-//		Map<String, StudentBean> mapOfStudents = this.retriveStudent(namePrefix, creditsTaken);
-//		
-//		for (String s : mapOfStudents.keySet()) {
-//			listOfStudents.add(mapOfStudents.get(s));
-//		}
-//		
-//		JSONObject json = new JSONObject();
-//		json.put("namePrefix", namePrefix);
-//		json.put("creditsTaken", creditsTaken);
-//		
-//		JSONArray students = new JSONArray();
-//		for (StudentBean s : listOfStudents) {
-//			JSONObject i = new JSONObject();
-//			i.put("sid", s.getSid());
-//			i.put("name", s.getName());
-//			i.put("credit_taken", s.getCreditsTaken());
-//			i.put("credit_graduate", s.getCreditsGraduate());
-//			students.add(i);
-//		}
-//		
-//		json.put("studentList", students);
-//		
-//		return json.toJSONString();
-//	}
+	public String retrieveBook(String bid) throws Exception {
+		if (InputValidation.emptyInput(bid)) {
+			System.out.println("ERROR: bid provided must not be empty");
+			return RestApiHelper.prepareErrorJson("bid provided must not be empty");
+		}  
+		
+		BookBean book = this.bookDao.retrieveBookById(bid);
+		JSONObject respContent = new JSONObject();
+		
+		JSONObject b = new JSONObject();
+		if (book != null ) {
+			respContent.put("successful", "true");
+			respContent.put("message", "Successful retrieval of book by bid.");
+			respContent.put("bookExists", "true");
+			
+			b.put("bid", book.getBid());
+			b.put("title", book.getTitle());
+			b.put("author", book.getAuthor());
+			b.put("category", book.getCategory());
+			b.put("review_score", book.getReview_score());
+			b.put("number_of_reviews", book.getNumber_of_reviews());
+			b.put("image_url", book.getImage_url());
+			respContent.put("book", b);
+		} else {
+			// *** NEED TO CHECK WITH TEAM ***
+			// Is a non-existent book still considered successful since no errors? Or is it false?
+			respContent.put("successful", "true");
+			respContent.put("message", "Query executed, but book with bid: " + bid + " does not exist");
+			respContent.put("bookExists", "false");
+		}
+		
+		System.out.println(respContent);
+		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
+	public String retrieveCategories() throws Exception {
+		Set<String> s = this.bookDao.retrieveAllCategories();
+		JSONArray categories = new JSONArray();
+		JSONObject respContent = new JSONObject();
+		
+		for (String categ : s) {
+			categories.add(categ);
+		}
+		respContent.put("successful", "true");
+		respContent.put("message", "Successful retrieval of categories.");
+		respContent.put("number_of_categories", s.size());
+		respContent.put("categories", categories);
+		
+		System.out.println(respContent);
+		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
+	public String retrieveBooksOfCategory(String category) throws Exception {
+		Set<String> categoriesSet = this.bookDao.retrieveAllCategories();
+		
+		if(!categoriesSet.contains(category)) {
+			System.out.println("ERROR: Category provided does not exist");
+			return RestApiHelper.prepareErrorJson("Category provided does not exist");
+		}
+		
+		Set<BookBean> s = this.bookDao.retrieveBooksByCategory(category);
+		JSONArray books = new JSONArray();
+		JSONObject respContent = new JSONObject();
+		
+		for (BookBean b : s) {
+			JSONObject i = new JSONObject();
+			i.put("bid", b.getBid());
+			i.put("title", b.getTitle());
+			i.put("author", b.getAuthor());
+			i.put("category", b.getCategory());
+			i.put("review_score", b.getReview_score());
+			i.put("number_of_reviews", b.getNumber_of_reviews());
+			i.put("image_url", b.getImage_url());
+			books.add(i);
+		}
+		respContent.put("successful", "true");
+		respContent.put("message", "Successful retrieval of books of category " + category);
+		respContent.put("category", category);
+		respContent.put("number_of_books", s.size());
+		respContent.put("books", books);
+		
+		System.out.println(respContent);
+		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
+	public String retrieveReviewsByBid(String bid) throws Exception {
+		Set<String> bidSet = this.bookDao.retrieveAllBids();
+		
+		if(!bidSet.contains(bid)) {
+			System.out.println("ERROR: bid provided does not exist");
+			return RestApiHelper.prepareErrorJson("bid provided does not exist");
+		}
+		
+		Set<ReviewBean> s = this.reviewDao.retrieveBookReviewsByBid(bid);
+		JSONArray reviews = new JSONArray();
+		JSONObject respContent = new JSONObject();
+		
+		for (ReviewBean b : s) {
+			JSONObject i = new JSONObject();
+			i.put("bid", b.getBid());
+			i.put("rid", b.getRid());
+			i.put("uid", b.getUid());
+			i.put("review", b.getReview());
+			i.put("score", b.getScore());
+			reviews.add(i);
+		}
+		respContent.put("successful", "true");
+		respContent.put("message", "Successful retrieval of book reviews for bid " + bid);
+		respContent.put("bid", bid);
+		respContent.put("number_of_reviews", s.size());
+		respContent.put("reviews", reviews);
+		
+		System.out.println(respContent);
+		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
 }

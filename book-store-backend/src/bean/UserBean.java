@@ -1,12 +1,12 @@
 package bean;
 
 public class UserBean {
-	int uid;
-	String lname;
-	String fname;
-	String email;
-	String password;
-	String user_type;
+	private int uid;
+	private String lname;
+	private String fname;
+	private String email;
+	private String password;
+	private String user_type;
 	
 	public UserBean(int uid, String lname, String fname, String email, String password, String user_type) {
 		super();

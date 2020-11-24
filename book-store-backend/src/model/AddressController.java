@@ -31,7 +31,7 @@ public class AddressController {
 	public String getAddressByUid(String uid) throws Exception {
 		if (InputValidation.invalidUid(uid)) {
 			System.out.println("ERROR: uid must be numerical only.");
-			return "ERROR: uid must be numerical only.";
+			return RestApiHelper.prepareErrorJson("uid must be numerical only.");
 		} else {
 			AddressBean address = this.addressDao.retrieveAddressByUid(uid);
 			if (address != null) {

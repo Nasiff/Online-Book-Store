@@ -76,8 +76,6 @@ public class UserDAO {
 	}
 	
 	public boolean existingUserWithEmail(String email) throws SQLException {
-		// example: nameOfParam = "email" and paramValue = "john.white@gmail.com"
-		// example: nameOfParam = "uid" and paramValue = "43225"
 		String query = "select * from UserAccount where email = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);	
