@@ -25,20 +25,20 @@ public class UserDAO {
 		}
 	}
 
-	public UserBean retrieveUser(String email, String password) throws SQLException {
-		String query = "select * from UserAccount where email = ? and password = ?";
+	public UserBean retrieveUser(String email) throws SQLException {
+		String query = "select * from UserAccount where email = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		
 		p.setString(1, email);
-		p.setString(2, password);
 		
 		UserBean user = null;
 		ResultSet r = p.executeQuery();
 		while (r.next()) {
-			String uid = r.getString("uid");
+			int uid = r.getInt("uid");
 			String lname = r.getString("lname");
 			String fname = r.getString("fname");
+			String password = r.getString("password");
 			String user_type = r.getString("user_type");
 			user = new UserBean(uid, lname, fname, email, password, user_type);
 			break;
@@ -50,12 +50,12 @@ public class UserDAO {
 		return user;
 	}
 	
-	public UserBean retrieveUserByUid(String uid) throws SQLException {
+	public UserBean retrieveUserByUid(int uid) throws SQLException {
 		String query = "select * from UserAccount where uid = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		
-		p.setString(1, uid);
+		p.setInt(1, uid);
 		
 		UserBean user = null;
 		ResultSet r = p.executeQuery();
@@ -128,7 +128,7 @@ public class UserDAO {
 		p.setString(6, user_type);
 		
 		int rows = p.executeUpdate();
-		System.out.println("DB: Added " + rows + "user to the database");
+		System.out.println("DB: Added " + rows + " user to the database");
 		
 		p.close();
 		con.close();

@@ -6,6 +6,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import model.AddressController;
@@ -20,22 +21,31 @@ public class AddressService {
 	@Produces("application/json")
 	public Response getAddress(@HeaderParam("uid") String uid) throws Exception {
 		System.out.println("GET: retrieve address");
-		String content = AddressController.getInstance().getAddressByUid(uid);
-		
-		return RestApiHelper.responseHelper(content);
+		try {
+			String content = AddressController.getInstance().getAddressByUid(uid);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem getting address");
+			return RestApiHelper.responseHelper(content);
+		}
 	}
 	
 	
-	// http://localhost:8080/SIS-3/rest/address/create
+	// http://localhost:8080/SIS-3/rest/address
 	@POST
-	@Path("/create/")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response createAddress(String jsonAddress) throws Exception {
 		System.out.println("POST: create address");
-		String content = "not done yet"; //AddressController.getInstance().getAddressByUid();
-		
-		return RestApiHelper.responseHelper(content);
+		try {
+			String content = AddressController.getInstance().createNewAddress(jsonAddress);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem creating new address");
+			return RestApiHelper.responseHelper(content);
+		}
 	}
 	
 }

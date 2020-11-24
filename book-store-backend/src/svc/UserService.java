@@ -11,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import model.AddressController;
 import model.SIS;
 import model.UserController;
 import util.RestApiHelper;
@@ -30,13 +31,18 @@ public class UserService {
 	@Produces("application/json")
 	public Response loginUser(@HeaderParam("email") String email, @HeaderParam("password") String password) throws Exception {
 		System.out.println("GET login request with email: " + email);
-		String content = UserController.getInstance().authenticateUser(email, password);
-		
-		return RestApiHelper.responseHelper(content);
+		try {
+			String content = UserController.getInstance().authenticateUser(email, password);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem logging in user with email: " + email);
+			return RestApiHelper.responseHelper(content);
+		} 
 	}
 	
 	
-	// http://localhost:8080/book-store-backend/rest/user/register
+	// http://localhost:8080/book-store-backend/rest/user
 	/* Example of JSON request CONTENT sent 
 	  jsonCredentials 
 	{
@@ -59,10 +65,15 @@ public class UserService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response registerUser(String userInfo) throws Exception {
-		System.out.println("POST: registration request");
-		String content = UserController.getInstance().createNewUser(userInfo);
-		
-		return RestApiHelper.responseHelper(content);
+		System.out.println("POST: registration request");	
+		try {
+			String content = UserController.getInstance().createNewUser(userInfo);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem creating the user");
+			return RestApiHelper.responseHelper(content);
+		}
 	}
 	
 	

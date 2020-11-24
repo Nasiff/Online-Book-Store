@@ -1,14 +1,14 @@
 package bean;
 
 public class UserBean {
-	String uid;
+	int uid;
 	String lname;
 	String fname;
 	String email;
 	String password;
 	String user_type;
 	
-	public UserBean(String uid, String lname, String fname, String email, String password, String user_type) {
+	public UserBean(int uid, String lname, String fname, String email, String password, String user_type) {
 		super();
 		this.uid = uid;
 		this.lname = lname;
@@ -18,10 +18,10 @@ public class UserBean {
 		this.user_type = user_type;
 	}
 	
-	public String getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(String uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getLname() {

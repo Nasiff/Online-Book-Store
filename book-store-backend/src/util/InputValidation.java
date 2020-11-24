@@ -15,6 +15,10 @@ public class InputValidation {
 		return s != null && s.matches("^[a-zA-Z]*$");
 	}
 	
+	public static boolean isAlphaMultiWord(String s) {
+		return s != null && s.matches("^[a-zA-Z ]*$");
+	}
+	
 	public static boolean isNumerical(String s) {
 		return s != null && s.matches("^[0-9]*$");
 	}
@@ -78,6 +82,17 @@ public class InputValidation {
 		}
 		
 		return false;
+	}
+	
+	public static boolean invalidPhoneNum(String phone) {
+		if (emptyInput(phone)) {
+			return true;
+		} else {
+		    Pattern phoneNumPattern = Pattern.compile("^(\\d{3}[-]?){2}\\d{4}$");
+
+			Matcher matcher = phoneNumPattern.matcher(phone);
+			return !matcher.find(); // returns true if INVALID email pattern
+		} 
 	}
 	
 	

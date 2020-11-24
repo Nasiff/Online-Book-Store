@@ -57,31 +57,69 @@ public class AddressDAO {
 		return addr;
 	}
 	
-	public Map<String, AddressBean> retrieveAddress(JSONObject json) throws SQLException {
-		String query = "select * from address where street = ? and zip = ?";
-		Map<String, AddressBean> rv = new HashMap<String, AddressBean>();
+	public AddressBean retrieveAddressByStreetAndZip(String street, String zip) throws SQLException {
+		// Need to insert single quotes around string since it contains whitespace for Derby to properly detect the string in the DB query
+		String query = "select * from Address where street = '" + street + "' and zip = '" + zip + "'";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		
-		p.setString(1, json.get("street").toString());
-		p.setString(2, json.get("zip").toString());
 		
+		AddressBean address = null;
 		ResultSet r = p.executeQuery();
-		
 		while (r.next()) {
 			String id = r.getString("id");
-			String street = r.getString("street");
+			//String street = r.getString("street");
 			String province_state = r.getString("province_state");
 			String country = r.getString("country");
-			String zip = r.getString("zip");
+			//String zip = r.getString("zip");
 			String phone = r.getString("phone");
-			rv.put(id, new AddressBean(id, street, province_state, country, zip, phone));
+			address = new AddressBean(id, street, province_state, country, zip, phone);
+			System.out.println("Found existing address with id: " + id + ", for street: " + street + ", zip: " + zip);
 		}
 		
 		r.close();
 		p.close();
 		con.close();
-		return rv;
+		return address;
 	}
+	
+	public String getMaxAddressId() throws SQLException {
+		String query = "select max(id) from Address";
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		String maxAddressId = null;
+		ResultSet r = p.executeQuery();
+		if (r.next()) {
+			System.out.println("maxAddressId: " + r.getString(1));
+			maxAddressId = r.getString(1);
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return maxAddressId;
+	}
+	
+	public int insertAddress(String address_id, String street, String province_state, String country,
+			String zip, String phone) throws SQLException {
+		String query = "insert into Address values(?,?,?,?,?,?)";
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		p.setString(1, address_id);
+		p.setString(2, street);
+		p.setString(3, province_state);
+		p.setString(4, country);
+		p.setString(5, zip);
+		p.setString(6, phone);
+		
+		int rows = p.executeUpdate();
+		System.out.println("DB: Added " + rows + " address to the database");
+		
+		p.close();
+		con.close();
+		return rows;
+	}
+	
 	
 }
