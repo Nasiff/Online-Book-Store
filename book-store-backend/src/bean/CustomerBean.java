@@ -1,8 +1,8 @@
 package bean;
 
 public class CustomerBean {
-	int uid;
-	String address_id;
+	private int uid;
+	private String address_id;
 	
 	public CustomerBean(int uid, String address_id) {
 		super();

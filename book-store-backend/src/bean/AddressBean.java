@@ -1,12 +1,12 @@
 package bean;
 
 public class AddressBean {
-	String id;
-	String street;
-	String province_state;
-	String country;
-	String zip;
-	String phone;
+	private String id;
+	private String street;
+	private String province_state;
+	private String country;
+	private String zip;
+	private String phone;
 	
 	public AddressBean(String id, String street, String province_state, String country, String zip, String phone) {
 		super();

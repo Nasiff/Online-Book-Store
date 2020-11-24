@@ -13,7 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import bean.StudentBean;
+import bean.BookBean;
 
 public class BookDAO {
 	DataSource ds;
@@ -27,22 +27,112 @@ public class BookDAO {
 		}
 	}
 
-	public Set<StudentBean> retrieveAllBooks() throws SQLException {
-		String query = "select * from students";
-		Set<StudentBean> rv = new HashSet<StudentBean>();
+	public Set<BookBean> retrieveAllBooks() throws SQLException {
+		String query = "select * from Book";
+		Set<BookBean> allBooks = new HashSet<BookBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String bid = r.getString("bid");
+			String title = r.getString("title");
+			String author = r.getString("author");
+			String category = r.getString("category");
+			double review_score = r.getDouble("review_score");
+			int number_of_reviews = r.getInt("number_of_reviews");
+			String image_url = r.getString("image_url");
+			allBooks.add(new BookBean(bid, title, author, category, review_score, number_of_reviews, image_url));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return allBooks;
+	}
+	
+	public BookBean retrieveBookById(String bid) throws SQLException {
+		String query = "select * from Book where bid = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setString(1, bid);
+		
+		BookBean book = null;
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String title = r.getString("title");
+			String author = r.getString("author");
+			String category = r.getString("category");
+			double review_score = r.getDouble("review_score");
+			int number_of_reviews = r.getInt("number_of_reviews");
+			String image_url = r.getString("image_url");
+			book = new BookBean(bid, title, author, category, review_score, number_of_reviews, image_url);
+			break;
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return book;
+	}
+	
+	public Set<String> retrieveAllBids() throws SQLException {
+		String query = "select bid from Book";
+		Set<String> allBids = new HashSet<String>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		while (r.next()) {
-			String sid = r.getString("SID");
-			String name = r.getString("GIVENNAME") + ", " + r.getString("SURNAME");
-			String creditTaken = r.getString("CREDIT_TAKEN");
-			String creditGraduate = r.getString("CREDIT_GRADUATE");
-			rv.add(new StudentBean(sid, name, creditTaken, creditGraduate));
+			String bid = r.getString("bid");
+			allBids.add(bid);
 		}
 		r.close();
 		p.close();
 		con.close();
-		return rv;
+		return allBids;
 	}
+	
+	public Set<String> retrieveAllCategories() throws SQLException {
+		String query = "select category from Book";
+		Set<String> allCategories = new HashSet<String>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String category = r.getString("category");
+			allCategories.add(category);
+		}
+		r.close();
+		p.close();
+		con.close();
+		return allCategories;
+	}
+	
+	public Set<BookBean> retrieveBooksByCategory(String category) throws SQLException {
+		String query = "select * from Book where category = ?";
+		Set<BookBean> booksOfCategory = new HashSet<BookBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setString(1, category);
+		
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String bid = r.getString("bid");
+			String title = r.getString("title");
+			String author = r.getString("author");
+			double review_score = r.getDouble("review_score");
+			int number_of_reviews = r.getInt("number_of_reviews");
+			String image_url = r.getString("image_url");
+			booksOfCategory.add(new BookBean(bid, title, author, category, review_score, number_of_reviews, image_url));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return booksOfCategory;
+	}
+	
+	
 }

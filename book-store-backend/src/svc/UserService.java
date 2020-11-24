@@ -61,7 +61,6 @@ public class UserService {
 	}
 	*/
 	@POST
-	@Path("/register/")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response registerUser(String userInfo) throws Exception {
