@@ -53,12 +53,16 @@ public class RestApiHelper {
 				return Response
 						.status(Response.Status.BAD_REQUEST)
 						.entity(content)
+						.header("Access-Control-Allow-Origin", "*")
+						.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
 						.type(MediaType.APPLICATION_JSON)
 						.build();
 			} else {
 				return Response
 						.status(Response.Status.OK)
 						.entity(content)
+						.header("Access-Control-Allow-Origin", "*")
+						.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
 						.type(MediaType.APPLICATION_JSON)
 						.build();
 			}
@@ -68,6 +72,8 @@ public class RestApiHelper {
 			return Response
 					.status(Response.Status.BAD_REQUEST)
 					.entity(content)
+					.header("Access-Control-Allow-Origin", "*")
+					.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
 					.type(MediaType.APPLICATION_JSON)
 					.build();
 		}
