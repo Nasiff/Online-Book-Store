@@ -111,6 +111,7 @@ public class BookService {
 			String content = RestApiHelper.prepareErrorJson("Problem creating review for book with bid: " + bid  + " from user: " + uid);
 			return RestApiHelper.responseHelper(content);
 		} 
+
 	}
 	
 }

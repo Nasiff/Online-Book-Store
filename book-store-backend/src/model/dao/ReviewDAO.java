@@ -49,7 +49,7 @@ public class ReviewDAO {
 		con.close();
 		return reviews;
 	}
-	
+
 	public ReviewBean retrieveBookReviewByBidAndUid(String bid, int uid) throws SQLException {
 		String query = "select * from Book join BookReview on Book.bid = BookReview.bid where Book.bid = ? and BookReview.uid = ?";
 		
@@ -113,5 +113,5 @@ public class ReviewDAO {
 	}	
 	
 	
-	
+
 }
