@@ -32,13 +32,13 @@ class Books extends React.Component {
 
     loadBooks = () => {
         console.log("Loading Books");
-        fetch("./Data/books.json")
+        fetch("http://localhost:8080/book-store-backend/rest/books")
             .then(res => res.json())
             .then(
                 (result) => {
                     console.log("Result: " + result);
                     this.setState({
-                        books: result.books
+                        books: result.result.books
                     });
                 },
 

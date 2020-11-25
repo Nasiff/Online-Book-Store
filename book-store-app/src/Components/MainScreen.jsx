@@ -8,7 +8,6 @@ class MainScreen extends React.Component {
     render() {
         return ( 
             <div className="App">
-            <Nav/> 
             <Banner/>
             <Catalouge addToCart={this.props.addToCart}/>
             </div>
