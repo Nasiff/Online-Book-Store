@@ -112,7 +112,10 @@ public class AddressController {
 		String address_id = this.createUniqueAddressId();
 		System.out.println("New address_id: " + address_id);
 		int insertedRow = 0;
-		if (address_id != null) {
+		if (address_id == null) {
+			System.out.println("ERROR: Problem creating unique address id");
+			return RestApiHelper.prepareErrorJson("Problem creating unique address id");
+		} else {
 			insertedRow = this.addressDao.insertAddress(address_id, street, province_state, country, zip, phone);
 		}
 		

@@ -5,18 +5,22 @@ import org.json.simple.JSONObject;
 
 import model.dao.BookDAO;
 import model.dao.ReviewDAO;
+import model.dao.UserDAO;
 import util.InputValidation;
 import util.RestApiHelper;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import bean.BookBean;
 import bean.ReviewBean;
+import bean.UserBean;
 
 public class BookController {
 	private static BookController instance;
 	private BookDAO bookDao;
 	private ReviewDAO reviewDao;
+	private UserDAO userDao;
 	
 	private BookController() {}
 	
@@ -25,6 +29,7 @@ public class BookController {
 			instance = new BookController();
 			instance.bookDao = new BookDAO();
 			instance.reviewDao = new ReviewDAO();
+			instance.userDao = new UserDAO();
 		}
 		
 		return instance;
@@ -169,6 +174,68 @@ public class BookController {
 		
 		System.out.println(respContent);
 		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
+	
+	public String createUniqueReviewId () {
+		try {
+			String maxReview_id = this.reviewDao.getMaxReviewId();
+			int idNum = Integer.parseInt(maxReview_id.replace("review-", ""));
+			idNum += 1;
+			return "review-" + idNum;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String createCustomerBookReview(String bid, String review_score, String uidStr) throws Exception {
+		if (InputValidation.emptyInput(bid) || InputValidation.emptyInput(review_score) || InputValidation.emptyInput(uidStr)) {
+			System.out.println("ERROR: Parameters (bid, score, uid) provided must not be empty");
+			return RestApiHelper.prepareErrorJson("Parameters (bid, score, uid) provided must not be empty");
+		}  else if (!InputValidation.isNumerical(review_score) || !InputValidation.isNumerical(uidStr)) {
+			System.out.println("ERROR: Review_score must be numerical");
+			return RestApiHelper.prepareErrorJson("Review_score must be numerical");
+		} 
+		
+		int score = Integer.parseInt(review_score);
+		if (score < 0 || score > 5) {
+			System.out.println("ERROR: Review_score must be within 0-5 integer range");
+			return RestApiHelper.prepareErrorJson("Review_score must be within 0-5 integer range");
+		}
+		
+		// Check if book with bid exists
+		BookBean book = this.bookDao.retrieveBookById(bid);
+		if (book == null) {
+			System.out.println("ERROR: Book with bid " + bid + " does not exist");
+			return RestApiHelper.prepareErrorJson("Book with bid " + bid + " does not exist");
+		}
+		
+		// Check if user with uid exist and is of type CUSTOMER
+		int uid = Integer.parseInt(review_score);
+		UserBean user = this.userDao.retrieveUserByUid(uid);
+		if (user == null) {
+			System.out.println("ERROR: User with uid " + uid + " does not exist");
+			return RestApiHelper.prepareErrorJson("User with bid " + uid + " does not exist");
+		} else {
+			if (!user.getUser_type().equals("CUSTOMER")) {
+				System.out.println("ERROR: User with uid " + uid + " is not a customer. This user cannot write a review.");
+				return RestApiHelper.prepareErrorJson("User with bid " + uid + " is not a customer. This user cannot write a review.");
+			}
+		}
+		
+		ReviewBean reviewBean = this.reviewDao.retrieveBookReviewByBidAndUid(bid, uid);
+		if (reviewBean != null) {
+			System.out.println("ERROR: Review " + reviewBean.getRid() + " for user " + uid + " and book " + bid + " already exists.");
+			return RestApiHelper.prepareErrorJson("Review " + reviewBean.getRid() + " for user " + uid + " and book " + bid + " already exists.");
+		} else {
+			
+			
+			
+		}
+			
+		return "";
 	}
 	
 }

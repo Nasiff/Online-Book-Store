@@ -92,4 +92,26 @@ public class BookService {
 			return RestApiHelper.responseHelper(content);
 		} 
 	}
+	
+	
+	// http://localhost:8080/book-store-backend/rest/books/{bid}/review?rating=<INT>
+	// In the request headers there will be the uid: 12312  
+	@POST
+	@Path("{bid}/review")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createReview(@PathParam("bid") String bid, @QueryParam("rating") String review_score, 
+			@HeaderParam("uid") String uid) throws Exception {
+		System.out.println("POST review for book with bid: " + bid + " from user: " + uid);
+		try {
+			String content = BookController.getInstance().createCustomerBookReview(bid, review_score, uid);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem creating review for book with bid: " + bid  + " from user: " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
+
+	}
+	
 }
