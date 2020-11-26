@@ -37,6 +37,9 @@ public class AddressController {
 			if (address != null) {
 				// setup response content
 				JSONObject respContent = new JSONObject();
+				respContent.put("successful", "true");
+				respContent.put("message", "Successful address retrieval.");
+				
 				respContent.put("address_id", address.getId());
 				respContent.put("street", address.getStreet());
 				respContent.put("province_state", address.getProvince_state());
@@ -69,6 +72,11 @@ public class AddressController {
 	public String createUniqueAddressId () {
 		try {
 			String maxAddress_id = this.addressDao.getMaxAddressId();
+			// If there exist no address in DB, therefore no max address id either in DB
+			// then start from "address-0" + 1 for address_id
+			if (maxAddress_id == null) {
+				maxAddress_id = "address-0";
+			}
 			int idNum = Integer.parseInt(maxAddress_id.replace("address-", ""));
 			idNum += 1;
 			return "address-" + idNum;
@@ -105,9 +113,7 @@ public class AddressController {
 			return RestApiHelper.prepareErrorJson("Phone number must be in format xxx-xxx-xxxx where all x are numerical.");
 		} 		
 		
-
-		JSONObject respContent = new JSONObject();
-		
+	
 		// generate unique address id 
 		String address_id = this.createUniqueAddressId();
 		System.out.println("New address_id: " + address_id);
@@ -115,14 +121,19 @@ public class AddressController {
 		if (address_id == null) {
 			System.out.println("ERROR: Problem creating unique address id");
 			return RestApiHelper.prepareErrorJson("Problem creating unique address id");
+		} else if (this.checkExistingAddress(street, zip)) {
+			System.out.println("ERROR: Address with same street " + street + " and zip " + zip + " already exist. Cannot create new address.");
+			return RestApiHelper.prepareErrorJson("Address with same street " + street + " and zip " + zip + " already exist. Cannot create new address.");
 		} else {
 			insertedRow = this.addressDao.insertAddress(address_id, street, province_state, country, zip, phone);
 		}
+		
 		
 		// if 0, no insertion occurred. if 1, it was successful
 		if (insertedRow == 1) {
 			// setup response content
 			AddressBean address = this.addressDao.retrieveAddressByStreetAndZip(street, zip);
+			JSONObject respContent = new JSONObject();
 			respContent.put("successful", "true");
 			respContent.put("message", "Successful address registration.");
 			respContent.put("address_id", address.getId());

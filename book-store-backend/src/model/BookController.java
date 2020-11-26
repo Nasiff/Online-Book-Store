@@ -2,6 +2,7 @@ package model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import model.dao.BookDAO;
 import model.dao.ReviewDAO;
@@ -180,6 +181,11 @@ public class BookController {
 	public String createUniqueReviewId () {
 		try {
 			String maxReview_id = this.reviewDao.getMaxReviewId();
+			// If there exist no review in DB, therefore no max review id either in DB
+			// then start from "review-0" + 1 for rid
+			if (maxReview_id == null) {
+				maxReview_id = "address-0";
+			}
 			int idNum = Integer.parseInt(maxReview_id.replace("review-", ""));
 			idNum += 1;
 			return "review-" + idNum;
@@ -190,13 +196,20 @@ public class BookController {
 		}
 	}
 	
-	public String createCustomerBookReview(String bid, String review_score, String uidStr) throws Exception {
-		if (InputValidation.emptyInput(bid) || InputValidation.emptyInput(review_score) || InputValidation.emptyInput(uidStr)) {
-			System.out.println("ERROR: Parameters (bid, score, uid) provided must not be empty");
-			return RestApiHelper.prepareErrorJson("Parameters (bid, score, uid) provided must not be empty");
+	public String createUpdateCustomerBookReview(String createUpdate, String bid, String uidStr, String reviewInfo) throws Exception {
+		JSONParser parser = new JSONParser();
+		JSONObject json = (JSONObject) parser.parse(reviewInfo);
+		
+		String review_score = json.get("review_score").toString();
+		String review_body = json.get("review_body").toString();
+		
+		if (InputValidation.emptyInput(bid) || InputValidation.emptyInput(uidStr) 
+				|| InputValidation.emptyInput(review_score) || InputValidation.emptyInput(review_body)) {
+			System.out.println("ERROR: Parameters (bid, uid, reviewInfo) provided must not be empty");
+			return RestApiHelper.prepareErrorJson("Parameters (bid, uid, reviewInfo) provided must not be empty");
 		}  else if (!InputValidation.isNumerical(review_score) || !InputValidation.isNumerical(uidStr)) {
-			System.out.println("ERROR: Review_score must be numerical");
-			return RestApiHelper.prepareErrorJson("Review_score must be numerical");
+			System.out.println("ERROR: Review_score & uid must be numerical");
+			return RestApiHelper.prepareErrorJson("Review_score & uid must be numerical");
 		} 
 		
 		int score = Integer.parseInt(review_score);
@@ -213,7 +226,7 @@ public class BookController {
 		}
 		
 		// Check if user with uid exist and is of type CUSTOMER
-		int uid = Integer.parseInt(review_score);
+		int uid = Integer.parseInt(uidStr);
 		UserBean user = this.userDao.retrieveUserByUid(uid);
 		if (user == null) {
 			System.out.println("ERROR: User with uid " + uid + " does not exist");
@@ -225,17 +238,139 @@ public class BookController {
 			}
 		}
 		
-		ReviewBean reviewBean = this.reviewDao.retrieveBookReviewByBidAndUid(bid, uid);
-		if (reviewBean != null) {
-			System.out.println("ERROR: Review " + reviewBean.getRid() + " for user " + uid + " and book " + bid + " already exists.");
-			return RestApiHelper.prepareErrorJson("Review " + reviewBean.getRid() + " for user " + uid + " and book " + bid + " already exists.");
+		
+		ReviewBean existingReview = this.reviewDao.retrieveBookReviewByBidAndUid(bid, uid);
+		
+		if (createUpdate.equals("create")) {
+			return this.createCustomerBookReviewHelper(bid, uid, score, review_body, book, existingReview);
+		} else if (createUpdate.equals("update")) { 
+			return this.updateCustomerBookReviewHelper(bid, uid, score, review_body, book, existingReview);
 		} else {
+			System.out.println("ERROR: Book review changes must be via create or update");
+			return RestApiHelper.prepareErrorJson("Book review changes must be via create or update");
+		}
+		
+	}
+	
+	
+	public String createCustomerBookReviewHelper(String bid, int uid, int score, String review_body, 
+			BookBean book, ReviewBean existingReview) throws Exception {
+		if (existingReview != null) {
+			System.out.println("ERROR: Cannot create new review since review " + existingReview.getRid() 
+				+ " for user " + uid + " and book " + bid + " already exists.");
+			return RestApiHelper.prepareErrorJson("Cannot create new review since review " + existingReview.getRid() 
+				+ " for user " + uid + " and book " + bid + " already exists.");
+		} else {
+			// generate unique review id 
+			String rid = this.createUniqueReviewId();
+			System.out.println("New review_id: " + rid);
+			int insertedReviewRow = 0;
+			if (rid == null) {
+				System.out.println("ERROR: Problem creating unique review id");
+				return RestApiHelper.prepareErrorJson("Problem creating unique review id");
+			} else {
+				insertedReviewRow = this.reviewDao.insertBookReview(rid, bid, uid, review_body, score);
+			}
 			
-			
+			// if 0, no insertion occurred. if 1, it was successful
+			if (insertedReviewRow == 1) {
+				Set<ReviewBean> setOfReviewsForBook = this.reviewDao.retrieveBookReviewsByBid(bid);
+				double sumOfScoresForBook = 0;
+				
+				for (ReviewBean b : setOfReviewsForBook) {
+					sumOfScoresForBook += b.getScore();
+				}
+				
+				int numOfReviews = setOfReviewsForBook.size();
+				double newAvgScore = Math.round(10.0 * sumOfScoresForBook / numOfReviews ) / 10.0;
+				
+				int updatedBookRow = this.bookDao.updateBookAvgScoreAndNumOfReviews(newAvgScore, numOfReviews, bid);
+				// if 0, no update occurred. if 1, it was successful
+				if (updatedBookRow == 1) {
+					// setup response content
+					ReviewBean reviewBean = this.reviewDao.retrieveBookReviewByBidAndUid(bid, uid);
+					JSONObject respContent = new JSONObject();
+					
+					respContent.put("successful", "true");
+					respContent.put("message", "Successful insertion of review and update of book review statistics.");
+					respContent.put("rid", reviewBean.getRid());
+					respContent.put("bid", reviewBean.getBid());
+					respContent.put("uid", reviewBean.getUid());
+					respContent.put("review", reviewBean.getReview());
+					respContent.put("score", reviewBean.getScore());
+					
+					JSONObject bookStats = new JSONObject();
+					bookStats.put("average_book_score", newAvgScore);
+					bookStats.put("number_of_reviews", numOfReviews);
+					respContent.put("book_stats", bookStats);
+					
+					return RestApiHelper.prepareResultJson(respContent);
+				} else {
+					return RestApiHelper.prepareErrorJson("Book review average score and number of reviews was not updated in Book DB");
+				}
+					
+			} else {
+				return RestApiHelper.prepareErrorJson("New review was not inserted in BookReview DB");
+			}
 			
 		}
-			
-		return "";
 	}
+	
+	
+	public String updateCustomerBookReviewHelper(String bid, int uid, int score, String review_body, 
+			BookBean book, ReviewBean existingReview) throws Exception {
+		if (existingReview == null) {
+			System.out.println("ERROR: Cannot update since review for user " + uid + " and book " + bid + " does not exist.");
+			return RestApiHelper.prepareErrorJson("Cannot update review since review for user " + uid + " and book " + bid + " does not exist.");
+		} else {
+			
+			// generate unique review id 
+			String rid = existingReview.getRid();
+			System.out.println("Existing review_id: " + rid);
+			
+			int updatedReviewRow = this.reviewDao.updateBookReviewAndScore(review_body, score, rid);
+			
+			// if 0, no insertion occurred. if 1, it was successful
+			if (updatedReviewRow == 1) {
+				Set<ReviewBean> setOfReviewsForBook = this.reviewDao.retrieveBookReviewsByBid(bid);
+				double sumOfScoresForBook = 0;
+				
+				for (ReviewBean b : setOfReviewsForBook) {
+					sumOfScoresForBook += b.getScore();
+				}
+				
+				int numOfReviews = setOfReviewsForBook.size();
+				double newAvgScore = Math.round(10.0 * sumOfScoresForBook / numOfReviews ) / 10.0;
+				
+				int updatedBookRow = this.bookDao.updateBookAvgScoreAndNumOfReviews(newAvgScore, numOfReviews, bid);
+				if (updatedBookRow == 1) {
+					// setup response content
+					ReviewBean reviewBean = this.reviewDao.retrieveBookReviewByBidAndUid(bid, uid);
+					JSONObject respContent = new JSONObject();
+					respContent.put("successful", "true");
+					respContent.put("message", "Successful update of review and update of book review statistics.");
+					respContent.put("rid", reviewBean.getRid());
+					respContent.put("bid", reviewBean.getBid());
+					respContent.put("uid", reviewBean.getUid());
+					respContent.put("review", reviewBean.getReview());
+					respContent.put("score", reviewBean.getScore());
+					
+					JSONObject bookStats = new JSONObject();
+					bookStats.put("average_book_score", newAvgScore);
+					bookStats.put("number_of_reviews", numOfReviews);
+					respContent.put("book_stats", bookStats);
+					
+					return RestApiHelper.prepareResultJson(respContent);
+				} else {
+					return RestApiHelper.prepareErrorJson("Book review average score and number of reviews was not updated in Book DB");
+				}
+					
+			} else {
+				return RestApiHelper.prepareErrorJson("New review was not inserted in BookReview DB");
+			}
+			
+		} 
+	}
+	
 	
 }
