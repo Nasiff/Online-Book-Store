@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import Book from './Book';
+import WebService from '../Services/WebService';
 
 const BookList = (books, loadAmount, addToCart) => {
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
             return <div className="grow" key={book.bid} style={styles.item}>
-                        <Book addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image} author={book.author} review={book.review} numOfReviews={book.numOfReviews}/>
+                        <Book addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image} author={book.author} review={book.review_score} numOfReviews={book.number_of_reviews}/>
                     </div>
         });
     } else {
@@ -32,7 +33,7 @@ class Books extends React.Component {
 
     loadBooks = () => {
         console.log("Loading Books");
-        fetch("http://localhost:8080/book-store-backend/rest/books")
+        fetch(WebService.uri + "/books")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -92,5 +93,6 @@ const styles = {
         margin: "50px"
     },
 }
+
 
 export default Books;
