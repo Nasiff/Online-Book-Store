@@ -134,5 +134,21 @@ public class BookDAO {
 		return booksOfCategory;
 	}
 	
+	public int updateBookAvgScoreAndNumOfReviews(double avgScore, int num_of_reviews, String bid) throws SQLException {
+		String query = "update Book set review_score = ?, number_of_reviews = ? where bid = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setDouble(1, avgScore);
+		p.setInt(2, num_of_reviews);
+		p.setString(3, bid);
+
+		int rows = p.executeUpdate();
+		System.out.println("DB: Updated " + rows + " book " + bid + " with new review_score and number_of_reviews to the database");
+		
+		p.close();
+		con.close();
+		return rows;
+	}
 	
 }

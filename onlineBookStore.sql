@@ -13,14 +13,14 @@ CREATE TABLE Book (
 INSERT INTO Book (bid, title, price, author, category, review_score, number_of_reviews, image_url) 
 VALUES 
 ('isbn-1786818248', 'The Dancing Girls', 13.99, 'M.M. Chouinard','Thriller', NULL, 0, 'some_url'),
-('isbn-1989325149', 'Murder of Crows', 15.49, 'L.L. Abbott', 'Mystery', NULL, 0, 'some_url'),
-('isbn-0133915425', 'Engineering Mechanics: Statics & Dynamics', 114.49, 'Russell Hibbeler','Science', NULL, 0, 'some_url'),
+('isbn-1989325149', 'Murder of Crows', 15.49, 'L.L. Abbott', 'Mystery', 3, 1, 'some_url'),
+('isbn-0133915425', 'Engineering Mechanics: Statics & Dynamics', 114.49, 'Russell Hibbeler','Science', 5, 1, 'some_url'),
 ('isbn-0141199078', 'Pride and Prejudice', 19.99, 'Jane Austen','Romance', NULL, 0, 'some_url'),
 ('isbn-1784752637', 'To Kill A Mockingbird', 14.99, 'Harper Lee','Historical', NULL, 0, 'some_url'),
 ('isbn-0261103252', 'The Lord of the Rings', 24.99, 'J.R.R. Tolkien','Fantasy', NULL, 0, 'some_url'),
 ('isbn-0316485624', 'The Law of Innocence', 19.99, 'Michael Connelly','Thriller', NULL, 0, 'some_url'),
-('isbn-0262033848', 'Introduction to Algorithms', 54.99, 'Thomas H. Cormen','Science', NULL, 0, 'some_url'),
-('isbn-1526626586', 'Harry Potter and the Sorceror''s Stone', 19.99, 'J.K. Rowling','Fantasy', NULL, 0, 'some_url'),
+('isbn-0262033848', 'Introduction to Algorithms', 54.99, 'Thomas H. Cormen','Science', 4, 1, 'some_url'),
+('isbn-1526626586', 'Harry Potter and the Sorceror''s Stone', 19.99, 'J.K. Rowling','Fantasy', 4, 1, 'some_url'),
 ('isbn-1408855666', 'Harry Potter and the Chamber of Secrets', 14.99, 'J.K. Rowling','Fantasy', NULL, 0, 'some_url'),
 ('isbn-1526622807', 'Harry Potter and the Prisoner of Azkaban', 27.99, 'J.K. Rowling','Fantasy', NULL, 0, 'some_url'),
 ('isbn-0920668372', 'Love You Forever', 7.99, 'Robert Munsch','Children''s', NULL, 0, 'some_url'),
