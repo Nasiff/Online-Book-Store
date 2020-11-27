@@ -59,10 +59,13 @@ public class AddressDAO {
 	
 	public AddressBean retrieveAddressByStreetAndZip(String street, String zip) throws SQLException {
 		// Need to insert single quotes around string since it contains whitespace for Derby to properly detect the string in the DB query
-		String query = "select * from Address where street = '" + street + "' and zip = '" + zip + "'";
+		//String query = "select * from Address where street = '" + street + "' and zip = '" + zip + "'";
+		String query = "select * from Address where street = ? and zip = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		
+		p.setString(1, street);
+		p.setString(2, zip);
 		
 		AddressBean address = null;
 		ResultSet r = p.executeQuery();

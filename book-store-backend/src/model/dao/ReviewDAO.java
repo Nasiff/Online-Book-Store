@@ -92,26 +92,41 @@ public class ReviewDAO {
 		return maxReviewId;
 	}
 	
-	public int insertBookReview(int uid, String lname, String fname, String email,
-			String password, String user_type) throws SQLException {
-		String query = "insert into UserAccount values(?,?,?,?,?,?)";
+	public int insertBookReview(String rid, String bid, int uid, String review, int score) throws SQLException {
+		String query = "insert into BookReview values(?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
-		p.setInt(1, uid);
-		p.setString(2, lname);
-		p.setString(3, fname);
-		p.setString(4, email);
-		p.setString(5, password);
-		p.setString(6, user_type);
+		
+		p.setString(1, rid);
+		p.setString(2, bid);
+		p.setInt(3, uid);
+		p.setString(4, review);
+		p.setInt(5, score);
 		
 		int rows = p.executeUpdate();
-		System.out.println("DB: Added " + rows + " user to the database");
+		System.out.println("DB: Added " + rows + " bookReviews to the database");
 		
 		p.close();
 		con.close();
 		return rows;
 	}	
 	
+	public int updateBookReviewAndScore(String review, int score, String rid) throws SQLException {
+		String query = "update BookReview set review = ?, score = ? where rid = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setString(1, review);
+		p.setInt(2, score);
+		p.setString(3, rid);
+		
+		int rows = p.executeUpdate();
+		System.out.println("DB: Updated " + rows + " bookReview with new written review and score to the database");
+		
+		p.close();
+		con.close();
+		return rows;
+	}	
 	
 
 }

@@ -94,24 +94,41 @@ public class BookService {
 	}
 	
 	
-	// http://localhost:8080/book-store-backend/rest/books/{bid}/review?rating=<INT>
+	// http://localhost:8080/book-store-backend/rest/books/{bid}/review
 	// In the request headers there will be the uid: 12312  
 	@POST
 	@Path("{bid}/review")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response createReview(@PathParam("bid") String bid, @QueryParam("rating") String review_score, 
-			@HeaderParam("uid") String uid) throws Exception {
+	public Response createReview(@PathParam("bid") String bid, @HeaderParam("uid") String uid, String jsonReview) throws Exception {
 		System.out.println("POST review for book with bid: " + bid + " from user: " + uid);
 		try {
-			String content = BookController.getInstance().createCustomerBookReview(bid, review_score, uid);
+			String content = BookController.getInstance().createUpdateCustomerBookReview("create", bid, uid, jsonReview);
 			return RestApiHelper.responseHelper(content);
 		} catch (Exception e) {
 			e.printStackTrace();
 			String content = RestApiHelper.prepareErrorJson("Problem creating review for book with bid: " + bid  + " from user: " + uid);
 			return RestApiHelper.responseHelper(content);
 		} 
-
+	}
+	
+	
+	// http://localhost:8080/book-store-backend/rest/books/{bid}/review
+	// In the request headers there will be the uid: 12312  
+	@PUT
+	@Path("{bid}/review")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateReview(@PathParam("bid") String bid, @HeaderParam("uid") String uid, String jsonReview) throws Exception {
+		System.out.println("POST review for book with bid: " + bid + " from user: " + uid);
+		try {
+			String content = BookController.getInstance().createUpdateCustomerBookReview("update", bid, uid, jsonReview);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem creating review for book with bid: " + bid  + " from user: " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
 	}
 	
 }
