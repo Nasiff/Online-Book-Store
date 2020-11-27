@@ -45,6 +45,7 @@ public class BookController {
 			JSONObject i = new JSONObject();
 			i.put("bid", b.getBid());
 			i.put("title", b.getTitle());
+			i.put("price", b.getPrice());
 			i.put("author", b.getAuthor());
 			i.put("category", b.getCategory());
 			i.put("review_score", b.getReview_score());
@@ -78,6 +79,7 @@ public class BookController {
 			
 			b.put("bid", book.getBid());
 			b.put("title", book.getTitle());
+			b.put("price", book.getPrice());
 			b.put("author", book.getAuthor());
 			b.put("category", book.getCategory());
 			b.put("review_score", book.getReview_score());
@@ -129,6 +131,7 @@ public class BookController {
 			JSONObject i = new JSONObject();
 			i.put("bid", b.getBid());
 			i.put("title", b.getTitle());
+			i.put("price", b.getPrice());
 			i.put("author", b.getAuthor());
 			i.put("category", b.getCategory());
 			i.put("review_score", b.getReview_score());

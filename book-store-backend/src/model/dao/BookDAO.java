@@ -37,12 +37,13 @@ public class BookDAO {
 		while (r.next()) {
 			String bid = r.getString("bid");
 			String title = r.getString("title");
+			double price = r.getDouble("price");
 			String author = r.getString("author");
 			String category = r.getString("category");
 			double review_score = r.getDouble("review_score");
 			int number_of_reviews = r.getInt("number_of_reviews");
 			String image_url = r.getString("image_url");
-			allBooks.add(new BookBean(bid, title, author, category, review_score, number_of_reviews, image_url));
+			allBooks.add(new BookBean(bid, title, price, author, category, review_score, number_of_reviews, image_url));
 		}
 		
 		r.close();
@@ -63,11 +64,12 @@ public class BookDAO {
 		while (r.next()) {
 			String title = r.getString("title");
 			String author = r.getString("author");
+			double price = r.getDouble("price");
 			String category = r.getString("category");
 			double review_score = r.getDouble("review_score");
 			int number_of_reviews = r.getInt("number_of_reviews");
 			String image_url = r.getString("image_url");
-			book = new BookBean(bid, title, author, category, review_score, number_of_reviews, image_url);
+			book = new BookBean(bid, title, price, author, category, review_score, number_of_reviews, image_url);
 			break;
 		}
 		
@@ -121,11 +123,12 @@ public class BookDAO {
 		while (r.next()) {
 			String bid = r.getString("bid");
 			String title = r.getString("title");
+			double price = r.getDouble("price");
 			String author = r.getString("author");
 			double review_score = r.getDouble("review_score");
 			int number_of_reviews = r.getInt("number_of_reviews");
 			String image_url = r.getString("image_url");
-			booksOfCategory.add(new BookBean(bid, title, author, category, review_score, number_of_reviews, image_url));
+			booksOfCategory.add(new BookBean(bid, title, price, author, category, review_score, number_of_reviews, image_url));
 		}
 		
 		r.close();
