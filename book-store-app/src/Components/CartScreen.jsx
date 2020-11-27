@@ -3,6 +3,7 @@ import logo from '../Assets/momAndPopLogo.png';
 import Nav from './Nav';
 import IosAddCircle from 'react-ionicons/lib/IosAddCircle'
 import IosRemoveCircle from 'react-ionicons/lib/IosRemoveCircle'
+import { BrowserRouter as Router, Link} from "react-router-dom";
 
 const buildCart = (cart, updateCart) => {
     var builtJSX = [];
@@ -112,7 +113,6 @@ class CartScreen extends React.Component {
     render() {
         return ( 
         <div>
-        <Nav/>
         <div style={styles.container}>  
             <div style={styles.containerContent}>
                 <div style={styles.header}>Shopping Cart</div>
@@ -123,7 +123,7 @@ class CartScreen extends React.Component {
                     {buildCart(this.props.cart, this.props.updateCartFunc)}
                     <div/>
                     <div/>
-                    {(this.props.cart.length > 0) ? <div className="button grow" style={styles.next}>Checkout</div> : <div className="button" style={styles.empty}>Empty Cart</div>}
+                    {(this.props.cart.length > 0) ? <Link to="/shipping"><div className="button grow" style={styles.next}>Checkout</div></Link> : <div className="button" style={styles.empty}>Empty Cart</div>}
                 </div>
             </div>
         </div> 
@@ -152,7 +152,7 @@ const styles = {
         color: "#0184C7",
         fontSize: "33px",
         marginTop: "27px",
-        textAlign: "left"
+        textAlign: "left",
     },
     cartContainer: {
         margin: "20px 0 20px 0",
