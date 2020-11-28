@@ -3,6 +3,7 @@ import Book from './Book';
 import WebService from '../Services/WebService';
 
 const BookList = (books, loadAmount, addToCart) => {
+    console.log("books: " + books);
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
             return <div className="grow" key={book.bid} style={styles.item}>
@@ -14,6 +15,7 @@ const BookList = (books, loadAmount, addToCart) => {
     }
 }
 
+
 //Refactor to function to use useEffect to prevent Scroll
 class Books extends React.Component {
 
@@ -22,7 +24,8 @@ class Books extends React.Component {
         this.state = {
             error: null,
             books: [],
-            loadAmount: 8
+            loadAmount: 8,
+            category: this.props.category
         };
       }
 
@@ -30,6 +33,12 @@ class Books extends React.Component {
     componentDidMount() {
         this.loadBooks();
     }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.category !== nextProps.category) {
+            this.loadBooksByCategory(nextProps.category);
+        }
+        return true;}
 
     loadBooks = () => {
         console.log("Loading Books");
@@ -54,6 +63,7 @@ class Books extends React.Component {
                 }
             )
     }
+
     
     loadXMoreBooks = (e) => {
         e.preventDefault();
@@ -66,11 +76,60 @@ class Books extends React.Component {
         });
         window.scrollTo(window.screenX, lastY);
     }
+
+    loadBooksByCategory = (category) => {
+        console.log("loadBooksByCategory");
+        if(category === "All"){
+            fetch(WebService.uri + "/books")
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        console.log("Result: " + result);
+                        this.setState({
+                            books: result.result.books
+                        });
+                    },
+    
+                    /* Any Errors */
+                    (error) => {
+                        console.log(error);
+                        
+                        alert(this.state.error);
+                        this.setState({
+                            error
+                        });
+                    }
+                )
+        } else {
+            fetch(WebService.uri + "/books/categories/" + category)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    console.log("Result: " + result);
+                    this.setState({
+                        books: result.result.books
+                    });
+    
+                },
+    
+                /* Any Errors */
+                (error) => {
+                    console.log(error);
+                    
+                    alert(this.state.error);
+                    this.setState({
+                        error
+                    });
+                }
+            )
+        }
+    }
       
     render() {
         return ( 
         <div style={styles.container}>
-            {BookList(this.state.books, this.state.loadAmount, this.props.addToCart)}
+            {()=>{this.loadBooksByCategory(this.props.category)}}
+            {BookList(this.state.books, this.state.loadAmount, this.props.addToCart, this.props.category)}
             <div>
                 <button className="button" style={styles.loadButton} onClick={this.loadXMoreBooks}>Load More Books</button>
             </div>

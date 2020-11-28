@@ -6,17 +6,32 @@ import Books from './Books'
 
 class Catalouge extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            books: [],
+            loadAmount: 8,
+            category: "All",
+        };
+      }
+
+    updateCategory = (val) => {
+        this.setState({category: val});
+    }
+
+
     render() {
         const size={
             marigin: "50px"
         }
         return ( 
         <div style={size}>
-            <BrowseHeader/>
+            <BrowseHeader category={this.state.category} categoryFunc={this.updateCategory}/>
             <div style={styles.container}>
             <SearchBar/>
             <Filters/>
-            <Books addToCart={this.props.addToCart}/>
+            <Books category={this.state.category} addToCart={this.props.addToCart}/>
             </div>
         </div> 
         );
