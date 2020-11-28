@@ -3,7 +3,7 @@ package bean;
 public class BookBean {
 	private String bid;
 	private String title;
-	public double price;
+	private double price;
 	private String author;
 	private String category;
 	private double review_score;

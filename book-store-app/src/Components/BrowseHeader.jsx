@@ -8,7 +8,7 @@ import { BrowserRouter as Router,
     useParams } from "react-router-dom";
     
 class BrowseHeader extends React.Component {
-    va
+    
     render() {
 
         return ( 
