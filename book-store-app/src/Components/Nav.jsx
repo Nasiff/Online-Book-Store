@@ -28,7 +28,7 @@ class Nav extends React.Component {
                         <MdMenu className="button grow" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
                     </div>
                     <div style={styles.menu}>
-                        <div className="menuItem grow" style={styles.menuItem}>Login</div>
+                        <Link to="/login"><div className="menuItem grow" style={styles.menuItem}>Login</div></Link>
                         <Link to="/"><div className="menuItem grow" style={styles.menuItem}>Book Catalouge</div></Link>
                         <Link to="/cart"><div className="menuItem grow" style={styles.menuItem}>Shopping Cart</div></Link>
                         <div className="menuItem grow" style={styles.menuItem}>Admin Analytics</div>
