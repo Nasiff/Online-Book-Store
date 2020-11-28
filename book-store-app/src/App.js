@@ -4,22 +4,76 @@ import './App.css';
 import './Styles/Main.css';
 import MainScreen from './Components/MainScreen.jsx'
 import CartScreen from './Components/CartScreen.jsx'
+import LoginScreen from './Components/LoginScreen.jsx'
+import RegisterScreen from './Components/RegisterScreen.jsx'
 import Nav from './Components/Nav'
 import { BrowserRouter as Router,
 Switch,
 Route,
 Link,
 useRouteMatch,
-useParams } from "react-router-dom";
-import { AnimatedSwitch } from 'react-router-transition';
+useParams,
+Redirect} from "react-router-dom";
+import AccountScreen from './Components/AccountScreen';
+import ShippingScreen from './Components/ShippingScreen';
+import SummaryScreen from './Components/SummaryScreen';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: []
+      cart: [],
+      loggedIn: false,
+      type: null,
+      user: null,
+      uid: null,
     };
+  }
+
+  handleLogin = (email, password) => {
+    // Send request to server to login with user and password as headers
+    const headers = { 
+      'Content-Type': 'application/json',
+      'email' : email,
+      'password' : password 
+    }
+    console.log(email, password);
+    fetch("./Data/user.json")
+    .then(res => res.json())
+    .then(
+        //Only accounts for successful logins for now
+        (result) => {
+            console.log("Result: " + result);
+            this.setState({
+                uid: result.uid,
+                user: result,
+                loggedIn: true
+            });
+            console.log(this.state.uid);
+        },
+
+        /* Any Errors */
+        (error) => {
+            console.log(error);
+            this.setState({
+                error
+            });
+            
+            alert(this.state.error);
+        }
+    )
+  }
+
+  handleSignout = () => {
+    // Just clear the user fields
+    this.setState({
+      loggedIn: false,
+      type: null,
+      user: null,
+      uid: null,
+    })
+
   }
 
 
@@ -95,9 +149,31 @@ class App extends React.Component {
       <Router>
         <Switch>
             <Route path="/cart">
+              <Nav/>
               <CartScreen cart={this.state.cart} updateCartFunc={this.handleUpdateCart}/>              
             </Route>
+            <Route path="/account">
+              <Nav/>
+              <AccountScreen loggedIn={this.state.loggedIn} userInfo={this.state.user} signOutFunc={this.handleSignout}/>              
+            </Route>
+            <Route path="/login">
+              <Nav/>
+              <LoginScreen loggedIn={this.state.loggedIn} loginFunc={this.handleLogin}/>
+            </Route>
+            <Route path="/register">
+              <Nav/>
+              <RegisterScreen loginFunc={this.handleLogin}/>
+            </Route>
+            <Route path="/shipping">
+              <Nav/>
+              <ShippingScreen uid={this.state.uid} loggedIn={this.state.loggedIn} userInfo={this.state.user}/>
+            </Route>
+            <Route path="/summary">
+              <Nav/>
+              <SummaryScreen cart={this.state.cart} updateCartFunc={this.handleUpdateCart}/>
+            </Route>
             <Route path="/">
+              <Nav/>
               <MainScreen addToCart={this.handleAddToCart}/>
             </Route>
           </Switch>
