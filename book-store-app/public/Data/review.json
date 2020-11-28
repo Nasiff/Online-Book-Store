@@ -1,0 +1,25 @@
+{
+    "result": {
+        "reviews": [
+        {
+            "uid": 43225,
+            "score": 3,
+            "review": "Enjoyable read for the most part, but I did not enjoy the ending.",
+            "bid": "isbn-1989325149",
+            "rid": "review-1"
+        },
+        {
+            "uid": 43226,
+            "score": 4,
+            "review": "Enjoyable read for the most part, but I did not enjoy the ending.asdsadasdsadasdsadsa",
+            "bid": "isbn-1989325149",
+            "rid": "review-2"
+            }
+        ],
+        
+        "number_of_reviews": 1,
+        "message": "Successful retrieval of book reviews for bid isbn-1989325149",
+        "bid": "isbn-1989325149",
+        "successful": "true"
+        }
+}

@@ -1,0 +1,15 @@
+{
+    "result": {
+        "uid": 75465,
+        "score": 3,
+        "book_stats": {
+            "number_of_reviews": 2,
+            "average_book_score": 3.0
+        },
+        "review": "fasdfdsfds",
+        "message": "Successful insertion of review and update of book review statistics.",
+        "rid": "review-5",
+        "bid": "isbn-1989325149",
+        "successful": true
+    }
+}
