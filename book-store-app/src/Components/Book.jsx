@@ -1,6 +1,23 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
 import MdClose from 'react-ionicons/lib/MdClose'
+import WebService from '../Services/WebService';
+import BookContent from './BookContent';
+
+const ReviewList = (reviews) => {
+    if(reviews.length > 0){
+        return reviews.map(review => {
+            return <div className="grow" key={review.rid}>
+                        <div>{review.uid}</div>
+                        <div>{review.score}</div>
+                        <div>{review.review}</div>
+                    </div>
+        });
+    } else {
+        return <h1>No Reviews for this book</h1>
+    }
+}
+
 
 class Book extends React.Component {
     constructor(props) {
@@ -18,7 +35,8 @@ class Book extends React.Component {
             image: props.image,     
             qty: 0,
             loading: false,
-            added: false
+            added: false, 
+            reviews: []
       }
     }
     
@@ -31,9 +49,10 @@ class Book extends React.Component {
     }
 
     componentDidMount(){
+        this.lodaReviews();
         setTimeout(() => {
-             this.setState({didMount: true})
-         }, 0)
+             this.setState({didMount: true});
+         }, 0);
     }
 
     setOpen = (val) => {
@@ -49,17 +68,36 @@ class Book extends React.Component {
         }
     }
 
-    addBookToCart = () => {
-        if(this.state.added){
-            this.setState({added: false});
-        }
-        else {
-            this.props.addToCart(this.state.bid, this.state.title, this.state.author, this.state.qty, this.state.price);
-            this.setState({added: true});
-        }
 
+    lodaReviews = () => {
+        const headers = { 
+            'Content-Type': 'application/json',
+          }
+          var uri = WebService.uri + "/book/" + this.state.bid + "/review";
+          uri = "./Data/review.json";
+          fetch(uri, { headers })
+          .then(res => res.json())
+          .then(
+              //Only accounts for successful logins for now
+              (result) => {
+                  console.log("Result: " + result);
+                  this.setState({
+                      reviews: result.result.reviews,
+                  });
+           
+              },
+      
+              /* Any Errors */
+              (error) => {
+                  console.log(error);
+                  this.setState({
+                      error
+                  });
+                  
+                  alert(this.state.error);
+              }
+          )
     }
-
 
 
     render() {
@@ -72,33 +110,18 @@ class Book extends React.Component {
             <h5 style={styles.price}>${this.state.price}</h5>
 
             <Popup open={this.state.open} closeOnDocumentClick onClose={this.closeModal}>
-                <div className="scrollHide" style={styles.modal}>
-                <a className="close" style={styles.close} onClick={this.closeModal}>
-                    <MdClose fontSize="40px" color="white"/>
-                </a>
-                <div style={{display: "inline-block", height: "100%"}}>
-                <div style={styles.modalImageContainer}>
-                    {this.handleImage(this.state.image, styles.modalImage)}
-                </div>
-                </div>
-                <div style={styles.content}>
-                    <div style={styles.modalTitle}>{this.state.title}</div>
-                    <div style={styles.modalAuthor}>{this.state.author ? "by " + this.state.author : null}</div>
-                    <div style={styles.modalReview}>{(this.state.numOfReviews > 0) ? "Rating: " + this.state.review + " / 5 (" + this.state.numOfReviews + " reviews)": "No Reviews"}</div>
-                    <div style={styles.modalPrice}>${this.state.price} </div>
-
-                    <div style={styles.quantityContainer}>
-                        <div className="button grow" style={styles.adjust} onClick={() => {this.updateQty(-1)}}>-</div>
-                        <div className="button" style={styles.qty}>{this.state.qty}</div>
-                        <div className="button grow" style={styles.adjust} onClick={() => {this.updateQty(1)}}>+</div>
-                    </div>
-
-                    <div className="button" onClick={() => {this.addBookToCart()}}>
-                        {!this.state.added ? "Add to Cart" : this.state.qty + " copies added to your cart!"}
-                    </div>
-                </div>
-
-                </div>
+                <BookContent 
+                    uid = {this.props.uid}
+                    bid = {this.props.bid}
+                    title= {this.props.title}
+                    price= {this.props.price}
+                    author= {this.props.author}
+                    category= {this.props.category}
+                    review= {this.props.review}
+                    numOfReviews= {this.props.numOfReviews}
+                    image= {this.props.image}
+                    closeFunc={this.closeModal}
+                    addToCart={this.props.addToCart}/>
             </Popup>
         </div> 
         

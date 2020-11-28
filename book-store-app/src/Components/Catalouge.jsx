@@ -31,7 +31,7 @@ class Catalouge extends React.Component {
             <div style={styles.container}>
             <SearchBar/>
             <Filters/>
-            <Books category={this.state.category} addToCart={this.props.addToCart}/>
+            <Books category={this.state.category} addToCart={this.props.addToCart} uid={this.props.uid}/>
             </div>
         </div> 
         );

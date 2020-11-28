@@ -7,6 +7,7 @@ import CartScreen from './Components/CartScreen.jsx'
 import LoginScreen from './Components/LoginScreen.jsx'
 import RegisterScreen from './Components/RegisterScreen.jsx'
 import Nav from './Components/Nav'
+import WebService from './Services/WebService';
 import { BrowserRouter as Router,
 Switch,
 Route,
@@ -39,18 +40,23 @@ class App extends React.Component {
       'password' : password 
     }
     console.log(email, password);
-    fetch("./Data/user.json")
+    fetch("./Data/user.json", { headers })
     .then(res => res.json())
     .then(
         //Only accounts for successful logins for now
         (result) => {
             console.log("Result: " + result);
             this.setState({
-                uid: result.uid,
-                user: result,
-                loggedIn: true
+                uid: result.result.uid,
+                user: result.result,
+                loggedIn: result.result.successful
             });
-            console.log(this.state.uid);
+            console.log("Login was successful: " + this.state.uid);
+
+            if(!this.state.loggedIn){
+              alert("Error logging in: " + result.result.message);
+            }
+
         },
 
         /* Any Errors */
@@ -174,7 +180,7 @@ class App extends React.Component {
             </Route>
             <Route path="/">
               <Nav/>
-              <MainScreen addToCart={this.handleAddToCart}/>
+              <MainScreen uid={this.state.uid} addToCart={this.handleAddToCart}/>
             </Route>
           </Switch>
       </Router>

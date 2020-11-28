@@ -9,7 +9,7 @@ class MainScreen extends React.Component {
         return ( 
             <div className="App">
             <Banner/>
-            <Catalouge addToCart={this.props.addToCart}/>
+            <Catalouge uid={this.props.uid} addToCart={this.props.addToCart}/>
             </div>
         );
     }
