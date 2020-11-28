@@ -3,7 +3,7 @@ package bean;
 public class BookBean {
 	private String bid;
 	private String title;
-	public double price;
+	private double price;
 	private String author;
 	private String category;
 	private double review_score;
@@ -17,6 +17,7 @@ public class BookBean {
 		super();
 		this.bid = bid;
 		this.title = title;
+		this.price = price;
 		this.author = author;
 		this.category = category;
 		this.review_score = review_score;
