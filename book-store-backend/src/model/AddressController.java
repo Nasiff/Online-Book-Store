@@ -75,7 +75,7 @@ public class AddressController {
 			// If there exist no address in DB, therefore no max address id either in DB
 			// then start from "address-0" + 1 for address_id
 			if (maxAddress_id == null) {
-				maxAddress_id = "address-0";
+				maxAddress_id = "address-1000000";
 			}
 			int idNum = Integer.parseInt(maxAddress_id.replace("address-", ""));
 			idNum += 1;

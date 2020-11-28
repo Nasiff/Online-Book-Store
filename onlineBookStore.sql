@@ -39,9 +39,9 @@ CREATE TABLE Address (
 
 INSERT INTO Address (id, street, province_state, country, zip, phone) 
 VALUES 
-('address-1', '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567'),
-('address-2', '445 Avenue Rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569'),
-('address-3', '789 Keele St', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
+('address-1000001', '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567'),
+('address-1000002', '445 Avenue Rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569'),
+('address-1000003', '789 Keele St', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
 
 
 CREATE TABLE PO (
@@ -57,9 +57,9 @@ CREATE TABLE PO (
 
 INSERT INTO PO (id, lname, fname, status, address_id, po_date) 
 VALUES 
-('order-1', 'White', 'John', 'PROCESSED', 'address-1', '2020-11-20'),
-('order-2', 'Black', 'Peter', 'DENIED', 'address-2', '2020-11-21'),
-('order-3', 'Green', 'Andy', 'ORDERED', 'address-3', '2020-11-21');
+('order-1000001', 'White', 'John', 'PROCESSED', 'address-1000001', '2020-11-20'),
+('order-1000002', 'Black', 'Peter', 'DENIED', 'address-1000002', '2020-11-21'),
+('order-1000003', 'Green', 'Andy', 'ORDERED', 'address-1000003', '2020-11-21');
 
 
 CREATE TABLE POItem (
@@ -74,13 +74,13 @@ CREATE TABLE POItem (
 
 INSERT INTO POItem (id, bid, price, quantity) 
 VALUES 
-('order-1', 'isbn-1786818248', 13.99, 3),
-('order-1', 'isbn-1989325149', 15.49, 1),
-('order-2', 'isbn-0133915425', 114.49, 1),
-('order-2', 'isbn-0262033848', 54.99, 2),
-('order-3', 'isbn-1526626586', 19.99, 3),
-('order-3', 'isbn-1408855666', 14.99, 2),
-('order-3', 'isbn-1526622807', 27.99, 1);
+('order-1000001', 'isbn-1786818248', 13.99, 3),
+('order-1000001', 'isbn-1989325149', 15.49, 1),
+('order-1000002', 'isbn-0133915425', 114.49, 1),
+('order-1000002', 'isbn-0262033848', 54.99, 2),
+('order-1000003', 'isbn-1526626586', 19.99, 3),
+('order-1000003', 'isbn-1408855666', 14.99, 2),
+('order-1000003', 'isbn-1526622807', 27.99, 1);
 
 
 CREATE TABLE UserAccount (
@@ -112,9 +112,9 @@ CREATE TABLE CustomerAccount (
 
 INSERT INTO CustomerAccount (uid, address_id) 
 VALUES 
-(43225, 'address-1'),
-(75465, 'address-2'),
-(61798, 'address-3');
+(43225, 'address-1000001'),
+(75465, 'address-1000002'),
+(61798, 'address-1000003');
 
 
 CREATE TABLE BookReview (
@@ -130,8 +130,8 @@ CREATE TABLE BookReview (
 
 INSERT INTO BookReview (rid, bid, uid, review, score) 
 VALUES 
-('review-1', 'isbn-1989325149', 43225, 'Enjoyable read for the most part, but I did not enjoy the ending.', 3),
-('review-2', 'isbn-0262033848', 75465, 'Good textbook with helpful practice problems, but had some typos.', 4),
-('review-3', 'isbn-0133915425', 75465, 'This textbook was extremely useful and helped me with the course material.', 5),
-('review-4', 'isbn-1526626586', 61798, 'Great beginning for this book series, looking forward to the rest of the books.', 4);
+('review-1000001', 'isbn-1989325149', 43225, 'Enjoyable read for the most part, but I did not enjoy the ending.', 3),
+('review-1000002', 'isbn-0262033848', 75465, 'Good textbook with helpful practice problems, but had some typos.', 4),
+('review-1000003', 'isbn-0133915425', 75465, 'This textbook was extremely useful and helped me with the course material.', 5),
+('review-1000004', 'isbn-1526626586', 61798, 'Great beginning for this book series, looking forward to the rest of the books.', 4);
 

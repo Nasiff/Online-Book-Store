@@ -17,6 +17,7 @@ public class BookBean {
 		super();
 		this.bid = bid;
 		this.title = title;
+		this.price = price;
 		this.author = author;
 		this.category = category;
 		this.review_score = review_score;

@@ -187,7 +187,7 @@ public class BookController {
 			// If there exist no review in DB, therefore no max review id either in DB
 			// then start from "review-0" + 1 for rid
 			if (maxReview_id == null) {
-				maxReview_id = "address-0";
+				maxReview_id = "review-1000000";
 			}
 			int idNum = Integer.parseInt(maxReview_id.replace("review-", ""));
 			idNum += 1;
