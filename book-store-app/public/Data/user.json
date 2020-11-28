@@ -1,9 +1,11 @@
 {
-    "response": true,
-    "message": "sucessful login",
-    "uid": "43225",
-    "lname": "White",
-    "fname": "John",
-    "email": "john.white@gmail.com",
-    "user_type": "CUSTOMER"
+    "result": {
+        "uid": 75465,
+        "fname": "Peter",
+        "lname": "Black",
+        "user_type": "CUSTOMER",
+        "message": "Successful login.",
+        "email": "peter.black@yahoo.com",
+        "successful": "true"
+    }
 }
