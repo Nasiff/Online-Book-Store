@@ -164,7 +164,7 @@ public class PurchaseController {
 		}
 		
 		// Calculate order costs and round to 2 decimal places
-		orderSubtotal =  Math.round( 100.0 * (orderSubtotal * 0.13) ) / 100.0;
+		orderSubtotal =  Math.round( 100.0 * orderSubtotal )/ 100.0;
 		double orderTax =  Math.round( 100.0 * (orderSubtotal * 0.13) ) / 100.0;
 		double orderTotal = Math.round( 100.0 * (orderSubtotal * 1.13) ) / 100.0;
 		
