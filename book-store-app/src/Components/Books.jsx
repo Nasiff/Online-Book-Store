@@ -7,7 +7,7 @@ const BookList = (books, loadAmount, addToCart, uid) => {
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
             return <div className="grow" key={book.bid} style={styles.item}>
-                        <Book uid={uid} addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image} author={book.author} review={book.review_score} numOfReviews={book.number_of_reviews}/>
+                        <Book uid={uid} addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image_url} author={book.author} review={book.review_score} numOfReviews={book.number_of_reviews}/>
                     </div>
         });
     } else {
