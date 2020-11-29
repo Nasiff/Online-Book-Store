@@ -98,17 +98,21 @@ public class UserController {
 		} else if (InputValidation.invalidName(fname, lname)) {
 			System.out.println("ERROR: First and last name must be alpabetical and first letter capitalized.");
 			return RestApiHelper.prepareErrorJson("First and last name must be alpabetical and first letter capitalized.");
-		} else if (user_type.equals("CUSTOMER")) {
+		} 
+		
+		/*
+		//Commented out because we no longer need this condition in which
+		else if (user_type.equals("CUSTOMER")) {
 			// Check if user is customer and attempting to register with an already existing address.
 			String street = ((JSONObject) json.get("address")).get("street").toString();
 			String zip = ((JSONObject) json.get("address")).get("zip").toString();
 			System.out.println("Check if address already exists with: " + street + ", " + zip);
-			if (AddressController.getInstance().checkExistingAddress(street, zip)) {
+			if (AddressController.getInstance().checkExistingAddress((street, province_state, country, zip, phone)) {
 				System.out.println("ERROR: Customer attempting to register with existing address.");
 				return RestApiHelper.prepareErrorJson("Customer attempting to register with existing address.");
 			}
-		}
-
+		} */
+		
 		
 		JSONObject respContent = new JSONObject();
 		int uid = this.userDao.getMaxUid() + 1; // get unique uid
@@ -124,18 +128,18 @@ public class UserController {
 			respContent.put("email", user.getEmail());
 			respContent.put("user_type", user.getUser_type());
 			
-			// Only create new Address and CustomerAccount for CUSTOMER
+			// Only create/return Address and create CustomerAccount for CUSTOMER
 			if (user_type.equals("CUSTOMER")) {
 				// create Address by calling AddressController
 				String strAddressInfo = json.get("address").toString();
 				System.out.println("Provided address info: " + strAddressInfo);
 				
-				String createAddrResponse = AddressController.getInstance().createNewAddress(strAddressInfo);
+				String createAddrResponse = AddressController.getInstance().createOrReturnAddress(strAddressInfo);
 				JSONObject jsonCreateAddrResponse = (JSONObject) ((JSONObject) parser.parse(createAddrResponse)).get("result");
 				
 				// check if creating address is successful or not
 				if (jsonCreateAddrResponse.get("successful").equals(false)) {
-					// returns the error response from the prepareErrorJson called by createNewAddress
+					// returns the error response from the prepareErrorJson called by createOrReturnAddress
 					return createAddrResponse;
 				} else {
 					// create CustomerAccount with UserAccount.uid and Address.id

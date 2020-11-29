@@ -39,7 +39,7 @@ public class AddressService {
 	public Response createAddress(String jsonAddress) throws Exception {
 		System.out.println("POST: create address");
 		try {
-			String content = AddressController.getInstance().createNewAddress(jsonAddress);
+			String content = AddressController.getInstance().createOrReturnAddress(jsonAddress);
 			return RestApiHelper.responseHelper(content);
 		} catch (Exception e) {
 			e.printStackTrace();

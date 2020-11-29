@@ -55,18 +55,12 @@ public class AddressController {
 		}
 	}
 	
-	public boolean checkExistingAddress(String street, String zip) throws Exception {
-		if (InputValidation.emptyInput(street) || InputValidation.emptyInput(zip)) {
-			System.out.println("ERROR: Missing address information");
-			return false;
-		}  else {
-			AddressBean address = this.addressDao.retrieveAddressByStreetAndZip(street, zip);
-			if (address != null) {
-				return true;
-			} else {
-				return false;
-			}
+	public boolean checkExistingAddress(String street, String province_state, String country, String zip, String phone) throws Exception {
+		AddressBean address = this.addressDao.retrieveAddressByAddressInfo(street, province_state, country, zip, phone);
+		if (address != null) {
+			return true;
 		}
+		return false;
 	}
 	
 	public String createUniqueAddressId () {
@@ -87,7 +81,7 @@ public class AddressController {
 		}
 	}
 	
-	public String createNewAddress(String addressInfo) throws Exception {
+	public String createOrReturnAddress(String addressInfo) throws Exception {
 		JSONParser parser = new JSONParser();
 		JSONObject json = (JSONObject) parser.parse(addressInfo);
 		
@@ -113,38 +107,48 @@ public class AddressController {
 			return RestApiHelper.prepareErrorJson("Phone number must be in format xxx-xxx-xxxx where all x are numerical.");
 		} 		
 		
-	
-		// generate unique address id 
-		String address_id = this.createUniqueAddressId();
-		System.out.println("New address_id: " + address_id);
-		int insertedRow = 0;
-		if (address_id == null) {
-			System.out.println("ERROR: Problem creating unique address id");
-			return RestApiHelper.prepareErrorJson("Problem creating unique address id");
-		} else if (this.checkExistingAddress(street, zip)) {
-			System.out.println("ERROR: Address with same street " + street + " and zip " + zip + " already exist. Cannot create new address.");
-			return RestApiHelper.prepareErrorJson("Address with same street " + street + " and zip " + zip + " already exist. Cannot create new address.");
-		} else {
-			insertedRow = this.addressDao.insertAddress(address_id, street, province_state, country, zip, phone);
-		}
 		
-		
-		// if 0, no insertion occurred. if 1, it was successful
-		if (insertedRow == 1) {
-			// setup response content
-			AddressBean address = this.addressDao.retrieveAddressByStreetAndZip(street, zip);
-			JSONObject respContent = new JSONObject();
-			respContent.put("successful", true);
-			respContent.put("message", "Successful address registration.");
-			respContent.put("address_id", address.getId());
-			respContent.put("street", address.getStreet());
-			respContent.put("zip", address.getZip());
-			
+		// setup response content
+		JSONObject respContent = new JSONObject();
 
-			return RestApiHelper.prepareResultJson(respContent);
-		} else {
-			return RestApiHelper.prepareErrorJson("New address was not inserted into DB");
+		// address does not exist, need to create address before returning address_id
+		if (!this.checkExistingAddress(street, province_state, country, zip, phone)) {
+			// generate unique address id 
+			String address_id = this.createUniqueAddressId();
+			System.out.println("New address_id: " + address_id);
+			int insertedRow = 0;
+			if (address_id == null) {
+				System.out.println("ERROR: Problem creating unique address id");
+				return RestApiHelper.prepareErrorJson("Problem creating unique address id");
+			} else {
+				System.out.println("  Attempting creating address with address_id " + address_id);
+				insertedRow = this.addressDao.insertAddress(address_id, street, province_state, country, zip, phone);
+			}
+			
+			// If 1 row was not inserted into DB, then error
+			if (insertedRow != 1) {
+				return RestApiHelper.prepareErrorJson("New address was not inserted into DB");
+			} else {
+				respContent.put("message", "Successful address registration with address_id " + address_id);
+			}
+		} else { 
+			// address exists so just need to get get address_id
+			System.out.println("  Getting address_id for existing address");
+			respContent.put("message", "Successful retrieval of existing address. Not neccessary to create new address.");
 		}
 		
+		// get address whether it was just created or already existed
+		AddressBean address = this.addressDao.retrieveAddressByAddressInfo(street, province_state, country, zip, phone);
+		
+		// add to response content
+		respContent.put("successful", true);
+		respContent.put("address_id", address.getId());
+		respContent.put("street", address.getStreet());
+		respContent.put("province_state", address.getProvince_state());
+		respContent.put("country", address.getCountry());
+		respContent.put("zip", address.getZip());
+		respContent.put("phone", address.getPhone());
+		
+		return RestApiHelper.prepareResultJson(respContent);
 	}
 }

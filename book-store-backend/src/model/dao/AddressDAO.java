@@ -57,25 +57,29 @@ public class AddressDAO {
 		return addr;
 	}
 	
-	public AddressBean retrieveAddressByStreetAndZip(String street, String zip) throws SQLException {
-		String query = "select * from Address where street = ? and zip = ?";
+	public AddressBean retrieveAddressByAddressInfo(String street, String province_state, String country, String zip, String phone) throws SQLException {
+		String query = "select * from Address where street = ? and province_state = ? and country = ? and zip = ? and phone = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		
 		p.setString(1, street);
-		p.setString(2, zip);
+		p.setString(2, province_state);
+		p.setString(3, country);
+		p.setString(4, zip);
+		p.setString(5, phone);
 		
 		AddressBean address = null;
 		ResultSet r = p.executeQuery();
-		while (r.next()) {
+		if (r.next()) {
 			String id = r.getString("id");
-			//String street = r.getString("street");
-			String province_state = r.getString("province_state");
-			String country = r.getString("country");
-			//String zip = r.getString("zip");
-			String phone = r.getString("phone");
-			address = new AddressBean(id, street, province_state, country, zip, phone);
-			System.out.println("Found existing address with id: " + id + ", for street: " + street + ", zip: " + zip);
+			String s = r.getString("street");
+			String p_s = r.getString("province_state");
+			String c = r.getString("country");
+			String z = r.getString("zip");
+			String ph = r.getString("phone");
+			address = new AddressBean(id, s, p_s, c, z, ph);
+			System.out.println("Found existing address with id: " + id + " for street: " + s + ", for country: " + c
+					+ ", for province_state: " + p_s +", zip: " + z + ", phone: " + ph  );
 		}
 		
 		r.close();
