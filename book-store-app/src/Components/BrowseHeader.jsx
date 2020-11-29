@@ -1,5 +1,6 @@
 import React from 'react';
 import cart from '../Assets/cart.png'
+import WebService from '../Services/WebService';
 import { BrowserRouter as Router,
     Switch,
     Route,
@@ -7,8 +8,43 @@ import { BrowserRouter as Router,
     useRouteMatch,
     useParams } from "react-router-dom";
     
+import ScrollContainer from 'react-indiana-drag-scroll';
+
 class BrowseHeader extends React.Component {
     
+    constructor(props) {
+        super(props);
+        this.state = {
+            categories: []
+        };
+      }
+
+    componentDidMount(){
+        console.log("Loading Categories");
+        fetch(WebService.uri + "/books/categories")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    console.log("Result: " + result);
+                    this.setState({
+                        categories: result.result.categories
+                    });
+                },
+
+                /* Any Errors */
+                (error) => {
+                    console.log(error);
+                    this.setState({
+                        error
+                    });
+                    
+                    alert(this.state.error);
+                }
+            )
+    }
+
+
+
     render() {
 
         return ( 
@@ -17,13 +53,21 @@ class BrowseHeader extends React.Component {
                 <h3 className="center lg-view">Browse By Category</h3>
                 <h3 className="center sm-view">Category</h3>
             </div>
-            <ul className="inline" id="catergories">
-                    <li className="category grow">Science</li>
-                    <li className="category grow">English</li>
-                    <li className="category grow">Buisness</li>
-                    <li className="category grow">Romance</li>
-                    <li className="category grow">Fantasy</li>
-                </ul>
+            <ScrollContainer className="inline" id="catergories">
+                <li style={ this.props.category == "All" ? { fontWeight: 'bold' } : 
+                            { fontWeight: 'normal' }} className="category grow"
+                            onClick={() => this.props.categoryFunc("All")}
+                            >
+                                All
+                            </li>
+                            
+                {this.state.categories.map(category => {
+                    return <div style={ this.props.category == category ? { fontWeight: 'bold' } : 
+                            { fontWeight: 'normal' }} className="category grow" key={category} onClick={() => this.props.categoryFunc(category)}>
+                                {category}
+                            </div>
+                })}
+            </ScrollContainer>
             <Link className="lg-view" style={{padding: "0px"}}to="/cart">
                 <div className="inline growX" id="cart">
                     <img style={styles.cart} src={cart} alt="Logo"></img>
