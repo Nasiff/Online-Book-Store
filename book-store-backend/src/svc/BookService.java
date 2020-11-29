@@ -120,13 +120,13 @@ public class BookService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response updateReview(@PathParam("bid") String bid, @HeaderParam("uid") String uid, String jsonReview) throws Exception {
-		System.out.println("POST review for book with bid: " + bid + " from user: " + uid);
+		System.out.println("PUT (update) review for book with bid: " + bid + " from user: " + uid);
 		try {
 			String content = BookController.getInstance().createUpdateCustomerBookReview("update", bid, uid, jsonReview);
 			return RestApiHelper.responseHelper(content);
 		} catch (Exception e) {
 			e.printStackTrace();
-			String content = RestApiHelper.prepareErrorJson("Problem creating review for book with bid: " + bid  + " from user: " + uid);
+			String content = RestApiHelper.prepareErrorJson("Problem updating review for book with bid: " + bid  + " from user: " + uid);
 			return RestApiHelper.responseHelper(content);
 		} 
 	}

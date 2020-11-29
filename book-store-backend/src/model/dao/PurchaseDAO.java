@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import bean.BookBean;
 import bean.BookSalesBean;
+import bean.PurchaseItemBean;
 
 public class PurchaseDAO {
 	DataSource ds;
@@ -152,6 +153,33 @@ public class PurchaseDAO {
 		p.close();
 		con.close();
 		return topBookSales;
+	}
+	
+	public List<PurchaseItemBean> retieveAllOrdersForBook(String bid) throws SQLException {
+		List<PurchaseItemBean> orderList = new ArrayList<PurchaseItemBean>();
+		String query = "select * from PoItem join PO on PoItem.id = PO.id where PoItem.bid = ?";
+		
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setString(1, bid);
+		int rank = 1;
+		
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String order_id = r.getString("id");
+			//String bid = r.getString("bid");
+			double price = r.getDouble("price");
+			int quantity = r.getInt("quantity");
+			System.out.println("  order_id: " + order_id + ", quantity: " + quantity);
+			orderList.add(new PurchaseItemBean(order_id, bid, price, quantity));
+			rank++;
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return orderList;
 	}
 	
 }

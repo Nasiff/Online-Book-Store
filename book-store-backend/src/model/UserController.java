@@ -1,9 +1,7 @@
 package model;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -11,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import bean.BookSalesBean;
+import bean.PurchaseItemBean;
 import bean.UserBean;
 import model.dao.BookDAO;
 import model.dao.CustomerDAO;
@@ -162,7 +161,7 @@ public class UserController {
 	}
 
 	
-	public String adminAuthentication(String uidStr) throws Exception {
+	public String userAuthentication(String uidStr, String userType) throws Exception {
 		
 		if (InputValidation.emptyInput(uidStr)) {
 			System.out.println("ERROR: uid must not be empty.");
@@ -178,9 +177,9 @@ public class UserController {
 		if (user == null) {
 			System.out.println("ERROR: user with uid " + uid + " does not exist");
 			return RestApiHelper.prepareErrorJson("user with uid " + uid + " does not exist");
-		} else if (!user.getUser_type().equals("ADMIN")) {
-			System.out.println("ERROR: user with uid " + uid + " is not an admin");
-			return RestApiHelper.prepareErrorJson("user with uid " + uid + " is not an admin");
+		} else if (!user.getUser_type().equals(userType)) {
+			System.out.println("ERROR: user with uid " + uid + " is not " + userType);
+			return RestApiHelper.prepareErrorJson("user with uid " + uid + " is not " + userType);
 		}
 		
 		// if no errors
@@ -213,7 +212,7 @@ public class UserController {
 	
 	public String adminGetCurrentMonthlyTopSellers(String uidStr) throws Exception {
 
-		String adminAuth = this.adminAuthentication(uidStr);
+		String adminAuth = this.userAuthentication(uidStr, "ADMIN");
 		if (!adminAuth.equals("valid")) {
 			return adminAuth; // returns error from adminAuthentication
 		}
@@ -229,7 +228,7 @@ public class UserController {
 	
 	public String adminGetAllTimeTopSellers(String uidStr) throws Exception {
 
-		String adminAuth = this.adminAuthentication(uidStr);
+		String adminAuth = this.userAuthentication(uidStr, "ADMIN");
 		if (!adminAuth.equals("valid")) {
 			return adminAuth; // returns error from adminAuthentication
 		}
@@ -237,6 +236,54 @@ public class UserController {
 		List<BookSalesBean> topBookSales = this.purchaseDao.retrieveAllTimeTopSellers();
 		
 		return topSellersJsonBuilder(topBookSales, "all_time");
+	}
+	
+	
+	public String partnerGetAllOrdersForBook(String uidStr, String bid) throws Exception {
+		String partnerAuth = this.userAuthentication(uidStr, "PARTNER");
+		if (!partnerAuth.equals("valid")) {
+			return partnerAuth; // returns error from adminAuthentication
+		} else if (this.bookDAO.retrieveBookById(bid) == null) {
+			System.out.println("ERROR: book with bid " + bid + " does not exist");
+			return RestApiHelper.prepareErrorJson("book with bid " + bid + " does not exist");
+		}
+		
+		List<PurchaseItemBean> ordersForBook = this.purchaseDao.retieveAllOrdersForBook(bid);
+		
+		JSONObject respContent = new JSONObject();
+		JSONArray jsonArrayOrders = new JSONArray();
+		
+		int totalQuantity = 0;
+		
+		for (PurchaseItemBean order : ordersForBook) { 	
+			JSONObject i = new JSONObject();
+			i.put("order_id", order.getOrder_id());
+			i.put("quantity", order.getQuantity());
+			jsonArrayOrders.add(i);
+			
+			totalQuantity += order.getQuantity();
+		}
+		
+		respContent.put("orders", jsonArrayOrders);
+		respContent.put("total_quantity", totalQuantity);
+		respContent.put("bid", bid);
+		
+		respContent.put("successful", true);
+		respContent.put("message", "Successful retrieval of all orders for book with bid " + bid);
+		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
+	
+	public String partnerGetProductInfo(String uidStr, String bid) throws Exception {
+		String partnerAuth = this.userAuthentication(uidStr, "PARTNER");
+		if (!partnerAuth.equals("valid")) {
+			return partnerAuth; // returns error from adminAuthentication
+		} else if (this.bookDAO.retrieveBookById(bid) == null) {
+			System.out.println("ERROR: book with bid " + bid + " does not exist");
+			return RestApiHelper.prepareErrorJson("book with bid " + bid + " does not exist");
+		}
+		
+		return BookController.getInstance().retrieveBook(bid);
 	}
 	
 }
