@@ -37,7 +37,7 @@ public class AddressController {
 			if (address != null) {
 				// setup response content
 				JSONObject respContent = new JSONObject();
-				respContent.put("successful", "true");
+				respContent.put("successful", true);
 				respContent.put("message", "Successful address retrieval.");
 				
 				respContent.put("address_id", address.getId());
@@ -134,7 +134,7 @@ public class AddressController {
 			// setup response content
 			AddressBean address = this.addressDao.retrieveAddressByStreetAndZip(street, zip);
 			JSONObject respContent = new JSONObject();
-			respContent.put("successful", "true");
+			respContent.put("successful", true);
 			respContent.put("message", "Successful address registration.");
 			respContent.put("address_id", address.getId());
 			respContent.put("street", address.getStreet());

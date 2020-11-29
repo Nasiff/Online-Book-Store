@@ -26,7 +26,7 @@ public class RestApiHelper {
 	// helps prepare ERROR JSON response body
 	public static String prepareErrorJson(String errorMsg) {
 		JSONObject errorContent = new JSONObject();
-		errorContent.put("successful", "false");
+		errorContent.put("successful", false);
 		errorContent.put("error", errorMsg);
 		
 		return prepareResultJson(errorContent);
@@ -35,7 +35,7 @@ public class RestApiHelper {
 	// helps prepare ERROR JSON response body with an additional parameter field in JSON
 	public static String prepareErrorJson(String errorMsg, String paramName, String paramValue) {
 		JSONObject errorContent = new JSONObject();
-		errorContent.put("successful", "false");
+		errorContent.put("successful", false);
 		errorContent.put("error", errorMsg);
 		errorContent.put(paramName, paramValue);
 		
@@ -49,7 +49,7 @@ public class RestApiHelper {
 			JSONObject jsonResult = (JSONObject) parser.parse(content);
 			JSONObject json = (JSONObject) jsonResult.get("result");
 			// if JSON resp body has "successful": "false"
-			if (json.get("successful").toString().equals("false")) {
+			if (json.get("successful").toString().equals(false)) {
 				return Response
 						.status(Response.Status.BAD_REQUEST)
 						.entity(content)

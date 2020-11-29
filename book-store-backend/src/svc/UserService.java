@@ -75,5 +75,37 @@ public class UserService {
 		}
 	}
 	
+	// http://localhost:8080/book-store-backend/rest/user/admin/month
+	@GET
+	@Path("/admin/month/")
+	@Produces("application/json")
+	public Response getMonthlyTopSellers(@HeaderParam("uid") String uid) throws Exception {
+		System.out.println("GET monthly top sellers analytics for admin with uid " + uid);
+		try {
+			String content = UserController.getInstance().adminGetCurrentMonthlyTopSellers(uid);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem getting monthly top sellers analytics for uid " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
+	}
+	
+	// http://localhost:8080/book-store-backend/rest/user/admin/month
+	@GET
+	@Path("/admin/alltime/")
+	@Produces("application/json")
+	public Response getAllTimeTopSellers(@HeaderParam("uid") String uid) throws Exception {
+		System.out.println("GET monthly top sellers analytics for admin with uid " + uid);
+		try {
+			String content = UserController.getInstance().adminGetAllTimeTopSellers(uid);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem getting all time top sellers analytics for uid " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
+	}
+	
 	
 }

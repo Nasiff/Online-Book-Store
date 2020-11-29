@@ -5,10 +5,16 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import bean.BookBean;
+import bean.BookSalesBean;
 
 public class PurchaseDAO {
 	DataSource ds;
@@ -77,6 +83,75 @@ public class PurchaseDAO {
 		p.close();
 		con.close();
 		return rows;
+	}
+	
+	
+	public List<BookSalesBean> retrieveMonthlyTopSellers(String month) throws SQLException {
+		List<BookSalesBean> topBookSales = new ArrayList<BookSalesBean>();
+		String query = " select * from " 
+				+ "(select bid, sum(PoItem.quantity) as sales from PoItem join PO on PoItem.id = PO.id "
+				+ "where month(PO.po_date) = ? group by bid order by sales DESC) "
+				+ "as bookSales inner join Book on bookSales.bid = book.bid ";
+		
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setString(1, month);
+		int rank = 1;
+		
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String bid = r.getString("bid");
+			String title = r.getString("title");
+			double price = r.getDouble("price");
+			String author = r.getString("author");
+			String category = r.getString("category");
+			double review_score = r.getDouble("review_score");
+			int number_of_reviews = r.getInt("number_of_reviews");
+			String image_url = r.getString("image_url");
+			int sales = r.getInt("sales");
+			System.out.println("  sales: " + sales + ", title: " + title);
+			topBookSales.add(new BookSalesBean(bid, title, price, author, category, review_score, number_of_reviews, image_url, sales, rank));
+			rank++;
+		}
+		r.close();
+		p.close();
+		con.close();
+		return topBookSales;
+	}
+	
+	public List<BookSalesBean> retrieveAllTimeTopSellers() throws SQLException {
+		List<BookSalesBean> topBookSales = new ArrayList<BookSalesBean>();
+		String query = " select * from " 
+				+ "(select bid, sum(PoItem.quantity) as sales from PoItem "
+				+ "group by bid order by sales DESC) "
+				+ "as bookSales inner join Book on bookSales.bid = book.bid ";
+		
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		int rank = 1;
+		
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String bid = r.getString("bid");
+			String title = r.getString("title");
+			double price = r.getDouble("price");
+			String author = r.getString("author");
+			String category = r.getString("category");
+			double review_score = r.getDouble("review_score");
+			int number_of_reviews = r.getInt("number_of_reviews");
+			String image_url = r.getString("image_url");
+			int sales = r.getInt("sales");
+			System.out.println("  sales: " + sales + ", title: " + title);
+			topBookSales.add(new BookSalesBean(bid, title, price, author, category, review_score, number_of_reviews, image_url, sales, rank));
+			rank++;
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return topBookSales;
 	}
 	
 }
