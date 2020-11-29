@@ -53,7 +53,7 @@ public class BookController {
 			i.put("image_url", b.getImage_url());
 			books.add(i);
 		}
-		respContent.put("successful", "true");
+		respContent.put("successful", true);
 		respContent.put("message", "Successful retrieval of books.");
 		respContent.put("number_of_books", s.size());
 		respContent.put("books", books);
@@ -73,7 +73,7 @@ public class BookController {
 		
 		JSONObject b = new JSONObject();
 		if (book != null ) {
-			respContent.put("successful", "true");
+			respContent.put("successful", true);
 			respContent.put("message", "Successful retrieval of book by bid.");
 			respContent.put("bookExists", "true");
 			
@@ -89,7 +89,7 @@ public class BookController {
 		} else {
 			// *** NEED TO CHECK WITH TEAM ***
 			// Is a non-existent book still considered successful since no errors? Or is it false?
-			respContent.put("successful", "true");
+			respContent.put("successful", true);
 			respContent.put("message", "Query executed, but book with bid: " + bid + " does not exist");
 			respContent.put("bookExists", "false");
 		}
@@ -106,7 +106,7 @@ public class BookController {
 		for (String categ : s) {
 			categories.add(categ);
 		}
-		respContent.put("successful", "true");
+		respContent.put("successful", true);
 		respContent.put("message", "Successful retrieval of categories.");
 		respContent.put("number_of_categories", s.size());
 		respContent.put("categories", categories);
@@ -139,7 +139,7 @@ public class BookController {
 			i.put("image_url", b.getImage_url());
 			books.add(i);
 		}
-		respContent.put("successful", "true");
+		respContent.put("successful", true);
 		respContent.put("message", "Successful retrieval of books of category " + category);
 		respContent.put("category", category);
 		respContent.put("number_of_books", s.size());
@@ -170,7 +170,7 @@ public class BookController {
 			i.put("score", b.getScore());
 			reviews.add(i);
 		}
-		respContent.put("successful", "true");
+		respContent.put("successful", true);
 		respContent.put("message", "Successful retrieval of book reviews for bid " + bid);
 		respContent.put("bid", bid);
 		respContent.put("number_of_reviews", s.size());
@@ -351,7 +351,7 @@ public class BookController {
 					// setup response content
 					ReviewBean reviewBean = this.reviewDao.retrieveBookReviewByBidAndUid(bid, uid);
 					JSONObject respContent = new JSONObject();
-					respContent.put("successful", "true");
+					respContent.put("successful", true);
 					respContent.put("message", "Successful update of review and update of book review statistics.");
 					respContent.put("rid", reviewBean.getRid());
 					respContent.put("bid", reviewBean.getBid());

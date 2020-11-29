@@ -197,7 +197,7 @@ public class PurchaseController {
 	    
 		// Prepare successful response content if no errors
 		JSONObject respContent = new JSONObject();
-		respContent.put("successful", "true");
+		respContent.put("successful", true);
 		respContent.put("message", "Successful purchase order.");
 		
 		JSONObject orderInfo = new JSONObject();
