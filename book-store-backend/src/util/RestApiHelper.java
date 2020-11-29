@@ -49,7 +49,7 @@ public class RestApiHelper {
 			JSONObject jsonResult = (JSONObject) parser.parse(content);
 			JSONObject json = (JSONObject) jsonResult.get("result");
 			// if JSON resp body has "successful": "false"
-			if (json.get("successful").toString().equals(false)) {
+			if (json.get("successful").equals(false)) {
 				return Response
 						.status(Response.Status.BAD_REQUEST)
 						.entity(content)

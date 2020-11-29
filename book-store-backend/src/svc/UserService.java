@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -107,5 +108,38 @@ public class UserService {
 		} 
 	}
 	
+	
+	// http://localhost:8080/book-store-backend/rest/user/partner/{bid}
+	@GET
+	@Path("/partner/{bid}")
+	@Produces("application/json")
+	public Response getOrdersByBookID(@HeaderParam("uid") String uid, @PathParam("bid") String bid) throws Exception {
+		System.out.println("GET all orders for book " + bid + " and for partner with uid " + uid);
+		try {
+			String content = UserController.getInstance().partnerGetAllOrdersForBook(uid, bid);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem getting all orders for book " + bid + " and for partner with uid " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
+	}
+	
+	// http://localhost:8080/book-store-backend/rest/user/partner/{bid}/json
+	@GET
+	@Path("/partner/{bid}/json")
+	@Produces("application/json")
+	public Response getProductInfo(@HeaderParam("uid") String uid, @PathParam("bid") String bid) throws Exception {
+		System.out.println("GET product info for book " + bid + " and for partner with uid " + uid);
+		try {
+			// chane dhasrfoasfhoas
+			String content = UserController.getInstance().partnerGetProductInfo(uid, bid);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem getting product info for book " + bid + " and for partner with uid " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
+	}
 	
 }
