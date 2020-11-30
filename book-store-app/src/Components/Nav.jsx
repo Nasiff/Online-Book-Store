@@ -28,10 +28,11 @@ class Nav extends React.Component {
                         <MdMenu className="button grow" style = {styles.hamburger} onClick={() => this.toggleMenu()} fontSize="48px" color="white" />
                     </div>
                     <div style={styles.menu}>
-                        <Link to="/login"><div className="menuItem grow" style={styles.menuItem}>Login</div></Link>
+                        {this.props.loggedIn ? <Link to="/account"><div className="menuItem grow" style={styles.menuItem}>Account</div></Link> : 
+                        <Link to="/login"><div className="menuItem grow" style={styles.menuItem}>Login</div></Link>}
                         <Link to="/"><div className="menuItem grow" style={styles.menuItem}>Book Catalouge</div></Link>
                         <Link to="/cart"><div className="menuItem grow" style={styles.menuItem}>Shopping Cart</div></Link>
-                        <div className="menuItem grow" style={styles.menuItem}>Admin Analytics</div>
+                        <Link to="/admin"><div className="menuItem grow" style={styles.menuItem}>Admin Analytics</div></Link>
                     </div>
                 </div> 
                 );
