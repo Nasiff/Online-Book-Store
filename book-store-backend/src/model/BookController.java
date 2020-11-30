@@ -87,8 +87,6 @@ public class BookController {
 			b.put("image_url", book.getImage_url());
 			respContent.put("book", b);
 		} else {
-			// *** NEED TO CHECK WITH TEAM ***
-			// Is a non-existent book still considered successful since no errors? Or is it false?
 			respContent.put("successful", true);
 			respContent.put("message", "Query executed, but book with bid: " + bid + " does not exist");
 			respContent.put("bookExists", "false");

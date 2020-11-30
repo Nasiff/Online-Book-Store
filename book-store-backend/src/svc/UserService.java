@@ -132,7 +132,6 @@ public class UserService {
 	public Response getProductInfo(@HeaderParam("uid") String uid, @PathParam("bid") String bid) throws Exception {
 		System.out.println("GET product info for book " + bid + " and for partner with uid " + uid);
 		try {
-			// chane dhasrfoasfhoas
 			String content = UserController.getInstance().partnerGetProductInfo(uid, bid);
 			return RestApiHelper.responseHelper(content);
 		} catch (Exception e) {

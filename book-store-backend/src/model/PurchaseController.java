@@ -97,12 +97,12 @@ public class PurchaseController {
 		
 		
 		// If address with same street and zip does NOT exist in DB, create new address
-		if (!AddressController.getInstance().checkExistingAddress(street, zip)) {
-			AddressController.getInstance().createNewAddress(addressInfo);
+		if (!AddressController.getInstance().checkExistingAddress(street, province_state, country, zip, phone)) {
+			AddressController.getInstance().createOrReturnAddress(addressInfo);
 		} 
 		
 		// Retrieve the address by street and zip
-		AddressBean addr = this.addressDao.retrieveAddressByStreetAndZip(street, zip);
+		AddressBean addr = this.addressDao.retrieveAddressByAddressInfo(street, province_state, country, zip, phone);
 		if (addr == null) {
 			System.out.println("ERROR: Expected to retrieve address, but returned null.");
 			return RestApiHelper.prepareErrorJson("Expected to retrieve address, but returned null.");
