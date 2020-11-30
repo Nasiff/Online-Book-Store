@@ -28,7 +28,7 @@ const ReviewList = (reviews) => {
                     </div>
         });
     } else {
-        return <h1>No Reviews for this book</h1>
+        return null
     }
 }
 
@@ -197,7 +197,7 @@ class BookContent extends React.Component {
                     this.setState({postStatus: "COMPLETE"});
                     this.setState({reviewPrompt: false});
                     this.loadReviews();
-                    //this.props.loadBooksFunc(); //Use this to update all book ratings after
+                    this.props.loadBooksFunc(); //Use this to update all book ratings after
                 } else {
                     this.setState({postStatus: "FAILED"});
                     alert("Error Posting Review: " + result.result.error);
@@ -256,7 +256,7 @@ class BookContent extends React.Component {
                     </div>
 
 
-                    <div style={styles.subheader}>User Reviews {this.props.uid}</div>
+                    <div style={styles.subheader}>User Reviews</div>
 
                     {this.state.reviewPrompt ? 
                         this.reviewInputComponent() :
