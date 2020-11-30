@@ -24,7 +24,7 @@ public class PurchaseDAO {
 		try {
 			ds = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
 		} catch (NamingException e) {
-			System.out.println("Error looking up /comp/env/jdbc/EECS");
+			System.out.println("Error looking up jdbc/OBS-DB");
 			e.printStackTrace();
 		}
 	}
@@ -91,8 +91,9 @@ public class PurchaseDAO {
 		List<BookSalesBean> topBookSales = new ArrayList<BookSalesBean>();
 		String query = " select * from " 
 				+ "(select bid, sum(PoItem.quantity) as sales from PoItem join PO on PoItem.id = PO.id "
-				+ "where month(PO.po_date) = ? group by bid order by sales DESC) "
-				+ "as bookSales inner join Book on bookSales.bid = book.bid ";
+				+ "where month(PO.po_date) = ? group by bid) "
+				+ "as bookSales inner join Book on bookSales.bid = book.bid "
+				+ "order by sales DESC";
 		
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -125,8 +126,9 @@ public class PurchaseDAO {
 		List<BookSalesBean> topBookSales = new ArrayList<BookSalesBean>();
 		String query = " select * from " 
 				+ "(select bid, sum(PoItem.quantity) as sales from PoItem "
-				+ "group by bid order by sales DESC) "
-				+ "as bookSales inner join Book on bookSales.bid = book.bid ";
+				+ "group by bid order) "
+				+ "as bookSales inner join Book on bookSales.bid = book.bid "
+				+ "order by sales DESC";
 		
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
