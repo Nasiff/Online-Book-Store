@@ -4,8 +4,9 @@ import { BrowserRouter as Router,
     Route,
     Link,
     useRouteMatch,
-    useParams } from "react-router-dom";
-
+    useParams,
+    Redirect } from "react-router-dom";
+import WebService from '../Services/WebService'
 
 class ShippingScreen extends React.Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class ShippingScreen extends React.Component {
             creditCard: "",
             attempts: 0,
             verified: false,
+            redirect: false,
         };
       }
 
@@ -61,7 +63,7 @@ class ShippingScreen extends React.Component {
     buildShippingJSON = () => {
         return {
             fname: this.state.fname,
-            lhname: this.state.lname,
+            lname: this.state.lname,
             address: {
                 street: this.state.street,
                 province_state: this.state.province_state,
@@ -73,10 +75,17 @@ class ShippingScreen extends React.Component {
     }
 
     verifyCard = () => {
-        if(this.state.creditCard.replace(/ /g,'').length == 16){
-            return this.setState({verified: true});
+        if(this.state.attempts < 3){
+            if(this.state.creditCard.replace(/ /g,'').length == 16){
+                this.setState({verified: true});
+            } else {
+                var tries = this.state.attempts + 1;
+                alert("Failed to authenticate card, Please try again. Attempt: " + tries);
+                this.setState({verified: false, attempts: tries});         
+            };
+        } else {
+            alert("You have failed more then 3 times, Please try again later");
         }
-        return this.setState({verified: false});
     }
     
     componentDidMount(){
@@ -91,28 +100,29 @@ class ShippingScreen extends React.Component {
 
         const headers = { 
             'Content-Type': 'application/json',
-            'uid': this.state.uid
+            'uid': this.props.uid
           }
-
-          console.log(uid);
-          fetch("./Data/shippingSuccess.json")
+       
+        console.log(headers);
+        fetch(WebService.uri + "/address", { headers })
           .then(res => res.json())
           .then(
               //Only accounts for successful logins for now
               (result) => {
                   console.log("Result: " + result);
-                  this.setState({
-                      hasShippingInfo: result.success,
-                      fname: this.props.userInfo.fname,
-                      lname: this.props.userInfo.lname,
-                      street: result.address.street,
-                      province_state: result.address.province_state,
-                      country: result.address.country,
-                      zip: result.address.zip,
-                      phone: result.address.phone
-                      
-                  });
-                  console.log(this.state.success);
+                  if(result.result.successful){
+                    this.setState({
+                        shippingInfo: result.result,  
+                        hasShippingInfo: result.result.successful,
+                        fname: this.props.userInfo.fname,
+                        lname: this.props.userInfo.lname,
+                        street: result.result.street,
+                        province_state: result.result.province_state,
+                        country: result.result.country,
+                        zip: result.result.zip,
+                        phone: result.result.phone                 
+                      });
+                  }  
               },
       
               /* Any Errors */
@@ -152,7 +162,11 @@ class ShippingScreen extends React.Component {
         } else {
             return (
                 <div>
-                    <div>You are checking out as a guest would you like to login?</div>
+                    <div>You are checking out as a guest would you like to 
+                        <span className="grow" onClick={() => {
+                            this.props.redirectFunc("./shipping"); 
+                            this.setState({redirect: true});
+                            }}> login?</span></div>
 
                     <div style={styles.label}> First Name </div>
                     <input style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />
@@ -180,6 +194,10 @@ class ShippingScreen extends React.Component {
     }
 
     render() {
+        if(this.state.redirect){
+            return <Redirect to="/login" />
+        }
+
         return ( 
         <div>
         <div style={styles.container}>  
@@ -243,10 +261,12 @@ const styles = {
         fontSize: "20px",
     },
     text: {
-        margin: "10px"
+        margin: "10px",
+        textAlign: "center"
     },
     inputs: {
-        textTransform: "capitalize"
+        textTransform: "capitalize",
+        textAlign: "center"
     },
     next: {
         borderRadius: "50px",

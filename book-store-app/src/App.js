@@ -18,7 +18,7 @@ Redirect} from "react-router-dom";
 import AccountScreen from './Components/AccountScreen';
 import ShippingScreen from './Components/ShippingScreen';
 import SummaryScreen from './Components/SummaryScreen';
-
+import AdminAnalytics from './Components/AdminAnalytics';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,33 +29,43 @@ class App extends React.Component {
       type: null,
       user: null,
       uid: null,
+      redirect: "/"
     };
   }
 
-  handleLogin = (email, password) => {
+  handleLogin = async (email, password) => {
     // Send request to server to login with user and password as headers
     const headers = { 
       'Content-Type': 'application/json',
       'email' : email,
       'password' : password 
     }
+
+    var message = null;
+
     console.log(email, password);
-    fetch("./Data/user.json", { headers })
+
+    await fetch(WebService.uri + "/user", { headers })
     .then(res => res.json())
     .then(
         //Only accounts for successful logins for now
         (result) => {
             console.log("Result: " + result);
+            if(result.result.successful){
+              this.setState({type: result.result.user_type});
+            }
             this.setState({
                 uid: result.result.uid,
                 user: result.result,
-                loggedIn: result.result.successful
+                loggedIn: result.result.successful,
             });
             console.log("Login was successful: " + this.state.uid);
 
             if(!this.state.loggedIn){
-              alert("Error logging in: " + result.result.message);
-            }
+              //alert("Error logging in: " + result.result.error);
+              message = result.result.error;
+              console.log(message);
+            } 
 
         },
 
@@ -69,6 +79,14 @@ class App extends React.Component {
             alert(this.state.error);
         }
     )
+
+    return message;
+  }
+
+  setRedirect = async (page) => {
+    console.log(page);
+    await this.setState({redirect: page});
+    console.log(this.state.redirect);
   }
 
   handleSignout = () => {
@@ -79,7 +97,13 @@ class App extends React.Component {
       user: null,
       uid: null,
     })
+  }
 
+  handleClearCart = () => {
+    console.log("clearing cart");
+    this.setState({
+      cart: []
+    })
   }
 
 
@@ -88,7 +112,7 @@ class App extends React.Component {
       bid: id,
       title: title,
       author: author,
-      qty: qty,
+      quantity: qty,
       price: price
     }
     var hasBook = this.state.cart.some(book => book.bid === id);
@@ -104,7 +128,7 @@ class App extends React.Component {
 
       console.log("index: " + index + " new Book: " + newBook)
 
-      newBook.qty = newBook.qty + qty;
+      newBook.quantity = newBook.quantity + qty;
       newCart[index] = newBook;
       this.setState({cart: newCart}); 
 
@@ -131,8 +155,8 @@ class App extends React.Component {
 
       console.log("index: " + index + " new Book: " + newBook)
 
-      newBook.qty = newBook.qty + updateVal;
-      if(newBook.qty < 1){
+      newBook.quantity = newBook.quantity + updateVal;
+      if(newBook.quantity < 1){
         //Remove the book if qty is 0
         var remCart = newCart.filter(book => {
           return book.bid != id
@@ -147,40 +171,45 @@ class App extends React.Component {
 
       console.log("Update book");
     }
-
   }
+
+
 
   render(){
     return (
       <Router>
         <Switch>
             <Route path="/cart">
-              <Nav/>
+              <Nav loggedIn={this.state.loggedIn}/>
               <CartScreen cart={this.state.cart} updateCartFunc={this.handleUpdateCart}/>              
             </Route>
             <Route path="/account">
-              <Nav/>
+              <Nav loggedIn={this.state.loggedIn}/>
               <AccountScreen loggedIn={this.state.loggedIn} userInfo={this.state.user} signOutFunc={this.handleSignout}/>              
             </Route>
             <Route path="/login">
-              <Nav/>
-              <LoginScreen loggedIn={this.state.loggedIn} loginFunc={this.handleLogin}/>
+              <Nav loggedIn={this.state.loggedIn}/>
+              <LoginScreen loggedIn={this.state.loggedIn} redirect={this.state.redirect} loginFunc={this.handleLogin}/>
             </Route>
             <Route path="/register">
-              <Nav/>
-              <RegisterScreen loginFunc={this.handleLogin}/>
+              <Nav loggedIn={this.state.loggedIn}/>
+              <RegisterScreen loggedIn={this.state.loggedIn} loginFunc={this.handleLogin}/>
             </Route>
             <Route path="/shipping">
-              <Nav/>
-              <ShippingScreen uid={this.state.uid} loggedIn={this.state.loggedIn} userInfo={this.state.user}/>
+              <Nav loggedIn={this.state.loggedIn}/>
+              <ShippingScreen redirectFunc={this.setRedirect} uid={this.state.uid} loggedIn={this.state.loggedIn} userInfo={this.state.user}/>
             </Route>
             <Route path="/summary">
-              <Nav/>
-              <SummaryScreen cart={this.state.cart} updateCartFunc={this.handleUpdateCart}/>
+              <Nav loggedIn={this.state.loggedIn}/>
+              <SummaryScreen cart={this.state.cart} clearCart={this.handleClearCart} updateCartFunc={this.handleUpdateCart}/>
+            </Route>
+            <Route path="/admin">
+              <Nav loggedIn={this.state.loggedIn}/>
+              <AdminAnalytics uid={this.state.uid} type={this.state.type}/>
             </Route>
             <Route path="/">
-              <Nav/>
-              <MainScreen uid={this.state.uid} addToCart={this.handleAddToCart}/>
+              <Nav loggedIn={this.state.loggedIn}/>
+              <MainScreen redirectFunc={this.setRedirect} uid={this.state.uid} addToCart={this.handleAddToCart}/>
             </Route>
           </Switch>
       </Router>

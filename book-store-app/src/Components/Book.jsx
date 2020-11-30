@@ -49,7 +49,6 @@ class Book extends React.Component {
     }
 
     componentDidMount(){
-        this.lodaReviews();
         setTimeout(() => {
              this.setState({didMount: true});
          }, 0);
@@ -66,37 +65,6 @@ class Book extends React.Component {
         if(updateVal >= 0){
             this.setState({qty: updateVal, added: false});
         }
-    }
-
-
-    lodaReviews = () => {
-        const headers = { 
-            'Content-Type': 'application/json',
-          }
-          var uri = WebService.uri + "/book/" + this.state.bid + "/review";
-          uri = "./Data/review.json";
-          fetch(uri, { headers })
-          .then(res => res.json())
-          .then(
-              //Only accounts for successful logins for now
-              (result) => {
-                  console.log("Result: " + result);
-                  this.setState({
-                      reviews: result.result.reviews,
-                  });
-           
-              },
-      
-              /* Any Errors */
-              (error) => {
-                  console.log(error);
-                  this.setState({
-                      error
-                  });
-                  
-                  alert(this.state.error);
-              }
-          )
     }
 
 
@@ -121,7 +89,10 @@ class Book extends React.Component {
                     numOfReviews= {this.props.numOfReviews}
                     image= {this.props.image}
                     closeFunc={this.closeModal}
-                    addToCart={this.props.addToCart}/>
+                    addToCart={this.props.addToCart}
+                    loadBooksFunc={this.props.loadBooksFunc}
+                    />
+                    
             </Popup>
         </div> 
         

@@ -20,7 +20,8 @@ class LoginScreen extends React.Component {
           password: "",
           type: null,
           fname: "",
-          redirect: "/account",
+          redirect: this.props.redirect,
+          errorMessage: null
         };
 
       }
@@ -41,15 +42,16 @@ class LoginScreen extends React.Component {
         console.log(event.target.value);
     }
     
-    handleSubmit = (event) => {
-        alert(this.state.email + " : " + this.state.password);
+    handleSubmit = async (event) => {
+        //alert(this.state.email + " : " + this.state.password);
         event.preventDefault();
-        this.props.loginFunc(this.state.email, this.state.password);
+        var message = await this.props.loginFunc(this.state.email, this.state.password)
+        this.setState({errorMessage: message});
     }
 
     render() {
         if(this.props.loggedIn){
-            return <Redirect to={this.state.redirect} />;
+            return <Redirect to={this.props.redirect ? this.props.redirect : "/account"} />;
         } 
         
         return ( 
@@ -57,10 +59,11 @@ class LoginScreen extends React.Component {
             <div style={styles.container}>  
                 <div style={styles.containerContent}>
                     <div style={styles.header}>Login</div>
+                    <div style={styles.errorMessage}>{this.state.errorMessage}</div>
                     <div style={styles.label}> Email </div>
                     <input style={styles.inputs} type="text" value={this.state.email} onChange={this.handleEmail} />
                     <div style={styles.label}> Password </div>
-                    <input style={styles.inputs} type="text" value={this.state.password} onChange={this.handlePassword} />
+                    <input style={styles.inputs} type="password" value={this.state.password} onChange={this.handlePassword}/>
                     <div className="button grow" onClick={this.handleSubmit}>Submit</div>
                     <div style={styles.footer}>New to Mom and Pops? <Link to="/register" style={styles.signUp}>Sign up here!</Link></div>
                 </div>
@@ -73,7 +76,7 @@ class LoginScreen extends React.Component {
 const styles = {
     container: {
         display: "flex",
-        //backgroundColor:"yellow",
+        backgroundColor:"pink",
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
@@ -82,9 +85,11 @@ const styles = {
         alignSelf: "center",
         justifySelf: "center",
         width: "100%",
+        
     },
     containerContent: {
-        width: "80%",
+        minWidth: "60%",
+        maxWidth: "80%",
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
@@ -92,6 +97,8 @@ const styles = {
         justifyItems: "center",
         alignSelf: "center",
         justifySelf: "center",
+        minHeight: "100vh",
+        backgroundColor: "white"
     },
     header: {
         color: "#0184C7",
@@ -119,6 +126,11 @@ const styles = {
     signUp: {
         color: "pink",
         fontWeight: "bold"
+    },
+    errorMessage: {
+        color: "red",
+        fontWeight: "bold",
+        fontSize: "16px"
     }
 }
 

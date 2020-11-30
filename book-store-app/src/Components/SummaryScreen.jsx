@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IosAddCircle from 'react-ionicons/lib/IosAddCircle'
 import IosRemoveCircle from 'react-ionicons/lib/IosRemoveCircle'
+import Popup from 'reactjs-popup';
 import { BrowserRouter as Router,
     Switch,
     Route,
     Link,
     useRouteMatch,
     useParams, 
-    useLocation} from "react-router-dom";
+    useLocation,
+    Redirect} from "react-router-dom";
+import WebService from '../Services/WebService';
+import OrderPlaced from './OrderPlaced';
 
     const buildCart = (cart, updateCart) => {
         var builtJSX = [];
@@ -21,17 +25,17 @@ import { BrowserRouter as Router,
     
             builtJSX.push(<div style={styles.itemContainer}>
                             <div style={{textAlign: "center"}}> 
-                                {item.qty} 
+                                {item.quantity} 
                             </div>
                         </div>
                         );
     
             builtJSX.push(<div style={styles.itemContainer}>
-                            <div style={{textAlign: "center"}}> ${item.price * item.qty} </div>
+                            <div style={{textAlign: "center"}}> ${item.price * item.quantity} </div>
                         </div>
                         );
             
-            subtotal += item.price * item.qty;
+            subtotal += item.price * item.quantity;
         });
     
     
@@ -100,51 +104,34 @@ import { BrowserRouter as Router,
         return builtJSX;
     }    
 
-/*
-function placeOrder(order, orderJSON){
-    //post to service
-    fetch("./Data/user.json")
-    .then(res => res.json())
-    .then(
-        //Only accounts for successful logins for now
-        (result) => {
-            console.log("Result: " + result);
-            this.setState({
-                uid: result.uid,
-                user: result,
-                loggedIn: true
-            });
-            console.log(this.state.uid);
-        },
 
-        /* Any Errors 
-        (error) => {
-            console.log(error);
-            this.setState({
-                error
-            });
-            
-            alert(this.state.error);
-        }
-    )
-}
-*/
 
 function SummaryScreen(props) {
 
     const location = useLocation();
     const shippingInfo = location.state.shippingInfo;
-    const order = {
-        orderPlaced: false,
-        orderNumber: ""
-    };
+    var [open, setOpen] = useState(false);
+    var [orderPlaced, setOrder] = useState(false);
+    var [orderNumber, setOrderNumber] = useState("Problem Ordering");
+    var [redirect, setRedirect] = useState(false);
     const OrderJSON = {
         lname: shippingInfo.lname,
         fname: shippingInfo.fname,
         address: shippingInfo.address,
-        cart: props.cart
+        purchaseOrderItems: props.cart
     };
-   
+
+    const clearCart = props.clearCart;
+    
+    function clearAndRedirect() {
+        clearCart(); 
+        setRedirect(true);
+    }
+
+    if(redirect){
+        return <Redirect to="/" />
+    }
+
     return (
         <div>
         <div style={styles.container}>  
@@ -182,16 +169,30 @@ function SummaryScreen(props) {
                     <div style={styles.text}> {location.state.credit} </div>
                 </div>
 
-                {!order.orderPlaced ? <div style={styles.next} class="button grow">
+                {!orderPlaced ? <div style={styles.next} class="button grow" onClick={() => {setOpen(true)}}>
                     Place Order
                 </div> : 
                 <div>
-                <div style={styles.subHeader}>Order Number</div>
-                    <div style={styles.label}> {order.orderNumber} </div>
+                    <div style={styles.subHeader}>Order Number</div>
+                    <div style={styles.label}>  {orderNumber}</div>
+                    <div style={styles.next} class="button grow" onClick={() => clearAndRedirect()}>Return to Catalouge</div>
                 </div>                    
                 }
-                
             </div>
+
+            <Popup open={open} closeOnDocumentClick onClose={() => setOpen(false)}>
+                <OrderPlaced 
+                        closeFunc={() => setOpen(false)}
+                        orderJson={OrderJSON}
+                        setOrder={(orderNum) => {
+                            setOrder(true);
+                            setOrderNumber(orderNum);
+                        }}
+                        clearAndRedirect={() => clearAndRedirect()}
+                    />
+                    
+            </Popup>
+
         </div> 
         </div>
     );

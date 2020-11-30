@@ -18,17 +18,17 @@ const buildCart = (cart, updateCart) => {
         builtJSX.push(<div style={styles.itemContainer}>
                         <div style={{textAlign: "center"}}> 
                             <div style={styles.edit} onClick={() => updateCart(item.bid, -1)}><IosRemoveCircle className="grow" fontSize="20px" color="#347eff" /></div> 
-                            {item.qty} 
+                            {item.quantity} 
                             <div style={styles.edit} onClick={() => updateCart(item.bid, 1)}><IosAddCircle className="grow" fontSize="20px" color="#347eff" /></div></div>
                     </div>
                     );
 
         builtJSX.push(<div style={styles.itemContainer}>
-                        <div style={{textAlign: "center"}}> ${item.price * item.qty} </div>
+                        <div style={{textAlign: "center"}}> ${item.price * item.quantity} </div>
                     </div>
                     );
         
-        subtotal += item.price * item.qty;
+        subtotal += item.price * item.quantity;
     });
 
 
