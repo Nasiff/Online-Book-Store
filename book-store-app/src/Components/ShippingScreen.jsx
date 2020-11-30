@@ -5,7 +5,7 @@ import { BrowserRouter as Router,
     Link,
     useRouteMatch,
     useParams } from "react-router-dom";
-
+import WebService from '../Services/WebService'
 
 class ShippingScreen extends React.Component {
     constructor(props) {
@@ -61,7 +61,7 @@ class ShippingScreen extends React.Component {
     buildShippingJSON = () => {
         return {
             fname: this.state.fname,
-            lhname: this.state.lname,
+            lname: this.state.lname,
             address: {
                 street: this.state.street,
                 province_state: this.state.province_state,
@@ -91,28 +91,29 @@ class ShippingScreen extends React.Component {
 
         const headers = { 
             'Content-Type': 'application/json',
-            'uid': this.state.uid
+            'uid': this.props.uid
           }
-
-          console.log(uid);
-          fetch("./Data/shippingSuccess.json")
+       
+        console.log(headers);
+        fetch(WebService.uri + "/address", { headers })
           .then(res => res.json())
           .then(
               //Only accounts for successful logins for now
               (result) => {
                   console.log("Result: " + result);
-                  this.setState({
-                      hasShippingInfo: result.success,
-                      fname: this.props.userInfo.fname,
-                      lname: this.props.userInfo.lname,
-                      street: result.address.street,
-                      province_state: result.address.province_state,
-                      country: result.address.country,
-                      zip: result.address.zip,
-                      phone: result.address.phone
-                      
-                  });
-                  console.log(this.state.success);
+                  if(result.result.successful){
+                    this.setState({
+                        shippingInfo: result.result,  
+                        hasShippingInfo: result.result.successful,
+                        fname: this.props.userInfo.fname,
+                        lname: this.props.userInfo.lname,
+                        street: result.result.street,
+                        province_state: result.result.province_state,
+                        country: result.result.country,
+                        zip: result.result.zip,
+                        phone: result.result.phone                 
+                      });
+                  }  
               },
       
               /* Any Errors */
@@ -152,7 +153,7 @@ class ShippingScreen extends React.Component {
         } else {
             return (
                 <div>
-                    <div>You are checking out as a guest would you like to login?</div>
+                    <div>You are checking out as a guest would you like to <Link to="/login">login?</Link></div>
 
                     <div style={styles.label}> First Name </div>
                     <input style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />

@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import Book from './Book';
 import WebService from '../Services/WebService';
 
-const BookList = (books, loadAmount, addToCart, uid) => {
+const BookList = (books, loadAmount, addToCart, uid, loadBooks) => {
     console.log("books: " + books);
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
             return <div className="grow" key={book.bid} style={styles.item}>
-                        <Book uid={uid} addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image_url} author={book.author} review={book.review_score} numOfReviews={book.number_of_reviews}/>
+                        <Book loadBooksFunc={loadBooks} uid={uid} addToCart={addToCart} bid={book.bid} title={book.title} price={book.price} image={book.image_url} author={book.author} review={book.review_score} numOfReviews={book.number_of_reviews}/>
                     </div>
         });
     } else {
@@ -128,7 +128,7 @@ class Books extends React.Component {
     render() {
         return ( 
         <div style={styles.container}>
-            {BookList(this.state.books, this.state.loadAmount, this.props.addToCart, this.props.uid)}
+            {BookList(this.state.books, this.state.loadAmount, this.props.addToCart, this.props.uid, () => this.loadBooksByCategory(this.props.category))}
             <div>
                 <button className="button" style={styles.loadButton} onClick={this.loadXMoreBooks}>Load More Books</button>
             </div>

@@ -67,7 +67,7 @@ class BookContent extends React.Component {
     }
 
     componentDidMount(){
-        this.lodaReviews();
+        this.loadReviews();
         setTimeout(() => {
              this.setState({didMount: true});
          }, 0);
@@ -92,12 +92,11 @@ class BookContent extends React.Component {
 
     }
 
-    lodaReviews = () => {
+    loadReviews = () => {
         const headers = { 
             'Content-Type': 'application/json',
           }
-          var uri = WebService.uri + "/book/" + this.state.bid + "/review";
-          uri = "./Data/review.json";
+          var uri = WebService.uri + "/books/" + this.state.bid + "/review";
           fetch(uri, { headers })
           .then(res => res.json())
           .then(
@@ -164,10 +163,9 @@ class BookContent extends React.Component {
         console.log("submiting Review");
         this.setState({postStatus: "POSTING"})
         const reviewPost = {
-            reviewInfo: {
-                review_score: this.state.score,
-                review_body: this.state.reviewText
-            }
+            review_score: this.state.score,
+            review_body: this.state.reviewText
+
         };
 
         const data = {
@@ -189,7 +187,7 @@ class BookContent extends React.Component {
         console.log("URL" + url);
         console.log(reviewPost);
 
-        fetch("./Data/reviewPostSuccess.json")
+        fetch(url, data)
         .then(res => res.json())
         .then(
             //Only accounts for successful logins for now
@@ -198,9 +196,11 @@ class BookContent extends React.Component {
                 if(result.result.successful){
                     this.setState({postStatus: "COMPLETE"});
                     this.setState({reviewPrompt: false});
+                    this.loadReviews();
+                    //this.props.loadBooksFunc(); //Use this to update all book ratings after
                 } else {
                     this.setState({postStatus: "FAILED"});
-                    alert("Error Posting Review: " + result.result.message);
+                    alert("Error Posting Review: " + result.result.error);
                 }
               },
       

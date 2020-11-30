@@ -4,17 +4,20 @@ import SearchBar from './SearchBar'
 import Filters from './Filters'
 import Books from './Books'
 import Nav from './Nav'
+import WebService from '../Services/WebService'
 import { BrowserRouter as Router,
     Switch,
     Route,
     Link,
     useRouteMatch,
-    useParams } from "react-router-dom";
+    useParams,
+    Redirect } from "react-router-dom";
 
 class RegisterScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          errorMessage: null,
           email: "",
           password: "",
           type: "",
@@ -24,7 +27,8 @@ class RegisterScreen extends React.Component {
           province_state: "",
           country: "",
           zip: "",
-          phone: ""
+          phone: "",
+          redirect: "/account"
         };
       }
     
@@ -99,16 +103,58 @@ class RegisterScreen extends React.Component {
 
         console.log(registrationJson);
 
-        //Send post request here
+        const data = {
+            method: 'POST', 
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(registrationJson) // body data type must match "Content-Type" header
+          }
 
-        //If successful try to login as the user
 
-        //If failure then alert the user
+        const url = WebService.uri + "/user";
+        console.log("URL" + url);
+
+        fetch(url, data)
+        .then(res => res.json())
+        .then(
+            //Only accounts for successful logins for now
+            (result) => {
+                console.log(result);
+                if(result.result.successful){
+                    alert("Successful Registration: " + result.result.message);
+                    this.props.loginFunc(this.state.email, this.state.password)
+                } else {
+                    this.setState({errorMessage: result.result.error})
+                    alert("Error Registering: " + result.result.error);
+                }
+              },
+      
+              /* Any Errors */
+              (error) => {
+                  console.log(error);
+                  this.setState({
+                      error
+                  });
+                  
+                  alert(this.state.error);
+              }
+          )
+
     }
 
 
 
     render() {
+        if(this.props.loggedIn){
+            return <Redirect to={this.state.redirect} />;
+        } 
+
         return ( 
             <div>
             <div style={styles.container}>  
@@ -116,17 +162,17 @@ class RegisterScreen extends React.Component {
                     <div style={styles.header}>Register</div>
 
                     <div style={styles.subHeader}>Account Information</div>
-
+                    <div style={styles.errorMessage}>{this.state.errorMessage}</div>
                     <div style={styles.label}> First Name </div>
-                    <input style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />
+                    <input style={styles.inputsC} type="text" value={this.state.fname} onChange={this.handleFName} />
 
                     <div style={styles.label}> Last Name </div>
-                    <input style={styles.inputs} type="text" value={this.state.lname} onChange={this.handleLName} />
+                    <input style={styles.inputsC} type="text" value={this.state.lname} onChange={this.handleLName} />
 
                     <div style={styles.label}> Email </div>
                     <input style={styles.inputs} type="text" value={this.state.email} onChange={this.handleEmail} />
                     <div style={styles.label}> Password </div>
-                    <input style={styles.inputs} type="text" value={this.state.password} onChange={this.handlePassword} />
+                    <input style={styles.inputs} type="password" value={this.state.password} onChange={this.handlePassword} />
 
                     <div style={styles.inputs} onChange={this.onChangeValue}>
                         <input type="radio" value="CUSTOMER" name="type" /> Customer
@@ -138,13 +184,13 @@ class RegisterScreen extends React.Component {
 
                     
                     <div style={styles.label}> Street Address (Include Street Number)</div>
-                    <input style={styles.inputs} type="text" value={this.state.street} onChange={this.handleStreet} />
+                    <input style={styles.inputsC} type="text" value={this.state.street} onChange={this.handleStreet} />
 
                     <div style={styles.label}> Province / State </div>
-                    <input style={styles.inputs} type="text" value={this.state.province_state} onChange={this.handleProvinceState} />
+                    <input style={styles.inputsC} type="text" value={this.state.province_state} onChange={this.handleProvinceState} />
 
                     <div style={styles.label}> Country </div>
-                    <input style={styles.inputs} type="text" value={this.state.country} onChange={this.handleCountry} />
+                    <input style={styles.inputsC} type="text" value={this.state.country} onChange={this.handleCountry} />
 
                     <div style={styles.label}> Zip Code </div>
                     <input style={styles.inputs} type="text" value={this.state.zip} onChange={this.handleZip} />
@@ -165,7 +211,7 @@ class RegisterScreen extends React.Component {
 const styles = {
     container: {
         display: "flex",
-        //backgroundColor:"yellow",
+        backgroundColor:"pink",
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
@@ -174,9 +220,11 @@ const styles = {
         alignSelf: "center",
         justifySelf: "center",
         width: "100%",
+        
     },
     containerContent: {
-        width: "80%",
+        minWidth: "60%",
+        maxWidth: "80%",
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
@@ -184,6 +232,8 @@ const styles = {
         justifyItems: "center",
         alignSelf: "center",
         justifySelf: "center",
+        minHeight: "100vh",
+        backgroundColor: "white"
     },
     header: {
         color: "#0184C7",
@@ -196,6 +246,13 @@ const styles = {
         display: "flex"
     },
     inputs: {
+        display: "block",
+        textAlign: "center",
+        margin: "auto",
+        marginBottom: "20px",
+        padding: "5px",
+    },
+    inputsC: {
         display: "block",
         textAlign: "center",
         margin: "auto",
@@ -217,6 +274,11 @@ const styles = {
         fontSize: "25px",
         textDecoration: "underline",
         margin: "25px"
+    },
+    errorMessage: {
+        color: "red",
+        fontWeight: "bold",
+        fontSize: "16px"
     }
 }
 

@@ -4,6 +4,7 @@ import SearchBar from './SearchBar'
 import Filters from './Filters'
 import Books from './Books'
 import Nav from './Nav'
+import WebService from '../Services/WebService'
 import { BrowserRouter as Router,
     Switch,
     Route,
@@ -17,12 +18,15 @@ class AccountScreen extends React.Component {
         super(props);
         this.state = {
           redirect: "/login",
+          shippingInfo: null,
+          errorMessage: null,
         };
 
       }
     
     componentDidMount(){
-        console.log("Mounted the Cart: " + this.state)
+        console.log("Mounted the Cart: " + this.state);
+        this.getShippingInformation();
     }
 
     handleSubmit = (event) => {
@@ -31,7 +35,38 @@ class AccountScreen extends React.Component {
     }
 
     getShippingInformation = () => {
+
         //Request to get shipping information
+
+        const headers = { 
+            'Content-Type': 'application/json',
+            'uid' : this.props.userInfo.uid
+          }
+        
+        console.log(headers);
+        fetch(WebService.uri + "/address", { headers })
+          .then(res => res.json())
+          .then(
+              //Only accounts for successful logins for now
+              (result) => {
+                  console.log("Result: " + result);
+                  if(result.result.successful){
+                    this.setState({
+                        shippingInfo: result.result                   
+                      });
+                  }  
+              },
+      
+              /* Any Errors */
+              (error) => {
+                  console.log(error);
+                  this.setState({
+                      error
+                  });
+                  
+                  alert(this.state.error);
+              }
+          )
     }
 
     render() {
@@ -43,15 +78,12 @@ class AccountScreen extends React.Component {
             <div>
             <div style={styles.container}>  
                 <div style={styles.containerContent}>
-                    <div style={styles.header}>Register</div>
+                    <div style={styles.header}>Account Summary</div>
 
                     <div style={styles.subHeader}>Account Information</div>
 
-                    <div style={styles.label}> First Name </div>
-                    <div style={styles.info}> {this.props.userInfo.fname} </div>
-
-                    <div style={styles.label}> Last Name </div>
-                    <div style={styles.info}> {this.props.userInfo.lname} </div>
+                    <div style={styles.label}> Name </div>
+                    <div style={styles.info}>{this.props.userInfo.fname} {this.props.userInfo.lname}</div>
 
                     <div style={styles.label}> Email </div>
                     <div style={styles.info}> {this.props.userInfo.email} </div>
@@ -61,9 +93,27 @@ class AccountScreen extends React.Component {
 
                     <div style={styles.label}> User Type </div>
                     <div style={styles.info}> {this.props.userInfo.user_type} </div>
-
+                    
                     <div style={styles.subHeader}>Shipping Information</div>
 
+                    {this.state.shippingInfo != null ? (
+                        <div style={{marginBottom: "20px"}}>
+                            <div style={styles.label}> Street </div>
+                            <div style={styles.info}> {this.state.shippingInfo.street} </div>
+
+                            <div style={styles.label}> Province </div>
+                            <div style={styles.info}> {this.state.shippingInfo.province_state} </div>
+
+                            <div style={styles.label}> Country </div>
+                            <div style={styles.info}> {this.state.shippingInfo.country} </div>
+
+                            <div style={styles.label}> ZIP </div>
+                            <div style={styles.info}> {this.state.shippingInfo.zip} </div>
+
+                            <div style={styles.label}> Phone </div>
+                            <div style={styles.info}> {this.state.shippingInfo.phone} </div>  
+                        </div>
+                    ) : (<div style={{marginBottom: "20px"}}>No Shipping Information Associated With the Account</div>)}
 
                     <div className="button grow" onClick={this.handleSubmit}>Sign Out</div>
 
@@ -77,7 +127,7 @@ class AccountScreen extends React.Component {
 const styles = {
     container: {
         display: "flex",
-        //backgroundColor:"yellow",
+        backgroundColor:"pink",
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
@@ -86,9 +136,11 @@ const styles = {
         alignSelf: "center",
         justifySelf: "center",
         width: "100%",
+        
     },
     containerContent: {
-        width: "80%",
+        minWidth: "60%",
+        maxWidth: "80%",
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
@@ -96,6 +148,8 @@ const styles = {
         justifyItems: "center",
         alignSelf: "center",
         justifySelf: "center",
+        minHeight: "100vh",
+        backgroundColor: "white"
     },
     header: {
         color: "#0184C7",

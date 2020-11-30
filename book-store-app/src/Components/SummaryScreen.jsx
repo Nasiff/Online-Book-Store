@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IosAddCircle from 'react-ionicons/lib/IosAddCircle'
 import IosRemoveCircle from 'react-ionicons/lib/IosRemoveCircle'
 import { BrowserRouter as Router,
@@ -8,6 +8,7 @@ import { BrowserRouter as Router,
     useRouteMatch,
     useParams, 
     useLocation} from "react-router-dom";
+import WebService from '../Services/WebService'
 
     const buildCart = (cart, updateCart) => {
         var builtJSX = [];
@@ -100,49 +101,66 @@ import { BrowserRouter as Router,
         return builtJSX;
     }    
 
-/*
-function placeOrder(order, orderJSON){
-    //post to service
-    fetch("./Data/user.json")
+
+function placeOrder(orderJSON, orderState){
+
+    console.log(orderJSON);
+
+    const data = {
+        method: 'POST', 
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(orderJSON) // body data type must match "Content-Type" header
+      }
+
+
+    const url = WebService.uri + "/purchase";
+    console.log("URL" + url);
+
+    fetch(url, data)
     .then(res => res.json())
     .then(
         //Only accounts for successful logins for now
         (result) => {
-            console.log("Result: " + result);
-            this.setState({
-                uid: result.uid,
-                user: result,
-                loggedIn: true
-            });
-            console.log(this.state.uid);
-        },
-
-        /* Any Errors 
-        (error) => {
-            console.log(error);
-            this.setState({
-                error
-            });
-            
-            alert(this.state.error);
-        }
-    )
+            console.log(result);
+            if(result.result.successful){
+                orderState(true)
+                alert("Successful Order: " + result.result.message);
+            } else {
+                orderState(false)
+                alert("Error while Ordering: " + result.result.error);
+            }
+          },
+  
+          /* Any Errors */
+          (error) => {
+              console.log(error);
+              this.setState({
+                  error
+              });
+              
+              alert(this.state.error);
+          }
+      )
 }
-*/
+
 
 function SummaryScreen(props) {
 
     const location = useLocation();
     const shippingInfo = location.state.shippingInfo;
-    const order = {
-        orderPlaced: false,
-        orderNumber: ""
-    };
+    const [order, setOrder] = useState('');
     const OrderJSON = {
         lname: shippingInfo.lname,
         fname: shippingInfo.fname,
         address: shippingInfo.address,
-        cart: props.cart
+        purchaseOrderItems: props.cart
     };
    
     return (
@@ -182,7 +200,7 @@ function SummaryScreen(props) {
                     <div style={styles.text}> {location.state.credit} </div>
                 </div>
 
-                {!order.orderPlaced ? <div style={styles.next} class="button grow">
+                {!order.orderPlaced ? <div style={styles.next} class="button grow" onClick={() => {placeOrder(OrderJSON, setOrder)}}>
                     Place Order
                 </div> : 
                 <div>
