@@ -4,7 +4,8 @@ import { BrowserRouter as Router,
     Route,
     Link,
     useRouteMatch,
-    useParams } from "react-router-dom";
+    useParams,
+    Redirect } from "react-router-dom";
 import WebService from '../Services/WebService'
 
 class ShippingScreen extends React.Component {
@@ -23,6 +24,7 @@ class ShippingScreen extends React.Component {
             creditCard: "",
             attempts: 0,
             verified: false,
+            redirect: false,
         };
       }
 
@@ -73,10 +75,17 @@ class ShippingScreen extends React.Component {
     }
 
     verifyCard = () => {
-        if(this.state.creditCard.replace(/ /g,'').length == 16){
-            return this.setState({verified: true});
+        if(this.state.attempts < 3){
+            if(this.state.creditCard.replace(/ /g,'').length == 16){
+                this.setState({verified: true});
+            } else {
+                var tries = this.state.attempts + 1;
+                alert("Failed to authenticate card, Please try again. Attempt: " + tries);
+                this.setState({verified: false, attempts: tries});         
+            };
+        } else {
+            alert("You have failed more then 3 times, Please try again later");
         }
-        return this.setState({verified: false});
     }
     
     componentDidMount(){
@@ -153,7 +162,11 @@ class ShippingScreen extends React.Component {
         } else {
             return (
                 <div>
-                    <div>You are checking out as a guest would you like to <Link to="/login">login?</Link></div>
+                    <div>You are checking out as a guest would you like to 
+                        <span className="grow" onClick={() => {
+                            this.props.redirectFunc("./shipping"); 
+                            this.setState({redirect: true});
+                            }}> login?</span></div>
 
                     <div style={styles.label}> First Name </div>
                     <input style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />
@@ -181,6 +194,10 @@ class ShippingScreen extends React.Component {
     }
 
     render() {
+        if(this.state.redirect){
+            return <Redirect to="/login" />
+        }
+
         return ( 
         <div>
         <div style={styles.container}>  
@@ -244,10 +261,12 @@ const styles = {
         fontSize: "20px",
     },
     text: {
-        margin: "10px"
+        margin: "10px",
+        textAlign: "center"
     },
     inputs: {
-        textTransform: "capitalize"
+        textTransform: "capitalize",
+        textAlign: "center"
     },
     next: {
         borderRadius: "50px",
