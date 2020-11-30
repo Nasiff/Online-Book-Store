@@ -32,15 +32,19 @@ class App extends React.Component {
     };
   }
 
-  handleLogin = (email, password) => {
+  handleLogin = async (email, password) => {
     // Send request to server to login with user and password as headers
     const headers = { 
       'Content-Type': 'application/json',
       'email' : email,
       'password' : password 
     }
+
+    var message = null;
+
     console.log(email, password);
-    fetch("./Data/user.json", { headers })
+
+    await fetch(WebService.uri + "/user", { headers })
     .then(res => res.json())
     .then(
         //Only accounts for successful logins for now
@@ -54,7 +58,9 @@ class App extends React.Component {
             console.log("Login was successful: " + this.state.uid);
 
             if(!this.state.loggedIn){
-              alert("Error logging in: " + result.result.message);
+              //alert("Error logging in: " + result.result.error);
+              message = result.result.error;
+              console.log(message);
             }
 
         },
@@ -69,6 +75,8 @@ class App extends React.Component {
             alert(this.state.error);
         }
     )
+
+    return message;
   }
 
   handleSignout = () => {
@@ -168,7 +176,7 @@ class App extends React.Component {
             </Route>
             <Route path="/register">
               <Nav/>
-              <RegisterScreen loginFunc={this.handleLogin}/>
+              <RegisterScreen loggedIn={this.state.loggedIn} loginFunc={this.handleLogin}/>
             </Route>
             <Route path="/shipping">
               <Nav/>
