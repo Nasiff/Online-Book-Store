@@ -20,7 +20,7 @@ class LoginScreen extends React.Component {
           password: "",
           type: null,
           fname: "",
-          redirect: "/account",
+          redirect: this.props.redirect,
           errorMessage: null
         };
 
@@ -51,7 +51,7 @@ class LoginScreen extends React.Component {
 
     render() {
         if(this.props.loggedIn){
-            return <Redirect to={this.state.redirect} />;
+            return <Redirect to={this.props.redirect ? this.props.redirect : "/account"} />;
         } 
         
         return ( 
