@@ -209,7 +209,7 @@ class App extends React.Component {
             </Route>
             <Route path="/">
               <Nav loggedIn={this.state.loggedIn}/>
-              <MainScreen uid={this.state.uid} addToCart={this.handleAddToCart}/>
+              <MainScreen redirectFunc={this.setRedirect} uid={this.state.uid} addToCart={this.handleAddToCart}/>
             </Route>
           </Switch>
       </Router>

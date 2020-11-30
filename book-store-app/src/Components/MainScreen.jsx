@@ -5,7 +5,11 @@ import Banner from './Banner.jsx'
 import Catalouge from './Catalouge.jsx'
 class MainScreen extends React.Component {
     
+    componentDidMount(){
+        this.props.redirectFunc("./");
+    }
     render() {
+
         return ( 
             <div className="App">
             <Banner/>
