@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import IosAddCircle from 'react-ionicons/lib/IosAddCircle'
 import IosRemoveCircle from 'react-ionicons/lib/IosRemoveCircle'
+import Popup from 'reactjs-popup';
 import { BrowserRouter as Router,
     Switch,
     Route,
     Link,
     useRouteMatch,
     useParams, 
-    useLocation} from "react-router-dom";
-import WebService from '../Services/WebService'
+    useLocation,
+    Redirect} from "react-router-dom";
+import WebService from '../Services/WebService';
+import OrderPlaced from './OrderPlaced';
 
     const buildCart = (cart, updateCart) => {
         var builtJSX = [];
@@ -22,17 +25,17 @@ import WebService from '../Services/WebService'
     
             builtJSX.push(<div style={styles.itemContainer}>
                             <div style={{textAlign: "center"}}> 
-                                {item.qty} 
+                                {item.quantity} 
                             </div>
                         </div>
                         );
     
             builtJSX.push(<div style={styles.itemContainer}>
-                            <div style={{textAlign: "center"}}> ${item.price * item.qty} </div>
+                            <div style={{textAlign: "center"}}> ${item.price * item.quantity} </div>
                         </div>
                         );
             
-            subtotal += item.price * item.qty;
+            subtotal += item.price * item.quantity;
         });
     
     
@@ -102,67 +105,33 @@ import WebService from '../Services/WebService'
     }    
 
 
-function placeOrder(orderJSON, orderState){
-
-    console.log(orderJSON);
-
-    const data = {
-        method: 'POST', 
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(orderJSON) // body data type must match "Content-Type" header
-      }
-
-
-    const url = WebService.uri + "/purchase";
-    console.log("URL" + url);
-
-    fetch(url, data)
-    .then(res => res.json())
-    .then(
-        //Only accounts for successful logins for now
-        (result) => {
-            console.log(result);
-            if(result.result.successful){
-                orderState(true)
-                alert("Successful Order: " + result.result.message);
-            } else {
-                orderState(false)
-                alert("Error while Ordering: " + result.result.error);
-            }
-          },
-  
-          /* Any Errors */
-          (error) => {
-              console.log(error);
-              this.setState({
-                  error
-              });
-              
-              alert(this.state.error);
-          }
-      )
-}
-
 
 function SummaryScreen(props) {
 
     const location = useLocation();
     const shippingInfo = location.state.shippingInfo;
-    const [order, setOrder] = useState('');
+    var [open, setOpen] = useState(false);
+    var [orderPlaced, setOrder] = useState(false);
+    var [orderNumber, setOrderNumber] = useState("Problem Ordering");
+    var [redirect, setRedirect] = useState(false);
     const OrderJSON = {
         lname: shippingInfo.lname,
         fname: shippingInfo.fname,
         address: shippingInfo.address,
         purchaseOrderItems: props.cart
     };
-   
+
+    const clearCart = props.clearCart;
+    
+    function clearAndRedirect() {
+        clearCart(); 
+        setRedirect(true);
+    }
+
+    if(redirect){
+        return <Redirect to="/" />
+    }
+
     return (
         <div>
         <div style={styles.container}>  
@@ -200,16 +169,30 @@ function SummaryScreen(props) {
                     <div style={styles.text}> {location.state.credit} </div>
                 </div>
 
-                {!order.orderPlaced ? <div style={styles.next} class="button grow" onClick={() => {placeOrder(OrderJSON, setOrder)}}>
+                {!orderPlaced ? <div style={styles.next} class="button grow" onClick={() => {setOpen(true)}}>
                     Place Order
                 </div> : 
                 <div>
-                <div style={styles.subHeader}>Order Number</div>
-                    <div style={styles.label}> {order.orderNumber} </div>
+                    <div style={styles.subHeader}>Order Number</div>
+                    <div style={styles.label}>  {orderNumber}</div>
+                    <div style={styles.next} class="button grow" onClick={() => clearAndRedirect()}>Return to Catalouge</div>
                 </div>                    
                 }
-                
             </div>
+
+            <Popup open={open} closeOnDocumentClick onClose={() => setOpen(false)}>
+                <OrderPlaced 
+                        closeFunc={() => setOpen(false)}
+                        orderJson={OrderJSON}
+                        setOrder={(orderNum) => {
+                            setOrder(true);
+                            setOrderNumber(orderNum);
+                        }}
+                        clearAndRedirect={() => clearAndRedirect()}
+                    />
+                    
+            </Popup>
+
         </div> 
         </div>
     );
