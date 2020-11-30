@@ -43,7 +43,7 @@ class LoginScreen extends React.Component {
     }
     
     handleSubmit = async (event) => {
-        alert(this.state.email + " : " + this.state.password);
+        //alert(this.state.email + " : " + this.state.password);
         event.preventDefault();
         var message = await this.props.loginFunc(this.state.email, this.state.password)
         this.setState({errorMessage: message});
