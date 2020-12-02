@@ -197,7 +197,7 @@ class App extends React.Component {
             </Route>
             <Route path="/shipping">
               <Nav loggedIn={this.state.loggedIn}/>
-              <ShippingScreen redirectFunc={this.setRedirect} uid={this.state.uid} loggedIn={this.state.loggedIn} userInfo={this.state.user}/>
+              <ShippingScreen type={this.state.type} redirectFunc={this.setRedirect} uid={this.state.uid} loggedIn={this.state.loggedIn} userInfo={this.state.user}/>
             </Route>
             <Route path="/summary">
               <Nav loggedIn={this.state.loggedIn}/>

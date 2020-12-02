@@ -162,11 +162,13 @@ class ShippingScreen extends React.Component {
         } else {
             return (
                 <div>
-                    <div>You are checking out as a guest would you like to 
+                    {this.props.type == "ADMIN" || this.props.type == "PARTNER" ? 
+                    <div>You are checking out as an {this.props.type} </div>:
+                        <div>You are checking out as a guest would you like to 
                         <span className="grow" onClick={() => {
                             this.props.redirectFunc("./shipping"); 
                             this.setState({redirect: true});
-                            }}> login?</span></div>
+                            }}> login?</span></div>}
 
                     <div style={styles.label}> First Name </div>
                     <input style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />
