@@ -45,23 +45,23 @@ class RegisterScreen extends React.Component {
     }
 
     handleFName = (event) => {
-        this.setState({fname: event.target.value});
+        this.setState({fname: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleLName = (event) => {
-        this.setState({lname: event.target.value});
+        this.setState({lname: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleStreet = (event) => {
-        this.setState({street: event.target.value});
+        this.setState({street: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleProvinceState = (event) => {
-        this.setState({province_state: event.target.value});
+        this.setState({province_state: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleCountry = (event) => {
-        this.setState({country: event.target.value});
+        this.setState({country: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleZip = (event) => {
@@ -157,8 +157,8 @@ class RegisterScreen extends React.Component {
 
         return ( 
             <div>
-            <div style={styles.container}>  
-                <div style={styles.containerContent}>
+            <div id="banner2" style={styles.container}>  
+                <div id="form" style={styles.containerContent}>
                     <div style={styles.header}>Register</div>
 
                     <div style={styles.subHeader}>Account Information</div>
@@ -179,24 +179,26 @@ class RegisterScreen extends React.Component {
                         <input type="radio" value="ADMIN" name="type" /> Admin
                         <input type="radio" value="PARTNER" name="type" /> Partner
                     </div>
-
-                    <div style={styles.subHeader}>Shipping Information</div>
+                    {this.state.type == "CUSTOMER" ? <div>
+                        <div style={styles.subHeader}>Shipping Information</div>
 
                     
-                    <div style={styles.label}> Street Address (Include Street Number)</div>
-                    <input style={styles.inputsC} type="text" value={this.state.street} onChange={this.handleStreet} />
+                        <div style={styles.label}> Street Address</div>
+                        <input style={styles.inputsC} type="text" value={this.state.street} onChange={this.handleStreet} />
 
-                    <div style={styles.label}> Province / State </div>
-                    <input style={styles.inputsC} type="text" value={this.state.province_state} onChange={this.handleProvinceState} />
+                        <div style={styles.label}> Province / State </div>
+                        <input style={styles.inputsC} type="text" value={this.state.province_state} onChange={this.handleProvinceState} />
 
-                    <div style={styles.label}> Country </div>
-                    <input style={styles.inputsC} type="text" value={this.state.country} onChange={this.handleCountry} />
+                        <div style={styles.label}> Country </div>
+                        <input style={styles.inputsC} type="text" value={this.state.country} onChange={this.handleCountry} />
 
-                    <div style={styles.label}> Zip Code </div>
-                    <input style={styles.inputs} type="text" value={this.state.zip} onChange={this.handleZip} />
+                        <div style={styles.label}> Zip Code </div>
+                        <input style={styles.inputs} type="text" value={this.state.zip} onChange={this.handleZip} />
 
-                    <div style={styles.label}> Phone </div>
-                    <input style={styles.inputs} type="text" value={this.state.phone} onChange={this.handlePhone} />
+                        <div style={styles.label}> Phone </div>
+                        <input style={styles.inputs} type="text" value={this.state.phone} onChange={this.handlePhone} />
+                    </div> : null}
+                    
 
                     <div className="button grow" onClick={this.handleSubmit}>Submit</div>
 
@@ -251,6 +253,7 @@ const styles = {
         margin: "auto",
         marginBottom: "20px",
         padding: "5px",
+        borderRadius: "25px"
     },
     inputsC: {
         display: "block",
@@ -258,7 +261,8 @@ const styles = {
         margin: "auto",
         marginBottom: "20px",
         padding: "5px",
-        textTransform: "capitalize"
+        textTransform: "capitalize",
+        borderRadius: "25px"
     },
     label: {
         margin: "10px"

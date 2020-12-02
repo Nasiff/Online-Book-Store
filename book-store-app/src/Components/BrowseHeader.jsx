@@ -9,7 +9,7 @@ import { BrowserRouter as Router,
     useParams } from "react-router-dom";
     
 import ScrollContainer from 'react-indiana-drag-scroll';
-
+import CartScreen from './CartScreen';
 class BrowseHeader extends React.Component {
     
     constructor(props) {

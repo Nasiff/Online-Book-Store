@@ -29,35 +29,35 @@ class ShippingScreen extends React.Component {
       }
 
     handleFName = (event) => {
-        this.setState({fname: event.target.value});
+        this.setState({fname: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleLName = (event) => {
-        this.setState({lname: event.target.value});
+        this.setState({lname: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleStreet = (event) => {
-        this.setState({street: event.target.value});
+        this.setState({street: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleProvinceState = (event) => {
-        this.setState({province_state: event.target.value});
+        this.setState({province_state: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleCountry = (event) => {
-        this.setState({country: event.target.value});
+        this.setState({country: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleZip = (event) => {
-        this.setState({zip: event.target.value});
+        this.setState({zip: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handlePhone = (event) => {
-        this.setState({phone: event.target.value});
+        this.setState({phone: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     handleCredit = (event) => {
-        this.setState({creditCard: event.target.value});
+        this.setState({creditCard: event.target.value.charAt(0).toUpperCase() + event.target.value.substr(1)});
     }
 
     buildShippingJSON = () => {
@@ -162,14 +162,16 @@ class ShippingScreen extends React.Component {
         } else {
             return (
                 <div>
-                    <div>You are checking out as a guest would you like to 
+                    {this.props.type == "ADMIN" || this.props.type == "PARTNER" ? 
+                    <div>You are checking out as an {this.props.type} </div>:
+                        <div>You are checking out as a guest would you like to 
                         <span className="grow" onClick={() => {
                             this.props.redirectFunc("./shipping"); 
                             this.setState({redirect: true});
-                            }}> login?</span></div>
+                            }}> login?</span></div>}
 
                     <div style={styles.label}> First Name </div>
-                    <input style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />
+                    <input autoCapitalize style={styles.inputs} type="text" value={this.state.fname} onChange={this.handleFName} />
 
                     <div style={styles.label}> Last Name </div>
                     <input style={styles.inputs} type="text" value={this.state.lname} onChange={this.handleLName} />
@@ -200,8 +202,8 @@ class ShippingScreen extends React.Component {
 
         return ( 
         <div>
-        <div style={styles.container}>  
-            <div style={styles.containerContent}>
+        <div id="sky" style={styles.container}>  
+            <div id="form2" style={styles.containerContent}>
                 <div style={styles.header}>Shipping Information</div>
                 <div style={styles.cartContainer}>
                 {this.buildShippingInfo()}
@@ -244,7 +246,18 @@ const styles = {
         width: "100%",
     },
     containerContent: {
-        width: "80%"
+        minWidth: "60%",
+        maxWidth: "80%",
+        textAlign: "center",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        justifyItems: "center",
+        alignSelf: "center",
+        justifySelf: "center",
+        minHeight: "100vh",
+        backgroundColor: "white",
+        boxShadow: "0 1px 2px 0px rgba(0, 0, 0, 0.6), 1px 2px 4px 0px rgba(0, 0, 0, 0.4)"
     },
     header: {
         color: "#0184C7",
@@ -265,8 +278,13 @@ const styles = {
         textAlign: "center"
     },
     inputs: {
-        textTransform: "capitalize",
-        textAlign: "center"
+        textAlign: "center",
+        display: "block",
+        textAlign: "center",
+        margin: "auto",
+        marginBottom: "20px",
+        padding: "5px",
+        borderRadius: "25px"
     },
     next: {
         borderRadius: "50px",

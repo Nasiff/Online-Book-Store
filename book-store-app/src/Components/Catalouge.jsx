@@ -13,6 +13,7 @@ class Catalouge extends React.Component {
             books: [],
             loadAmount: 8,
             category: "All",
+            
         };
       }
 

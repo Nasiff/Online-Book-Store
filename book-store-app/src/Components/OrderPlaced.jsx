@@ -65,7 +65,7 @@ class OrderPlaced extends React.Component {
                         postStatus: "SENT"
                     })
                     this.props.setOrder(this.state.orderInfo.order_id);
-                    alert("Successful Order: " + result.result.message);
+                    //alert("Successful Order: " + result.result.message);
                 } else {
                     this.setState({
                         message: result.result.error,

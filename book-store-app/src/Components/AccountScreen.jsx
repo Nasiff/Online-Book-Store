@@ -76,8 +76,8 @@ class AccountScreen extends React.Component {
         
         return ( 
             <div>
-            <div style={styles.container}>  
-                <div style={styles.containerContent}>
+            <div id="banner2" style={styles.container}>  
+                <div id="form" style={styles.containerContent}>
                     <div style={styles.header}>Account Summary</div>
 
                     <div style={styles.subHeader}>Account Information</div>

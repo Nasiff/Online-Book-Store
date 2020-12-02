@@ -310,9 +310,10 @@ const styles = {
         margin: "5px"
     },
     modal: {
-        backgroundColor: "white",
-        border: "5px solid black",
-        borderRadius: "10px",
+        backgroundColor: "#FFFFFF",
+        border: "10px solid #0184C7",
+        borderRadius: "1px",
+        boxShadow: "0 1px 2px 0px rgba(0, 0, 0, 0.6), 1px 2px 4px 0px rgba(0, 0, 0, 0.4)",
         padding: "10px",
         width: "80vw",
         height: "80vh",
@@ -387,7 +388,8 @@ const styles = {
         right: "-15px",
         top: "-15px",
         padding: "3px 3px 0px 3px",
-        backgroundColor: "black",
+        backgroundColor: "#0184C7",
+        border: "5px white solid",
         borderRadius: "500px",
         verticalAlign: "middle",
     },

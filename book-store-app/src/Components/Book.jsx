@@ -137,6 +137,7 @@ const styles = {
     modal: {
         backgroundColor: "white",
         border: "5px solid black",
+        boxShadow: "0 1px 2px 0px rgba(0, 0, 0, 0.6), 1px 2px 4px 0px rgba(0, 0, 0, 0.4)",   
         borderRadius: "10px",
         padding: "10px",
         width: "80vw",
