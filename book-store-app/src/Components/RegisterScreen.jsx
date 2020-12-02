@@ -179,24 +179,26 @@ class RegisterScreen extends React.Component {
                         <input type="radio" value="ADMIN" name="type" /> Admin
                         <input type="radio" value="PARTNER" name="type" /> Partner
                     </div>
-
-                    <div style={styles.subHeader}>Shipping Information</div>
+                    {this.state.type == "CUSTOMER" ? <div>
+                        <div style={styles.subHeader}>Shipping Information</div>
 
                     
-                    <div style={styles.label}> Street Address (Include Street Number)</div>
-                    <input style={styles.inputsC} type="text" value={this.state.street} onChange={this.handleStreet} />
+                        <div style={styles.label}> Street Address (Include Street Number)</div>
+                        <input style={styles.inputsC} type="text" value={this.state.street} onChange={this.handleStreet} />
 
-                    <div style={styles.label}> Province / State </div>
-                    <input style={styles.inputsC} type="text" value={this.state.province_state} onChange={this.handleProvinceState} />
+                        <div style={styles.label}> Province / State </div>
+                        <input style={styles.inputsC} type="text" value={this.state.province_state} onChange={this.handleProvinceState} />
 
-                    <div style={styles.label}> Country </div>
-                    <input style={styles.inputsC} type="text" value={this.state.country} onChange={this.handleCountry} />
+                        <div style={styles.label}> Country </div>
+                        <input style={styles.inputsC} type="text" value={this.state.country} onChange={this.handleCountry} />
 
-                    <div style={styles.label}> Zip Code </div>
-                    <input style={styles.inputs} type="text" value={this.state.zip} onChange={this.handleZip} />
+                        <div style={styles.label}> Zip Code </div>
+                        <input style={styles.inputs} type="text" value={this.state.zip} onChange={this.handleZip} />
 
-                    <div style={styles.label}> Phone </div>
-                    <input style={styles.inputs} type="text" value={this.state.phone} onChange={this.handlePhone} />
+                        <div style={styles.label}> Phone </div>
+                        <input style={styles.inputs} type="text" value={this.state.phone} onChange={this.handlePhone} />
+                    </div> : null}
+                    
 
                     <div className="button grow" onClick={this.handleSubmit}>Submit</div>
 
