@@ -24,7 +24,7 @@ const buildCart = (cart, updateCart) => {
                     );
 
         builtJSX.push(<div style={styles.itemContainer}>
-                        <div style={{textAlign: "center"}}> ${item.price * item.quantity} </div>
+                        <div style={{textAlign: "center"}}> ${(item.price * item.quantity).toFixed(2)} </div>
                     </div>
                     );
         
