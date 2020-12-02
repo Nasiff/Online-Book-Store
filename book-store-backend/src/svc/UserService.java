@@ -141,4 +141,19 @@ public class UserService {
 		} 
 	}
 	
+	// http://localhost:8080/book-store-backend/rest/user/partner/books?search=<titleKeyword>
+	@GET
+	@Path("/partner/books")
+	@Produces("application/json")
+	public Response getBooksByTitleKeyword(@HeaderParam("uid") String uid, @QueryParam("search") String titleKeywords) throws Exception {
+		System.out.println("GET product info for books with keyword " + titleKeywords + " and for partner with uid " + uid);
+		try {
+			String content = UserController.getInstance().partnerSearchForBooksByKeywords(uid, titleKeywords);
+			return RestApiHelper.responseHelper(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String content = RestApiHelper.prepareErrorJson("Problem getting product info for books with keyword " + titleKeywords + " and for partner with uid " + uid);
+			return RestApiHelper.responseHelper(content);
+		} 
+	}
 }

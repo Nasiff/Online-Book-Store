@@ -79,6 +79,34 @@ public class BookDAO {
 		return book;
 	}
 	
+	public Set<BookBean> retrieveBooksByTitleKeywords(String titleKeywords) throws SQLException {
+		String query = "select * from Book where title like ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		
+		p.setString(1, "%" + titleKeywords + "%");
+		
+		Set<BookBean> books = new HashSet<BookBean>();
+
+		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			String bid = r.getString("bid");
+			String title = r.getString("title");
+			double price = r.getDouble("price");
+			String author = r.getString("author");
+			String category = r.getString("category");
+			double review_score = r.getDouble("review_score");
+			int number_of_reviews = r.getInt("number_of_reviews");
+			String image_url = r.getString("image_url");
+			books.add(new BookBean(bid, title, price, author, category, review_score, number_of_reviews, image_url));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		return books;
+	}
+	
 	public Set<String> retrieveAllBids() throws SQLException {
 		String query = "select bid from Book";
 		Set<String> allBids = new HashSet<String>();

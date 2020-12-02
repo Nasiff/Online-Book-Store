@@ -290,4 +290,13 @@ public class UserController {
 		return BookController.getInstance().retrieveBook(bid);
 	}
 	
+	public String partnerSearchForBooksByKeywords(String uidStr, String titleKeywords) throws Exception {
+		String partnerAuth = this.userAuthentication(uidStr, "PARTNER");
+		if (!partnerAuth.equals("valid")) {
+			return partnerAuth; // returns error from adminAuthentication
+		} 
+		
+		return BookController.getInstance().retrieveBooksByKeywords(titleKeywords);
+	}
+	
 }

@@ -96,6 +96,43 @@ public class BookController {
 		return RestApiHelper.prepareResultJson(respContent);
 	}
 	
+	
+	public String retrieveBooksByKeywords(String titleKeywords) throws Exception {
+		
+		if (InputValidation.emptyInput(titleKeywords)) {
+			System.out.println("ERROR: Search keywords provided must not be empty");
+			return RestApiHelper.prepareErrorJson("Search keywords provided must not be empty");
+		} else if (!titleKeywords.matches("^[a-zA-Z0-9 ']*$")) {
+			System.out.println("ERROR: Search keywords must be only alphanumerical characters, space, and apostrophe");
+			return RestApiHelper.prepareErrorJson("Search keywords must be only alphanumerical characters, space, and apostrophe");
+		}
+		
+		Set<BookBean> s = this.bookDao.retrieveBooksByTitleKeywords(titleKeywords);
+		JSONArray books = new JSONArray();
+		JSONObject respContent = new JSONObject();
+		
+		for (BookBean b : s) {
+			JSONObject i = new JSONObject();
+			i.put("bid", b.getBid());
+			i.put("title", b.getTitle());
+			i.put("price", b.getPrice());
+			i.put("author", b.getAuthor());
+			i.put("category", b.getCategory());
+			i.put("review_score", b.getReview_score());
+			i.put("number_of_reviews", b.getNumber_of_reviews());
+			i.put("image_url", b.getImage_url());
+			books.add(i);
+		}
+		respContent.put("successful", true);
+		respContent.put("message", "Successful retrieval of books by search keywords.");
+		respContent.put("number_of_books", s.size());
+		respContent.put("books", books);
+		
+		System.out.println(respContent);
+		return RestApiHelper.prepareResultJson(respContent);
+	}
+	
+	
 	public String retrieveCategories() throws Exception {
 		Set<String> s = this.bookDao.retrieveAllCategories();
 		JSONArray categories = new JSONArray();
