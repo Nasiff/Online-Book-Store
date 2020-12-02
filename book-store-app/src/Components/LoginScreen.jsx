@@ -56,8 +56,8 @@ class LoginScreen extends React.Component {
         
         return ( 
             <div>
-            <div style={styles.container}>  
-                <div style={styles.containerContent}>
+            <div id="banner" style={styles.container}>  
+                <div id="form" style={styles.containerContent}>
                     <div style={styles.header}>Login</div>
                     <div style={styles.errorMessage}>{this.state.errorMessage}</div>
                     <div style={styles.label}> Email </div>
@@ -98,7 +98,7 @@ const styles = {
         alignSelf: "center",
         justifySelf: "center",
         minHeight: "100vh",
-        backgroundColor: "white"
+        backgroundColor: "white",
     },
     header: {
         color: "#0184C7",
@@ -115,7 +115,8 @@ const styles = {
         textAlign: "center",
         margin: "auto",
         marginBottom: "20px",
-        padding: "5px"
+        padding: "5px",
+        borderRadius: "25px"
     },
     label: {
         margin: "10px"

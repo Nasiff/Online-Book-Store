@@ -108,7 +108,7 @@ class AdminAnalytics extends React.Component {
         if(this.props.type == "ADMIN"){
             return (
                 <div>
-                <div style={styles.container}>  
+                <div id="banner2" style={styles.container}>  
                     <div style={styles.containerContent}>
                         <div style={styles.header}>Admin Analytics</div>
                         <div style={styles.errorMessage}>{this.state.errorMessage}</div>
@@ -127,7 +127,7 @@ class AdminAnalytics extends React.Component {
         
         return ( 
             <div>
-            <div style={styles.container}>  
+            <div id="banner2" style={styles.container}>  
                 <div style={styles.containerContent}>
                     <div style={styles.header}>Admin Analytics</div>
                     <div style={styles.errorMessage}>This Page is only available to admins</div>
