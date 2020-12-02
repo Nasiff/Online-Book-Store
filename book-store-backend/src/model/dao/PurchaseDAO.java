@@ -124,11 +124,8 @@ public class PurchaseDAO {
 	
 	public List<BookSalesBean> retrieveAllTimeTopSellers() throws SQLException {
 		List<BookSalesBean> topBookSales = new ArrayList<BookSalesBean>();
-		String query = " select * from " 
-				+ "(select bid, sum(PoItem.quantity) as sales from PoItem "
-				+ "group by bid order) "
-				+ "as bookSales inner join Book on bookSales.bid = book.bid "
-				+ "order by sales DESC";
+		String query = " select * from (select bid, sum(PoItem.quantity) as sales from PoItem group by bid) "
+				+ "as bookSales inner join Book on bookSales.bid = book.bid order by sales DESC";
 		
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
