@@ -310,8 +310,8 @@ const styles = {
         margin: "5px"
     },
     modal: {
-        backgroundColor: "#FAF8FF",
-        border: "10px solid white",
+        backgroundColor: "#FFFFFF",
+        border: "10px solid #0184C7",
         borderRadius: "1px",
         boxShadow: "0 1px 2px 0px rgba(0, 0, 0, 0.6), 1px 2px 4px 0px rgba(0, 0, 0, 0.4)",
         padding: "10px",
