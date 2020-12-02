@@ -58,7 +58,7 @@ const styles = {
         position: "absolute",
         background: "rgba(0,0,0,0.9) 50%",
         width: "100%",
-        height: "100%"
+        height: "100vh"
     },
     hamburgerContainer: {
         //backgroundColor: "red",

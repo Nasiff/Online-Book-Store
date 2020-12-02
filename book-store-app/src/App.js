@@ -19,6 +19,42 @@ import AccountScreen from './Components/AccountScreen';
 import ShippingScreen from './Components/ShippingScreen';
 import SummaryScreen from './Components/SummaryScreen';
 import AdminAnalytics from './Components/AdminAnalytics';
+import { AnimatedSwitch } from 'react-router-transition';
+import { spring, AnimatedRoute } from 'react-router-transition';
+
+function mapStyles(styles) {
+  return {
+    opacity: styles.opacity,
+    transform: `scale(${styles.scale})`,
+  };
+}
+
+// wrap the `spring` helper to use a bouncy config
+function bounce(val) {
+  return spring(val, {
+    stiffness: 330,
+    damping: 22,
+  });
+}
+
+// child matches will...
+const bounceTransition = {
+  // start in a transparent, upscaled state
+  atEnter: {
+    opacity: 0,
+    scale: 1.2,
+  },
+  // leave in a transparent, downscaled state
+  atLeave: {
+    opacity: bounce(0),
+    scale: bounce(0.8),
+  },
+  // and rest at an opaque, normally-scaled state
+  atActive: {
+    opacity: bounce(1),
+    scale: bounce(1),
+  },
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -173,15 +209,26 @@ class App extends React.Component {
     }
   }
 
+  
 
 
   render(){
     return (
       <Router>
-        <Switch>
+        <AnimatedSwitch
+          atEnter={{ offset: -100 }}
+          atLeave={{ offset: -100 }}
+          atActive={{ offset: 0 }}
+          mapStyles={(styles) => ({
+            transform: `translateX(${styles.offset}%)`,
+          })}
+          className="route-wrapper"
+        >
             <Route path="/cart">
+              <div>
               <Nav loggedIn={this.state.loggedIn}/>
-              <CartScreen cart={this.state.cart} updateCartFunc={this.handleUpdateCart}/>              
+              <CartScreen cart={this.state.cart} updateCartFunc={this.handleUpdateCart}/>  
+              </div>            
             </Route>
             <Route path="/account">
               <Nav loggedIn={this.state.loggedIn}/>
@@ -211,7 +258,7 @@ class App extends React.Component {
               <Nav loggedIn={this.state.loggedIn}/>
               <MainScreen redirectFunc={this.setRedirect} uid={this.state.uid} addToCart={this.handleAddToCart}/>
             </Route>
-          </Switch>
+          </AnimatedSwitch>
       </Router>
     );
   }
