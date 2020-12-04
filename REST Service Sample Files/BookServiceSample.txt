@@ -1,10 +1,10 @@
 BookService
 
-	GET	(Retrieve all books)
-	http://localhost:8080/book-store-backend/rest/books
-		INPUT nothing
+GET	(Retrieve all books)
+/rest/books
+INPUT nothing
 
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "books":[
@@ -133,13 +133,13 @@ BookService
 }
 
 
-	GET	(Retrieve book by bid)
-	http://localhost:8080/book-store-backend/rest/books/{bid}
-		INPUT bid = isbn-0262033848
-		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/isbn-0262033848
+GET	(Retrieve book by bid)
+/rest/books/{bid}
+EXAMPLE INPUT: bid = isbn-0262033848
+	=> path becomes
+	/rest/books/isbn-0262033848
 		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "bookExists":"true",
@@ -157,11 +157,11 @@ BookService
    }
 }
 
-	GET	(Retrieve all categories)
-	http://localhost:8080/book-store-backend/rest/books/categories
-		INPUT nothing
+GET	(Retrieve all categories)
+/rest/books/categories
+EXAMPLE INPUT: nothing
 		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "number_of_categories":7,
@@ -180,13 +180,13 @@ BookService
 }
 
 
-	GET	(Retrieve all books of categoryName)
-	http://localhost:8080/book-store-backend/rest/books/categories/{categoryName}
-		INPUT categoryName = Science
+GET	(Retrieve all books of categoryName)
+/rest/books/categories/{categoryName}
+EXAMPLE INPUT: categoryName = Science
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/categories/Science
+		/rest/books/categories/Science
 		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "books":[
@@ -216,11 +216,11 @@ BookService
    }
 }
 
-		INPUT categoryName = History
+EXAMPLE INPUT: categoryName = History
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/categories/History
+		/rest/books/categories/History
 		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "error":"Category provided does not exist",
@@ -229,13 +229,13 @@ BookService
 }
 
 
-	GET	(Retrieve book review by bid)
-	http://localhost:8080/book-store-backend/rest/books/{bid}/review
-		INPUT bid = isbn-0262033848
+GET	(Retrieve book review by bid)
+/rest/books/{bid}/review
+EXAMPLE INPUT: bid = isbn-0262033848
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/isbn-0262033848/review
+		/rest/books/isbn-0262033848/review
 		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "reviews":[
@@ -255,22 +255,21 @@ BookService
 }
 
 
-	POST	(CREATE review with bid )
-	http://localhost:8080/book-store-backend/rest/books/{bids}/review
-		INPUT 
+POST (CREATE review with bid )
+/rest/books/{bids}/review
+EXAMPLE INPUT:
 			HeaderParam uid = 61798
 			PathParam bid = isbn-0262033848
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/isbn-0262033848/review
-		
+		/rest/books/isbn-0262033848/review
+	
 		JSON request INPUT
 		{
       "review_score": 5,
       "review_body":"Fantastic textbook for learning algorithms."
 		}
 		
-		
-		OUTPUT
+EXAMPLE	OUTPUT:
 {
    "result":{
       "uid":61798,
@@ -287,9 +286,9 @@ BookService
    }
 }
 
-	PUT	(UPDATE review with bid )
-	http://localhost:8080/book-store-backend/rest/books/{bids}/review
-		INPUT 
+PUT	(UPDATE review with bid)
+/rest/books/{bids}/review
+EXAMPLE INPUT:
 			HeaderParam uid = 61798
 			PathParam bid = isbn-0262033848
 		=> path becomes
@@ -301,8 +300,7 @@ BookService
       "review_body":"EDIT: This textbook is riddled with typos, but has good content otherwise."
 		}
 		
-		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "uid":61798,
