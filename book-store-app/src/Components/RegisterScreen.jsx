@@ -33,7 +33,7 @@ class RegisterScreen extends React.Component {
       }
     
     componentDidMount(){
-        console.log("Mounted the Cart: " + this.state)
+        //console.log("Mounted the Cart: " + this.state)
     }
 
     handleEmail = (event) => {
@@ -101,7 +101,7 @@ class RegisterScreen extends React.Component {
             }
         }
 
-        console.log(registrationJson);
+        //console.log(registrationJson);
 
         const data = {
             method: 'POST', 
@@ -118,14 +118,14 @@ class RegisterScreen extends React.Component {
 
 
         const url = WebService.uri + "/user";
-        console.log("URL" + url);
+        //console.log("URL" + url);
 
         fetch(url, data)
         .then(res => res.json())
         .then(
             //Only accounts for successful logins for now
             (result) => {
-                console.log(result);
+                //console.log(result);
                 if(result.result.successful){
                     alert("Successful Registration: " + result.result.message);
                     this.props.loginFunc(this.state.email, this.state.password)
@@ -137,7 +137,7 @@ class RegisterScreen extends React.Component {
       
               /* Any Errors */
               (error) => {
-                  console.log(error);
+                  //console.log(error);
                   this.setState({
                       error
                   });

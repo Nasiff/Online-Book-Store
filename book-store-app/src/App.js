@@ -79,14 +79,14 @@ class App extends React.Component {
 
     var message = null;
 
-    console.log(email, password);
+    //console.log(email, password);
 
     await fetch(WebService.uri + "/user", { headers })
     .then(res => res.json())
     .then(
         //Only accounts for successful logins for now
         (result) => {
-            console.log("Result: " + result);
+            //console.log("Result: " + result);
             if(result.result.successful){
               this.setState({type: result.result.user_type});
             }
@@ -95,19 +95,19 @@ class App extends React.Component {
                 user: result.result,
                 loggedIn: result.result.successful,
             });
-            console.log("Login was successful: " + this.state.uid);
+            //console.log("Login was successful: " + this.state.uid);
 
             if(!this.state.loggedIn){
               //alert("Error logging in: " + result.result.error);
               message = result.result.error;
-              console.log(message);
+              //console.log(message);
             } 
 
         },
 
         /* Any Errors */
         (error) => {
-            console.log(error);
+            //console.log(error);
             this.setState({
                 error
             });
@@ -120,9 +120,9 @@ class App extends React.Component {
   }
 
   setRedirect = async (page) => {
-    console.log(page);
+    //console.log(page);
     await this.setState({redirect: page});
-    console.log(this.state.redirect);
+    //console.log(this.state.redirect);
   }
 
   handleSignout = () => {
@@ -136,7 +136,7 @@ class App extends React.Component {
   }
 
   handleClearCart = () => {
-    console.log("clearing cart");
+    //console.log("clearing cart");
     this.setState({
       cart: []
     })
@@ -152,7 +152,7 @@ class App extends React.Component {
       price: price
     }
     var hasBook = this.state.cart.some(book => book.bid === id);
-    console.log("has: " + hasBook);
+    //console.log("has: " + hasBook);
 
     if(hasBook) {
       var index = this.state.cart.findIndex(book => {
@@ -162,15 +162,15 @@ class App extends React.Component {
       var newCart = this.state.cart;
       var newBook = newCart[index];
 
-      console.log("index: " + index + " new Book: " + newBook)
+      //console.log("index: " + index + " new Book: " + newBook)
 
       newBook.quantity = newBook.quantity + qty;
       newCart[index] = newBook;
       this.setState({cart: newCart}); 
 
-      console.log("Update book");
+      //console.log("Update book");
     } else {
-      console.log("Adding new book");
+      //console.log("Adding new book");
       this.setState(prevState => ({
         cart: [...prevState.cart, item]
       }));
@@ -179,7 +179,7 @@ class App extends React.Component {
 
   handleUpdateCart = (id, updateVal) => {
     var hasBook = this.state.cart.some(book => book.bid === id);
-    console.log("has: " + hasBook);
+    //console.log("has: " + hasBook);
 
     if(hasBook) {
       var index = this.state.cart.findIndex(book => {
@@ -189,7 +189,7 @@ class App extends React.Component {
       var newCart = this.state.cart;
       var newBook = newCart[index];
 
-      console.log("index: " + index + " new Book: " + newBook)
+      //console.log("index: " + index + " new Book: " + newBook)
 
       newBook.quantity = newBook.quantity + updateVal;
       if(newBook.quantity < 1){
@@ -205,7 +205,7 @@ class App extends React.Component {
         this.setState({cart: newCart}); 
       }
 
-      console.log("Update book");
+      //console.log("Update book");
     }
   }
 

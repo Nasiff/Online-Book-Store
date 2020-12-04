@@ -20,12 +20,12 @@ class BrowseHeader extends React.Component {
       }
 
     componentDidMount(){
-        console.log("Loading Categories");
+        //console.log("Loading Categories");
         fetch(WebService.uri + "/books/categories")
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log("Result: " + result);
+                    //console.log("Result: " + result);
                     this.setState({
                         categories: result.result.categories
                     });
@@ -33,7 +33,7 @@ class BrowseHeader extends React.Component {
 
                 /* Any Errors */
                 (error) => {
-                    console.log(error);
+                    //console.log(error);
                     this.setState({
                         error
                     });
