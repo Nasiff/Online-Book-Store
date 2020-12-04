@@ -137,7 +137,7 @@ GET	(Retrieve book by bid)
 /rest/books/{bid}
 EXAMPLE INPUT: bid = isbn-0262033848
 	=> path becomes
-	http://localhost:8080/book-store-backend/rest/books/isbn-0262033848
+	/rest/books/isbn-0262033848
 		
 EXAMPLE OUTPUT:
 {
@@ -184,7 +184,7 @@ GET	(Retrieve all books of categoryName)
 /rest/books/categories/{categoryName}
 EXAMPLE INPUT: categoryName = Science
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/categories/Science
+		/rest/books/categories/Science
 		
 EXAMPLE OUTPUT:
 {
@@ -216,11 +216,11 @@ EXAMPLE OUTPUT:
    }
 }
 
-		INPUT categoryName = History
+EXAMPLE INPUT: categoryName = History
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/categories/History
+		/rest/books/categories/History
 		
-		OUTPUT
+EXAMPLE OUTPUT:
 {
    "result":{
       "error":"Category provided does not exist",
@@ -230,10 +230,10 @@ EXAMPLE OUTPUT:
 
 
 GET	(Retrieve book review by bid)
-http://localhost:8080/book-store-backend/rest/books/{bid}/review
+/rest/books/{bid}/review
 EXAMPLE INPUT: bid = isbn-0262033848
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/isbn-0262033848/review
+		/rest/books/isbn-0262033848/review
 		
 EXAMPLE OUTPUT:
 {
@@ -261,7 +261,7 @@ EXAMPLE INPUT:
 			HeaderParam uid = 61798
 			PathParam bid = isbn-0262033848
 		=> path becomes
-		http://localhost:8080/book-store-backend/rest/books/isbn-0262033848/review
+		/rest/books/isbn-0262033848/review
 	
 		JSON request INPUT
 		{
