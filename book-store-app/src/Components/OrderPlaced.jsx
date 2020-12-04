@@ -31,7 +31,7 @@ class OrderPlaced extends React.Component {
     
     placeOrder = (orderJSON) => {
 
-        console.log(orderJSON);
+        //console.log(orderJSON);
     
         const data = {
             method: 'POST', 
@@ -48,7 +48,7 @@ class OrderPlaced extends React.Component {
     
     
         const url = WebService.uri + "/purchase";
-        console.log("URL" + url);
+        //console.log("URL" + url);
 
 
         fetch(url, data)
@@ -56,7 +56,7 @@ class OrderPlaced extends React.Component {
         .then(
             //Only accounts for successful logins for now
             (result) => {
-                console.log(result);
+                //console.log(result);
                 if(result.result.successful){
                     this.setState({
                         orderInfo: result.result.order_info,
@@ -77,7 +77,7 @@ class OrderPlaced extends React.Component {
       
               /* Any Errors */
               (error) => {
-                  console.log(error);
+                  //console.log(error);
                   this.setState({
                       error
                   });
@@ -88,7 +88,7 @@ class OrderPlaced extends React.Component {
     }
 
     componentDidMount(){
-        console.log("Mounted Purchase: " + this.props.orderJson);
+        //console.log("Mounted Purchase: " + this.props.orderJson);
         this.placeOrder(this.props.orderJson);
     }
 
@@ -113,7 +113,7 @@ class OrderPlaced extends React.Component {
                                 <div style={styles.text}>Purchase Date: <b>{this.state.orderInfo.purchase_date}</b></div>
                                 <div style={styles.text}>Order Status: <b>{this.state.orderInfo.status}</b></div>
                                 <div style={styles.text}>Total: <b>{this.state.orderCost.total}</b></div>
-                                <Link to="/"><div className="button grow" onClick={() => this.props.clearAndRedirect()}>Return to Catalouge</div></Link>
+                                <Link to="/"><div className="button grow" onClick={() => this.props.clearAndRedirect()}>Return to Catalogue</div></Link>
                             </div> : null
                         }
                     </div>

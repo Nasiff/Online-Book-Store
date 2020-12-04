@@ -17,7 +17,7 @@ class Nav extends React.Component {
 
     toggleMenu = () => {
         this.setState({open: !this.state.open});
-        console.log(this.state.open);
+        //console.log(this.state.open);
     }
 
     render() {
@@ -30,7 +30,7 @@ class Nav extends React.Component {
                     <div style={styles.menu}>
                         {this.props.loggedIn ? <Link to="/account"><div className="menuItem grow" style={styles.menuItem}>Account</div></Link> : 
                         <Link to="/login"><div className="menuItem grow" style={styles.menuItem}>Login</div></Link>}
-                        <Link to="/"><div className="menuItem grow" style={styles.menuItem}>Book Catalouge</div></Link>
+                        <Link to="/"><div className="menuItem grow" style={styles.menuItem}>Book Catalogue</div></Link>
                         <Link to="/cart"><div className="menuItem grow" style={styles.menuItem}>Shopping Cart</div></Link>
                         <Link to="/admin"><div className="menuItem grow" style={styles.menuItem}>Admin Analytics</div></Link>
                     </div>

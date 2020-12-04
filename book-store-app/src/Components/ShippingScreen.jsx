@@ -89,7 +89,7 @@ class ShippingScreen extends React.Component {
     }
     
     componentDidMount(){
-        console.log("Mounted the Cart: " + this.state)
+        //console.log("Mounted the Cart: " + this.state)
         if(this.props.loggedIn){
             //If logged in try to get shipping information
             this.getShippingInformation(this.props.uid);
@@ -103,13 +103,13 @@ class ShippingScreen extends React.Component {
             'uid': this.props.uid
           }
        
-        console.log(headers);
+        //console.log(headers);
         fetch(WebService.uri + "/address", { headers })
           .then(res => res.json())
           .then(
               //Only accounts for successful logins for now
               (result) => {
-                  console.log("Result: " + result);
+                  //console.log("Result: " + result);
                   if(result.result.successful){
                     this.setState({
                         shippingInfo: result.result,  
@@ -127,7 +127,7 @@ class ShippingScreen extends React.Component {
       
               /* Any Errors */
               (error) => {
-                  console.log(error);
+                  //console.log(error);
                   this.setState({
                       error
                   });

@@ -2,7 +2,7 @@ import React from 'react';
 import WebService from '../Services/WebService';
 
 const BookList = (books) => {
-    console.log("books: " + books);
+    //console.log("books: " + books);
     if(books.length > 0){
         return books.map(book => {
             return <div key={book.bid} style={styles.item}>
@@ -29,7 +29,7 @@ class AdminAnalytics extends React.Component {
       }
     
     componentDidMount(){
-        console.log("Mounted the aDMIN: " + this.state);
+        //console.log("Mounted the aDMIN: " + this.state);
         if(this.props.type == "ADMIN"){
             this.getMonthly();
             this.getAllTime();
@@ -37,7 +37,7 @@ class AdminAnalytics extends React.Component {
     }
 
     getMonthly = () => {
-        console.log(this.props.uid);
+        //console.log(this.props.uid);
         const headers = { 
             'Content-Type': 'application/json',
             'uid' : this.props.uid
@@ -48,11 +48,11 @@ class AdminAnalytics extends React.Component {
         .then(
             //Only accounts for successful logins for now
             (result) => {
-                console.log("Result: " + result);
+                //console.log("Result: " + result);
                 if(result.result.successful){
-                    console.log("Successful: " + result.result.message);
+                    //console.log("Successful: " + result.result.message);
                     this.setState({monthBooks: result.result.current_month});
-                    console.log(this.state.monthBooks);
+                    //console.log(this.state.monthBooks);
                 } else {
                     alert("Failed fetch: " + result.result.error);
                 }
@@ -61,7 +61,7 @@ class AdminAnalytics extends React.Component {
     
             /* Any Errors */
             (error) => {
-                console.log(error);
+                //console.log(error);
                 this.setState({
                     error
                 });
@@ -82,9 +82,9 @@ class AdminAnalytics extends React.Component {
         .then(
             //Only accounts for successful logins for now
             (result) => {
-                console.log("Result: " + result);
+                //console.log("Result: " + result);
                 if(result.result.successful){
-                    console.log("Successful: " + result.result.message);
+                    //console.log("Successful: " + result.result.message);
                     this.setState({allTimeBooks: result.result.all_time});
                 } else {
                     alert("Failed fetch: " + result.result.error);
@@ -94,7 +94,7 @@ class AdminAnalytics extends React.Component {
     
             /* Any Errors */
             (error) => {
-                console.log(error);
+                //console.log(error);
                 this.setState({
                     error
                 });
