@@ -24,7 +24,14 @@ VALUES
 ('isbn-1408855666', 'Harry Potter and the Chamber of Secrets', 14.99, 'J.K. Rowling','Fantasy', NULL, 0, './Data/Harry_Potter_and_the_Chamber_of_Secrets.jpg'),
 ('isbn-1526622807', 'Harry Potter and the Prisoner of Azkaban', 27.99, 'J.K. Rowling','Fantasy', NULL, 0, './Data/Harry_Potter_and_the_Prisoner_of_Azkaban.jpg'),
 ('isbn-0920668372', 'Love You Forever', 7.99, 'Robert Munsch','Children''s', NULL, 0, './Data/Love_You_Forever.jpg'),
-('isbn-1443107859', 'The Very Cranky Bear', 8.49, 'Nick Bland','Children''s', NULL, 0, './Data/The_Very_Cranky_Bear.jpg');
+('isbn-1443107859', 'The Very Cranky Bear', 8.49, 'Nick Bland','Children''s', NULL, 0, './Data/The_Very_Cranky_Bear.jpg'),
+('isbn-1589255518', 'I Love You to the Moon and Back', 6.49, 'Tim Warnes','Children''s', NULL, 0, './Data/I_Love_You_to_the_Moon_and_Back.jpg'),
+('isbn-1984825780', 'A Knock at Midnight', 33.99, 'Brittany K. Barnett','Biography', NULL, 0, './Data/A_Knock_at_Midnight.jpg'),
+('isbn-0316509841', 'The City We Became', 24.99, 'N. K. Jemisin','Fantasy', NULL, 0, './Data/The_City_We_Became.jpg'),
+('isbn-1250313228', 'Harrow the Ninth', 31.99, 'Tamsyn Muir','Fantasy', NULL, 0, './Data/Harrow_the_Ninth.jpg'),
+('isbn-1786819597', 'The Tuscan Secret', 12.99, 'Angela Petch','Historical', NULL, 0, './Data/The_Tuscan_Secret.jpg'),
+('isbn-1542005132', 'The Dressmaker''s Gift', 13.99, 'Fiona Valpy','Romance', NULL, 0, './Data/The_Dressmakers_Gift.jpg'),
+('isbn-0525577076', 'Half Baked Harvest Super Simple', 25.99, 'Tieghan Gerard','Cooking', NULL, 0, './Data/Half_Baked_Harvest_Super_Simple.jpg');
 
 
 CREATE TABLE Address (
