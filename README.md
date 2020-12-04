@@ -8,7 +8,6 @@ Ensure the following are installed on your machine:
 | ------ | ------ |
 | npm | https://www.npmjs.com/get-npm |
 | react | https://www.npmjs.com/package/react |
-Dillinger uses a number of open source projects to work properly:
 
 ##### Steps to run front end locally
 1. After downloading the GitHub project from the website navigate to the folder through the terminal / command prompt
