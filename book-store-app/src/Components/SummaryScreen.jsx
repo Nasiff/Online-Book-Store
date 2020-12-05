@@ -175,7 +175,7 @@ function SummaryScreen(props) {
                 <div>
                     <div style={styles.subHeader}>Order Number</div>
                     <div style={styles.label}>  {orderNumber}</div>
-                    <div style={styles.next} class="button grow" onClick={() => clearAndRedirect()}>Return to Catalouge</div>
+                    <div style={styles.next} class="button grow" onClick={() => clearAndRedirect()}>Return to Catalogue</div>
                 </div>                    
                 }
             </div>

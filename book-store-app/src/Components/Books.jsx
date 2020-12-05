@@ -3,7 +3,7 @@ import Book from './Book';
 import WebService from '../Services/WebService';
 
 const BookList = (books, loadAmount, addToCart, uid, loadBooks) => {
-    console.log("books: " + books);
+    //console.log("books: " + books);
     if(books.length > 0){
         return books.slice(0, loadAmount).map(book => {
             return <div className="grow" key={book.bid} style={styles.item}>
@@ -41,12 +41,12 @@ class Books extends React.Component {
         return true;}
 
     loadBooks = () => {
-        console.log("Loading Books");
+        //console.log("Loading Books");
         fetch(WebService.uri + "/books")
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log("Result: " + result);
+                    //console.log("Result: " + result);
                     this.setState({
                         books: result.result.books
                     });
@@ -54,7 +54,7 @@ class Books extends React.Component {
 
                 /* Any Errors */
                 (error) => {
-                    console.log(error);
+                    //console.log(error);
                     this.setState({
                         error
                     });
@@ -68,7 +68,7 @@ class Books extends React.Component {
     loadXMoreBooks = (e) => {
         e.preventDefault();
         var lastY = window.pageYOffset;
-        console.log("Loading More books:" + e);
+        //console.log("Loading More books:" + e);
         var newLoad = this.state.loadAmount + 8;
         // Should check if the new load is larger then the array size and remove button
         this.setState({
@@ -78,13 +78,13 @@ class Books extends React.Component {
     }
 
     loadBooksByCategory = (category) => {
-        console.log("loadBooksByCategory");
+        //console.log("loadBooksByCategory");
         if(category === "All"){
             fetch(WebService.uri + "/books")
                 .then(res => res.json())
                 .then(
                     (result) => {
-                        console.log("Result: " + result);
+                        //console.log("Result: " + result);
                         this.setState({
                             books: result.result.books
                         });
@@ -92,7 +92,7 @@ class Books extends React.Component {
     
                     /* Any Errors */
                     (error) => {
-                        console.log(error);
+                        //console.log(error);
                         
                         alert(this.state.error);
                         this.setState({
@@ -105,7 +105,7 @@ class Books extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log("Result: " + result);
+                    //console.log("Result: " + result);
                     this.setState({
                         books: result.result.books
                     });
@@ -114,7 +114,7 @@ class Books extends React.Component {
     
                 /* Any Errors */
                 (error) => {
-                    console.log(error);
+                    //console.log(error);
                     
                     alert(this.state.error);
                     this.setState({

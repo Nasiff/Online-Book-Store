@@ -25,7 +25,7 @@ class AccountScreen extends React.Component {
       }
     
     componentDidMount(){
-        console.log("Mounted the Cart: " + this.state);
+        //console.log("Mounted the Cart: " + this.state);
         this.getShippingInformation();
     }
 
@@ -43,13 +43,13 @@ class AccountScreen extends React.Component {
             'uid' : this.props.userInfo.uid
           }
         
-        console.log(headers);
+        //console.log(headers);
         fetch(WebService.uri + "/address", { headers })
           .then(res => res.json())
           .then(
               //Only accounts for successful logins for now
               (result) => {
-                  console.log("Result: " + result);
+                  //console.log("Result: " + result);
                   if(result.result.successful){
                     this.setState({
                         shippingInfo: result.result                   
@@ -59,7 +59,7 @@ class AccountScreen extends React.Component {
       
               /* Any Errors */
               (error) => {
-                  console.log(error);
+                  //console.log(error);
                   this.setState({
                       error
                   });

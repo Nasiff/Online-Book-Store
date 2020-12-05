@@ -1,0 +1,103 @@
+PartnerService:
+In the headers there will be userId that represents a partner key
+
+
+GET (all orders for a specific book)
+/user/partner/{bid}
+EXAMPLE INPUT:
+	Header uid: 48032
+	QueryParam bid: isbn-0133915425
+
+EXAMPLE OUTPUT:
+	{
+		 "result":{
+				"total_quantity":1,
+				"orders":[
+					 {
+							"quantity":1,
+							"order_id":"order-1000002"
+					 }
+				],
+				"bid":"isbn-0133915425",
+				"message":"Successful retrieval of all orders for book with bid isbn-0133915425",
+				"successful":true
+		 }
+	}
+
+
+
+GET (get a book with a specific id in a json file)
+/user/partner/{bid}/json
+
+EXAMPLE INPUT:
+	Header uid: 48032
+	QueryParam bid: isbn-0133915425
+
+EXAMPLE OUTPUT:
+	{
+		 "result":{
+				"bookExists":"true",
+				"book":{
+					 "price":114.49,
+					 "author":"Russell Hibbeler",
+					 "review_score":5,
+					 "image_url":"public\Data\BookCoverImages\Engineering_Mechanics_-_Statics_&_Dynamics.jpg",
+					 "number_of_reviews":1,
+					 "bid":"isbn-0133915425",
+					 "title":"Engineering Mechanics: Statics & Dynamics",
+					 "category":"Science"
+				},
+				"message":"Successful retrieval of book by bid.",
+				"successful":true
+		 }
+	}
+
+
+
+GET (get a book by keyword/substring of book title)
+rest/user/partner/books?search=<titleKeyword>
+
+EXAMPLE INPUT:
+	Header uid: 48032
+	QueryParam search=rry
+
+EXAMPLE OUTPUT:
+{
+   "result":{
+      "books":[
+         {
+            "price":14.99,
+            "author":"J.K. Rowling",
+            "review_score":0.0,
+            "image_url":"public\\Data\\BookCoverImages\\Harry_Potter_and_the_Chamber_of_Secrets.jpg",
+            "number_of_reviews":0,
+            "bid":"isbn-1408855666",
+            "title":"Harry Potter and the Chamber of Secrets",
+            "category":"Fantasy"
+         },
+         {
+            "price":19.99,
+            "author":"J.K. Rowling",
+            "review_score":4.0,
+            "image_url":"public\\Data\\BookCoverImages\\Harry_Potter_and_the_Sorcerors_Stone.jpg",
+            "number_of_reviews":1,
+            "bid":"isbn-1526626586",
+            "title":"Harry Potter and the Sorceror's Stone",
+            "category":"Fantasy"
+         },
+         {
+            "price":27.99,
+            "author":"J.K. Rowling",
+            "review_score":0.0,
+            "image_url":"public\\Data\\BookCoverImages\\Harry_Potter_and_the_Prisoner_of_Azkaban.jpg",
+            "number_of_reviews":0,
+            "bid":"isbn-1526622807",
+            "title":"Harry Potter and the Prisoner of Azkaban",
+            "category":"Fantasy"
+         }
+      ],
+      "message":"Successful retrieval of books by search keywords.",
+      "successful":true,
+      "number_of_books":3
+   }
+}

@@ -27,7 +27,7 @@ class LoginScreen extends React.Component {
       }
     
     componentDidMount(){
-        console.log("Mounted the Cart: " + this.state)
+        //console.log("Mounted the Cart: " + this.state)
     }
 
     handleEmail = (event) => {
@@ -39,7 +39,7 @@ class LoginScreen extends React.Component {
     }
 
     onChangeValue(event) {
-        console.log(event.target.value);
+        //console.log(event.target.value);
     }
     
     handleSubmit = async (event) => {

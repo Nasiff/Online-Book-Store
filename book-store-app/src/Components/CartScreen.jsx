@@ -106,7 +106,7 @@ class CartScreen extends React.Component {
       }
     
     componentDidMount(){
-        console.log("Mounted the Cart: " + this.state)
+        //console.log("Mounted the Cart: " + this.state)
     }
 
 

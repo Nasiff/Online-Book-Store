@@ -85,9 +85,11 @@ class BookContent extends React.Component {
             this.setState({added: false});
         }
         else {
-            this.props.addToCart(this.props.bid, this.props.title, this.props.author, this.state.qty, this.props.price);
-            this.setState({added: true});
-            console.log("added: " + this.props.bid + this.props.title);
+            if(this.state.qty > 0){
+                this.props.addToCart(this.props.bid, this.props.title, this.props.author, this.state.qty, this.props.price);
+                this.setState({added: true});
+            }
+            //console.log("added: " + this.props.bid + this.props.title);
         }
 
     }
@@ -102,7 +104,7 @@ class BookContent extends React.Component {
           .then(
               //Only accounts for successful logins for now
               (result) => {
-                  console.log("Result: " + result);
+                  //console.log("Result: " + result);
                   this.setState({
                       reviews: result.result.reviews,
                   });
@@ -111,7 +113,7 @@ class BookContent extends React.Component {
       
               /* Any Errors */
               (error) => {
-                  console.log(error);
+                  //console.log(error);
                   this.setState({
                       error
                   });
@@ -122,13 +124,13 @@ class BookContent extends React.Component {
     }
 
     setScore = (val) => {
-        console.log(val);
+        //console.log(val);
         this.setState({score: val});
         //Error with uncontrolled val but is fine for now
     }
 
     reviewInputComponent = () => {
-        console.log(this.props.uid);
+        //console.log(this.props.uid);
         if(this.props.uid != null){
             //You are logged in
             return <div style={styles.reviewContainer}>
@@ -160,7 +162,7 @@ class BookContent extends React.Component {
     }
 
     submitReview = () => {
-        console.log("submiting Review");
+        //console.log("submiting Review");
         this.setState({postStatus: "POSTING"})
         const reviewPost = {
             review_score: this.state.score,
@@ -184,15 +186,15 @@ class BookContent extends React.Component {
 
 
         const url = WebService.uri + "/books/" + this.props.bid + "/review";
-        console.log("URL" + url);
-        console.log(reviewPost);
+        //console.log("URL" + url);
+        //console.log(reviewPost);
 
         fetch(url, data)
         .then(res => res.json())
         .then(
             //Only accounts for successful logins for now
             (result) => {
-                console.log(result);
+                //console.log(result);
                 if(result.result.successful){
                     this.setState({postStatus: "COMPLETE"});
                     this.setState({reviewPrompt: false});
@@ -206,7 +208,7 @@ class BookContent extends React.Component {
       
               /* Any Errors */
               (error) => {
-                  console.log(error);
+                  //console.log(error);
                   this.setState({
                       error
                   });
@@ -219,7 +221,7 @@ class BookContent extends React.Component {
 
     handleReviewBody = (event) => {
         this.setState({reviewText: event.target.value});
-        console.log(this.state.reviewText)
+        //console.log(this.state.reviewText)
     }
 
     render() {
@@ -239,7 +241,7 @@ class BookContent extends React.Component {
                     <div style={styles.modalAuthor}>{this.props.author ? "by " + this.state.author : null} <span style={styles.modalPrice}>${this.props.price} </span></div>
                     <div style={styles.modalReview}>
                         <div style={{display: "table-cell", verticalAlign:"middle"}}>
-                            <Rating name="read-only" value={this.state.review} readOnly />
+                            <Rating name="read-only" value={this.state.review} precision={0.1} readOnly />
                         </div>  
                         <div style={{display: "table-cell", verticalAlign:"middle"}}>
                             <div style={{fontSize: "15px", marginLeft: "5px"}} >( {this.state.numOfReviews} Review )</div>
